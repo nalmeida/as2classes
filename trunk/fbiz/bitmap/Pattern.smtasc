@@ -1,0 +1,15 @@
+opt_main=0
+opt_mx=1
+opt_strict=0
+opt_keep=0
+opt_group=0
+[compile_options]
+opt_additional=
+opt_trace=
+opt_version=8
+opt_header=
+class_name=
+swf=W:\\INTERFACE\\WWWInterface\\AS_Packages\\com\\fbiz\\bitmap\\Pattern_test.swf
+[options]
+[options/classpaths]
+cp_0=C:\\Documents and Settings\\nalmeida\\Configurações locais\\Dados de aplicativos\\Macromedia\\Flash 8\\en\\Configuration\\Classes
