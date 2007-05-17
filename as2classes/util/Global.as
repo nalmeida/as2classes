@@ -1,4 +1,4 @@
-class as2classes.Global{
+class as2classes.util.Global{
 	
 	private static var arr:Array = [];
 		
