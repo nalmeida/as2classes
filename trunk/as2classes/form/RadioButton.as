@@ -6,6 +6,7 @@ class as2classes.form.RadioButton extends MovieClip{
 	private var mcState:MovieClip;
 	
 	private var label:String;
+	private var value:String;
 	private var selected:Boolean;
 	private var enabled:Boolean;
 	private var groupName:String;
@@ -49,6 +50,9 @@ class as2classes.form.RadioButton extends MovieClip{
 				delete format;
 			}
 		
+		// Value
+		value = obj.value.toString() || mc._name;
+		
 		// Selection
 		setSelected(obj.selected, true);
 	}
@@ -67,18 +71,18 @@ class as2classes.form.RadioButton extends MovieClip{
 			var tmpArr:Array = getMyGroup();
 			for(var i=0; i<tmpArr.length; i++){
 				if(tmpArr[i].mc.selected){
-					getHandler("onGroupChanged").onGroupChanged(tmpArr[i].mc);
+					getHandler("onGroupChanged").onGroupChanged([tmpArr[i].mc, tmpArr[i].mc.value]);
 				}
 			}
 			delete tmpArr;
 		}
 	}
 	
-	public function getSelected():MovieClip{
+	public function getSelected(){
 		var tmpArr:Array = getMyGroup();
 		for(var i=0; i<tmpArr.length; i++){
 			if(tmpArr[i].mc.selected){
-				return tmpArr[i].mc;
+				return [tmpArr[i].mc, tmpArr[i].mc.value];
 			}
 		}
 	}
