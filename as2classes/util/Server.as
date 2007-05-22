@@ -3,7 +3,8 @@
 USAGE:
 
 	Server.setAddress("_VAR_NAME_", {local:"__LOCAL_VALUE__, web: _root.$server + "__WEB_VALUE__", extra:"__EXTRA_VALUE__"});
-	Global.getVar("_VAR_NAME_");
+	Server.getVar("_VAR_NAME_", ["__USE_EXTRA__"]);
+	Server.list();
 */
 
 
@@ -20,4 +21,9 @@ class as2classes.util.Server{
 		if(useExtra) return arr[arrItem].extra;
 		return (local) ? arr[arrItem].local : arr[arrItem].web;
 	}
+	public static function list(){
+		trace("\nServer list:");
+		trace("\tRunning local: " + local + "\n");
+		for(var i in arr) trace("\t" + i + "\n\t\tlocal: \"" + arr[i].local+ "\"\n\t\tweb:   \"" + arr[i].web+ "\"\n\t\textra: \"" + arr[i].extra + "\"\n");
+	}	
 }
