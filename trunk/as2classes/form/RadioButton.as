@@ -28,7 +28,7 @@ class as2classes.form.RadioButton extends MovieClip{
 		arrGroupName.push({mc:mc, groupName:groupName});
 		
 		// Label
-		if(!obj.groupName) trace("ERROR on RadioButton: " + mc + " parameter \"label\" not defined.");
+		if(!obj.label) trace("ERROR on RadioButton: " + mc + " parameter \"label\" not defined.");
 		mc.fld_label.text = label = obj.label;
 		
 			// Width
@@ -51,6 +51,7 @@ class as2classes.form.RadioButton extends MovieClip{
 			}
 		
 		// Value
+		if(!obj.value) trace("ERROR on RadioButton: " + mc + " parameter \"value\" not defined.");
 		value = obj.value.toString() || mc._name;
 		
 		// Selection
