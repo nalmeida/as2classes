@@ -12,10 +12,16 @@ class as2classes.util.Server{
 	
 	private static var arr:Array = [];
 	private static var local:Boolean;
+	private static var showMessage:Boolean = true;
 		
 	public static function setAddress(arrItem, value){
 		local = (_root._url.indexOf("file") == 0) ? true : false;
 		arr[arrItem] = value;
+		if(showMessage){
+			if(local) trace("\nRunning at LOCAL.\n");
+			else trace("\nRunning on the SERVER.\n");
+			showMessage = false;
+		}
 	}
 	public static function getAddress(arrItem, useExtra){
 		if(useExtra) return arr[arrItem].extra;
