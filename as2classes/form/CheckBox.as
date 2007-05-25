@@ -9,6 +9,8 @@ class as2classes.form.CheckBox extends MovieClip{
 	private var value:String;
 	private var selected:Boolean;
 	private var enabled:Boolean;
+	
+	public var required:Boolean;
 
 	function CheckBox(){
 		mc = this;
@@ -17,6 +19,8 @@ class as2classes.form.CheckBox extends MovieClip{
 		
 		mc.onRelease =
 		mc.onReleaseOutside = Delegate.create(this, swapSelected, true);
+		
+		required = false;
 	}
 	
 	public function init(obj:Object):Void{

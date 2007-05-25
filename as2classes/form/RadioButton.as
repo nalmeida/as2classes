@@ -11,6 +11,8 @@ class as2classes.form.RadioButton extends MovieClip{
 	private var enabled:Boolean;
 	private var groupName:String;
 	private var arrGroupName:Array = [];
+	
+	public var required:Boolean;
 
 	function RadioButton(){
 		mc = this;
@@ -19,6 +21,8 @@ class as2classes.form.RadioButton extends MovieClip{
 		
 		mc.onRelease =
 		mc.onReleaseOutside = Delegate.create(this, setSelected, true);
+		
+		required = false;
 	}
 	
 	public function init(obj:Object):Void{
