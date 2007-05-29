@@ -24,7 +24,7 @@ class as2classes.util.Server{
 		}
 	}
 	public static function getAddress(arrItem, useExtra){
-		if(useExtra) return arr[arrItem].extra;
+		if(arr[arrItem].extra != "") return arr[arrItem].extra;
 		return (local) ? arr[arrItem].local : arr[arrItem].web;
 	}
 	public static function list(){
