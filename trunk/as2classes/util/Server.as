@@ -1,4 +1,4 @@
-/*
+ï»¿/*
 
 USAGE:
 
@@ -30,7 +30,7 @@ class as2classes.util.Server{
 	
 	
 	public static function getAddress(arrItem, useExtra){
-		if(arr[arrItem].extra != "" || useExtra)  // Se tiver um parâmetro "extra" ou se tiver forçado o useExtra ele usa o extra e não o local ou web
+		if((arr[arrItem].extra && arr[arrItem].extra != "") || useExtra)  // Se tiver um partro "extra" ou se tiver foro o useExtra ele usa o extra e no local ou web
 			return arr[arrItem].extra;
 		return (local) ? arr[arrItem].local : arr[arrItem].web;
 	}
