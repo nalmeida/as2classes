@@ -1,3 +1,9 @@
+/**
+* RadioButton Component
+* @author Nicholas Almeida
+* @version 0.1
+*/
+
 import as2classes.util.Delegate;
 
 class as2classes.form.RadioButton extends MovieClip{
