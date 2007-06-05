@@ -8,18 +8,19 @@ USAGE:
 
 */
 
+import as2classes.util.ObjectUtil;
 
 class as2classes.util.Server{
 	
-	private static var arr:Array = [];
+	private static var obj:Object = {};
 	private static var local:Boolean;
 	private static var showMessage:Boolean = true;
 		
 		
 		
-	public static function setAddress(arrItem, value){
+	public static function setAddress(objItem, value){
 		local = (_root._url.indexOf("file") == 0) ? true : false;
-		arr[arrItem] = value;
+		obj[objItem] = value;
 		if(showMessage){
 			if(local) trace("\nRunning at LOCAL.\n");
 			else trace("\nRunning on the SERVER.\n");
@@ -28,11 +29,11 @@ class as2classes.util.Server{
 	}
 	
 	
-	
-	public static function getAddress(arrItem, useExtra){
-		if((arr[arrItem].extra && arr[arrItem].extra != "") || useExtra)  // Se tiver um partro "extra" ou se tiver foro o useExtra ele usa o extra e no local ou web
-			return arr[arrItem].extra;
-		return (local) ? arr[arrItem].local : arr[arrItem].web;
+	public static function getAddress(objItem, useExtra){
+		if((obj[objItem].extra != "" && obj[objItem].extra != undefined) || useExtra)  // Se tiver um parâmetro "extra" ou se tiver forçado o useExtra ele usa o extra e não o local ou web
+			return obj[objItem].extra;
+			
+		return (local) ? obj[objItem].local : obj[objItem].web;
 	}
 	
 	
@@ -40,8 +41,12 @@ class as2classes.util.Server{
 	public static function list(){
 		trace("\nServer list:");
 		trace("\tRunning local: " + local + "\n");
-		for(var i in arr) trace("\t" + i + "\n\t\tlocal: \"" + arr[i].local+ "\"\n\t\tweb:   \"" + arr[i].web+ "\"\n\t\textra: \"" + arr[i].extra + "\"\n");
+		
+		ObjectUtil.reverseObject(obj); // reverse
+		
+		for(var i in obj)  trace("\t" + i + "\n\t\tlocal: \"" + obj[i].local+ "\"\n\t\tweb:   \"" + obj[i].web+ "\"\n\t\textra: \"" + obj[i].extra + "\"\n");
+		
+		ObjectUtil.reverseObject(obj); // undo reverse
 	}
-	
 	
 }
