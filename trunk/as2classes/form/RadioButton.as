@@ -19,6 +19,7 @@ class as2classes.form.RadioButton extends MovieClip{
 	private var arrGroupName:Array = [];
 	
 	public var required:Boolean;
+	public var title:Boolean;
 
 	function RadioButton(){
 		mc = this;
@@ -63,6 +64,9 @@ class as2classes.form.RadioButton extends MovieClip{
 		// Value
 		if(!obj.value) trace("ERROR on RadioButton: " + mc + " parameter \"value\" not defined.");
 		value = obj.value.toString() || mc._name;
+		
+		if(obj.required != undefined) required = obj.required;
+		title = obj.title || mc._name;
 		
 		// Selection
 		setSelected(obj.selected, true);

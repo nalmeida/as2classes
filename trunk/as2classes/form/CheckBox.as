@@ -17,6 +17,7 @@ class as2classes.form.CheckBox extends MovieClip{
 	private var enabled:Boolean;
 	
 	public var required:Boolean;
+	public var title:Boolean;
 
 	function CheckBox(){
 		mc = this;
@@ -56,6 +57,9 @@ class as2classes.form.CheckBox extends MovieClip{
 		// Value
 		if(!obj.value) trace("ERROR on CheckBox: " + mc + " parameter \"value\" not defined.");
 		value = obj.value.toString() || mc._name;
+
+		if(obj.required != undefined) required = obj.required;
+		title = obj.title || mc._name;
 		
 		// Selection
 		setSelected(obj.selected);
