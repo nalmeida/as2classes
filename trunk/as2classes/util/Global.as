@@ -7,19 +7,25 @@ USAGE:
 	Global.list();
 */
 
+import as2classes.util.ObjectUtil;
 
 class as2classes.util.Global{
 	
-	private static var arr:Array = [];
+	private static var obj:Object = {};
 		
-	public static function setVar(arrItem, value){
-		arr[arrItem] = value;
+	public static function setVar(objItem, value){
+		obj[objItem] = value;
 	}
-	public static function getVar(arrItem){
-		return arr[arrItem];
+	public static function getVar(objItem){
+		return obj[objItem];
 	}
 	public static function list(){
 		trace("\nGlobal list:");
-		for(var i in arr) trace("\t" + i + ": " + arr[i] + " -- type: " + typeof(arr[i]));
+		
+		ObjectUtil.reverseObject(obj); // reverse
+		
+		for(var i in obj) trace("\t" + i + ": " + obj[i] + " -- type: " + typeof(obj[i]));
+		
+		ObjectUtil.reverseObject(obj); // undo reverse
 	}
 }
