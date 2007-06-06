@@ -6,7 +6,7 @@
 
 import as2classes.util.Delegate;
 
-class as2classes.form.RadioButton extends MovieClip{
+class as2classes.form.RadiobuttonComponent extends MovieClip{
 	
 	private var mc:MovieClip;
 	private var mcState:MovieClip;
@@ -21,7 +21,7 @@ class as2classes.form.RadioButton extends MovieClip{
 	public var required:Boolean;
 	public var title:Boolean;
 
-	function RadioButton(){
+	function RadiobuttonComponent(){
 		mc = this;
 		mcState = mc.mcRadioButtonState;
 		mc.useHandCursor = false;
@@ -30,6 +30,7 @@ class as2classes.form.RadioButton extends MovieClip{
 		mc.onReleaseOutside = Delegate.create(this, setSelected, true);
 		
 		required = false;
+	
 	}
 	
 	public function init(obj:Object):Void{
@@ -41,6 +42,14 @@ class as2classes.form.RadioButton extends MovieClip{
 		// Label
 		if(!obj.label) trace("ERROR on RadioButton: " + mc + " parameter \"label\" not defined.");
 		mc.fld_label.text = label = obj.label;
+		
+		// Title
+		if(!obj.title) trace("WARNING on RadioButton: " + mc + " parameter \"title\" not defined.");
+		title = obj.title || mc._name;
+		
+		// Value
+		if(!obj.value) trace("ERROR on RadioButton: " + mc + " parameter \"value\" not defined.");
+		value = obj.value.toString() || mc._name;
 		
 			// Width
 			if(obj.width){
@@ -61,15 +70,16 @@ class as2classes.form.RadioButton extends MovieClip{
 				delete format;
 			}
 		
-		// Value
-		if(!obj.value) trace("ERROR on RadioButton: " + mc + " parameter \"value\" not defined.");
-		value = obj.value.toString() || mc._name;
-		
 		if(obj.required != undefined) required = obj.required;
-		title = obj.title || mc._name;
-		
+				
 		// Selection
 		setSelected(obj.selected, true);
+		
+		// Tab
+		mc.tabEnabled = true;
+		mc.tabChildren = false;
+		
+		mc.tabIndex = obj.tabIndex || 1;
 	}
 	
 	public function setSelected(val:Boolean, avoidOnChangeEvent:Boolean):Void{

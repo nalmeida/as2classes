@@ -93,6 +93,11 @@ class as2classes.form.TextareaComponent extends MovieClip{
 	* @param title:String. Default = ""
 	*/
 	public function init(obj:Object):Void{
+		
+		// Title
+		if(!obj.title) trace("WARNING on TextField: " + mc + " parameter \"title\" not defined.");
+		title = obj.title || mc._name;
+		
 
 		lineHeight = getLinheHeight();
 		
@@ -130,9 +135,14 @@ class as2classes.form.TextareaComponent extends MovieClip{
 		sliderBottomLimit = (mcTrack._y + mcTrack._height - mcSlider._height) - 1;
 		
 		if(obj.required != undefined) required = obj.required;
-		title = obj.title || mc._name;
-		
+
 		checkIfNeedScroll();
+		
+		// Tab
+		mc.tabEnabled = false;
+		mc.tabChildren = true;
+		textField.tabEnabled = true;
+		textField.tabIndex = obj.tabIndex || 1;
 	}
 	
 	public function setSize(width:Number, height:Number):Void{
@@ -351,9 +361,10 @@ class as2classes.form.TextareaComponent extends MovieClip{
 	
 	private function getLinheHeight():Number{
 		textField.autoSize = true;
-		textField.text = "w"
+		textField.text = "w";
 		lineHeight = textField.textHeight / 1.5;
 		textField.autoSize = false;
+		textField.text = "";
 		clearField();
 		return lineHeight;
 	}
