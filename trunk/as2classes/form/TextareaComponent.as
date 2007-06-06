@@ -35,6 +35,7 @@ class as2classes.form.TextareaComponent extends MovieClip{
 	public var isEmpty:Boolean;
 	public var type:String;
 	public var restrict:String;
+	public var border:Boolean;
 	
 	function TextareaComponent(){
 		mc = this;
@@ -89,6 +90,7 @@ class as2classes.form.TextareaComponent extends MovieClip{
 	* @param text:String. Default = ""
 	* @param initText:String. Default = ""
 	* @param restrict:String. Default = ""
+	* @param title:String. Default = ""
 	*/
 	public function init(obj:Object):Void{
 
@@ -100,6 +102,13 @@ class as2classes.form.TextareaComponent extends MovieClip{
 		type = obj.type || "input";
 		
 		textField.type = type;
+		
+		border = (obj.border == false ? false : true);
+		if(border == false){
+			trace(123);
+			textField.border = false;
+		}
+
 		
 		if(obj.restrict) {
 			restrict = obj.restrict;
@@ -153,6 +162,7 @@ class as2classes.form.TextareaComponent extends MovieClip{
 	
 	public function enable():Void{
 		TextfieldUtil.aplyRestriction(textField, restrict);
+		textField.selectable = true;
 		enableScroll();
 		textField.onChanged = Delegate.create(this, onChange);
 		setInitText();
@@ -161,6 +171,7 @@ class as2classes.form.TextareaComponent extends MovieClip{
 	
 	public function disable():Void{
 		TextfieldUtil.aplyRestriction(textField, "disable");
+		textField.selectable = false;
 		disableScroll();
 		textField.onChanged = function(){};
 		textField.onSetFocus = function(){};
@@ -265,6 +276,7 @@ class as2classes.form.TextareaComponent extends MovieClip{
 	private function onChange():Void{
 		checkIfNeedScroll();
 		positionSlider();
+		value = (textField.text != initText) ? textField.text : "";
 	}
 	
 	
@@ -300,6 +312,9 @@ class as2classes.form.TextareaComponent extends MovieClip{
 			textField.text = initText;
 			isEmpty = true;
 			value = "";
+		} else {
+			isEmpty = false;
+			value = textField.text;
 		}
 	}
 	
