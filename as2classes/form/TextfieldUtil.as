@@ -19,6 +19,11 @@ class as2classes.form.TextfieldUtil {
 			case "let" :
 			case "letter" :
 			case "letters" :
+				textField.restrict = "a-z A-Z באדגהיטךכםלמןףעץפצתשûüח\\s";
+				break;
+				
+			case "text" :
+			case "message" :
 				textField.restrict = "a-z A-Z 0-9 באדגהיטךכםלמןףעץפצתשûüח\\s\\-?!.@";
 				break;
 				
@@ -30,6 +35,9 @@ class as2classes.form.TextfieldUtil {
 				
 			case "rest" :
 			case "restrict" :
+			case "pass" :
+			case "passw" :
+			case "password" :
 				textField.restrict = "a-z0-9\\-_";
 				break;
 				

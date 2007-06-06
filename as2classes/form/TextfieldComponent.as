@@ -26,6 +26,7 @@ class as2classes.form.TextfieldComponent extends MovieClip{
 	public var border:Boolean;
 	
 	function TextfieldComponent(){
+	
 		mc = this;
 		textField = mc.fld_text;
 		
@@ -35,7 +36,6 @@ class as2classes.form.TextfieldComponent extends MovieClip{
 			
 		required = false;
 		border = true;
-		
 	}
 	
 	
@@ -49,6 +49,10 @@ class as2classes.form.TextfieldComponent extends MovieClip{
 	* @param title:String. Default = ""
 	*/
 	public function init(obj:Object):Void{
+		
+		// Title
+		if(!obj.title) trace("WARNING on TextField: " + mc + " parameter \"title\" not defined.");
+		title = obj.title || mc._name;
 		
 		type = obj.type || "input";
 		
@@ -79,6 +83,12 @@ class as2classes.form.TextfieldComponent extends MovieClip{
 			value = "";
 			isEmpty = true;
 		}
+		
+		// Tab
+		mc.tabEnabled = false;
+		mc.tabChildren = true;
+		textField.tabEnabled = true;
+		textField.tabIndex = obj.tabIndex || 1;
 	}
 	
 	public function setSize(width:Number, height:Number):Void{

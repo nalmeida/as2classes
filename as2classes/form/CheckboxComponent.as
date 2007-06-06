@@ -6,7 +6,7 @@
 
 import as2classes.util.Delegate;
 
-class as2classes.form.CheckBox extends MovieClip{
+class as2classes.form.CheckboxComponent extends MovieClip{
 	
 	private var mc:MovieClip;
 	private var mcState:MovieClip;
@@ -19,7 +19,7 @@ class as2classes.form.CheckBox extends MovieClip{
 	public var required:Boolean;
 	public var title:Boolean;
 
-	function CheckBox(){
+	function CheckboxComponent(){
 		mc = this;
 		mcState = mc.mcCheckBoxState;
 		mc.useHandCursor = false;
@@ -34,6 +34,14 @@ class as2classes.form.CheckBox extends MovieClip{
 		// Label
 		if(!obj.label) trace("ERROR on CheckBox: " + mc + " parameter \"label\" not defined.");
 		mc.fld_label.text = label = obj.label;
+		
+		// Title
+		if(!obj.title) trace("WARNING on CheckBox: " + mc + " parameter \"title\" not defined.");
+		title = obj.title || mc._name;
+		
+		// Value
+		if(!obj.value) trace("ERROR on CheckBox: " + mc + " parameter \"value\" not defined.");
+		value = obj.value.toString() || mc._name;
 		
 			// Width
 			if(obj.width){
@@ -53,16 +61,15 @@ class as2classes.form.CheckBox extends MovieClip{
 				mc.fld_label.setTextFormat(format);
 				delete format;
 			}
-		
-		// Value
-		if(!obj.value) trace("ERROR on CheckBox: " + mc + " parameter \"value\" not defined.");
-		value = obj.value.toString() || mc._name;
 
 		if(obj.required != undefined) required = obj.required;
-		title = obj.title || mc._name;
 		
 		// Selection
 		setSelected(obj.selected);
+		
+		// Tab
+		mc.tabEnabled = true;
+		mc.tabIndex = obj.tabIndex || 1;
 	}
 	
 	public function swapSelected():Void{
