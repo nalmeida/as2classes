@@ -28,6 +28,7 @@ class as2classes.form.TextfieldComponent extends MovieClip{
 	function TextfieldComponent(){
 	
 		mc = this;
+		mc.isFormField = true;
 		textField = mc.fld_text;
 		
 		initSize = {};
