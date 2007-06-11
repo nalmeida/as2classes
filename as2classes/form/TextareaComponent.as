@@ -111,7 +111,6 @@ class as2classes.form.TextareaComponent extends MovieClip{
 		
 		border = (obj.border == false ? false : true);
 		if(border == false){
-			trace(123);
 			textField.border = false;
 		}
 
@@ -162,9 +161,7 @@ class as2classes.form.TextareaComponent extends MovieClip{
 		mcArrowDown._y = textField._height - mcArrowDown._height;
 		
 		mcTrack._y = mcArrowUp._height - 1;
-		mcTrack._height = mcScrollBar._height - (mcArrowUp._height + mcArrowDown._height) + 2;
-		
-		mcScrollBar.lChildren = false;
+		mcTrack._height = initSize.h - mcArrowDown._height - mcArrowUp._height + 2;
 		
 		//mcSlider._height = mcTrack._height;
 		
