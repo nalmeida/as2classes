@@ -39,6 +39,7 @@ class as2classes.form.TextareaComponent extends MovieClip{
 	
 	function TextareaComponent(){
 		mc = this;
+		mc.isFormField = true;
 		textField = mc.fld_text;
 		
 		mcScrollBar = mc.mcScrollBar;

@@ -21,6 +21,7 @@ class as2classes.form.CheckboxComponent extends MovieClip{
 
 	function CheckboxComponent(){
 		mc = this;
+		mc.isFormField = true;
 		mcState = mc.mcCheckBoxState;
 		mc.useHandCursor = false;
 		

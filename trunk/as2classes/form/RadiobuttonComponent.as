@@ -23,6 +23,7 @@ class as2classes.form.RadiobuttonComponent extends MovieClip{
 
 	function RadiobuttonComponent(){
 		mc = this;
+		mc.isFormField = true;
 		mcState = mc.mcRadioButtonState;
 		mc.useHandCursor = false;
 		
