@@ -2,25 +2,31 @@
 * Class XmlSender
 *
 * @author		Nicholas Almeida, nicholasalmeida.com
-* @version		2.0
+* @version		2.2
 * @history		Created: 23/03/2006
 * @history		History: 23/05/2007 - help method removed. MTASC compatible.
+* @history		History: 11/06/2007 - new parameter added at the onFinish Method. objXml is the answer parsed by XmlParse class.
 *
 * @usage		import XmlSender;
 * 				
-				new XmlSender({
+				XmlSender.send({
 						url:"URL", 
 						xml:"XML", 
-						onInit:function(extra), 
-						onFinish:function(answer, extra), 
-						onError:function(answer, extra), 
+						onInit:function(extra){
+						}, 
+						onFinish:function(answer, extra, objXml){
+						}, 
+						onError:function(answer, extra){
+						}, 
 						extra:extra
 				});
 */
 
+import as2classes.xml.XmlParse;
 import as2classes.util.Delegate;
 
 class as2classes.xml.XmlSender{
+	
 	private static var xmlToSend:XML;
 	private static var xmlLoader:XML;
 	public  static var arrQueue:Array = [];
@@ -52,7 +58,10 @@ class as2classes.xml.XmlSender{
 			if (success) {
 				var errorMessage:String;
 				if (this.status == 0) {
-					o.onFinish(this, o.extra);
+					var parsedXml:Object = {};
+						XmlParse.parse(parsedXml, this);
+					o.onFinish(this, o.extra, parsedXml);
+					delete parsedXml;
 					XmlSender.arrQueue.shift();
 					if(XmlSender.arrQueue.length > 0) {
 						XmlSender.send(XmlSender.arrQueue[0]);
