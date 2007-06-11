@@ -10,7 +10,7 @@ import as2classes.form.TextfieldUtil;
 class as2classes.form.TextareaComponent extends MovieClip{
 	
 	private var mc:MovieClip;
-	private var textField:TextField;
+	public var textField:TextField;
 	private var mcScrollBar:MovieClip;
 	private var mcArrowUp:MovieClip;
 	private var mcArrowDown:MovieClip;
@@ -132,7 +132,7 @@ class as2classes.form.TextareaComponent extends MovieClip{
 			isEmpty = true;
 		}
 		
-		sliderBottomLimit = (mcTrack._y + mcTrack._height - mcSlider._height) - 1;
+		sliderBottomLimit = (mcTrack._y + mcTrack._height - mcSlider._height);
 		
 		if(obj.required != undefined) required = obj.required;
 

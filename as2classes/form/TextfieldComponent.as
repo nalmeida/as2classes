@@ -10,7 +10,7 @@ import as2classes.form.TextfieldUtil;
 class as2classes.form.TextfieldComponent extends MovieClip{
 	
 	private var mc:MovieClip;
-	private var textField:TextField;
+	public var textField:TextField;
 	
 	private var initSize:Object;
 	private var initText:String;
