@@ -12,7 +12,7 @@ import as2classes.form.TextfieldUtil;
 class as2classes.form.TextareaComponent extends MovieClip{
 	
 	private var mc:MovieClip;
-	public var textField:TextField;
+	public  var textField:TextField;
 	private var mcScrollBar:MovieClip;
 	private var mcArrowUp:MovieClip;
 	private var mcArrowDown:MovieClip;
@@ -64,8 +64,7 @@ class as2classes.form.TextareaComponent extends MovieClip{
 		mcArrowDown.onReleaseOutside = Delegate.create(this, releaseArrow, mcArrowDown);
 		
 		mcSlider.onPress = Delegate.create(this, slideScroll);
-		mcSlider.onRelease = 
-		mcSlider.onReleaseOutside = Delegate.create(this, releaseSlider);
+		mcSlider.onMouseUp = Delegate.create(this, releaseSlider);
 		
 		mcTrack.onPress = Delegate.create(this, pressTrack);
 		
@@ -75,8 +74,8 @@ class as2classes.form.TextareaComponent extends MovieClip{
 		
 		textField.mouseWheelEnabled = false;
 		
-		var mouseListener:Object = new Object();
-			mouseListener.onMouseWheel = Delegate.create(this, moveUsingWheel);
+		mouseListener = {};
+		mouseListener.onMouseWheel = Delegate.create(this, moveUsingWheel);
 		Mouse.addListener(mouseListener);
 			
 		lineHeight = getLinheHeight();
@@ -300,14 +299,25 @@ class as2classes.form.TextareaComponent extends MovieClip{
 	}
 	
 	private function doScollSlider():Void{
-		var calc = Math.ceil((textField.textHeight * (mcSlider._y - mcArrowUp._height)) / (mcTrack._y + mcTrack._height));
-		textField.scroll =  Math.ceil(calc  / lineHeight);
+		var sobra:Number = textField.textHeight - textField._height;
+		if(sobra <= textField._height) sobra = textField._height;
+
+		var altTrack:Number = mcTrack._height - mcSlider._height;
+		var posSlider:Number = mcSlider._y - mcSlider._height + mcArrowUp._height;
+
+		var calc:Number = (sobra * posSlider) / altTrack;
+		var final:Number = Math.abs(calc / lineHeight);
+		
+		if(final > textField.maxscroll) final = textField.maxscroll;
+		textField.scroll = Math.ceil(final);
 	}
 	
 	private function onChange():Void{
 		checkIfNeedScroll();
 		positionSlider();
-		value = (textField.text != initText) ? textField.text : "";
+		
+		if(htmlText) value = (textField.htmlText != initText) ? textField.htmlText : "";
+		else value = (textField.text != initText) ? textField.text : "";
 	}
 	
 	
@@ -318,7 +328,7 @@ class as2classes.form.TextareaComponent extends MovieClip{
 			if(textField.scroll == textField.maxscroll ) {
 				mcSlider._y = sliderBottomLimit;
 			} else {
-				mcSlider._y = Math.ceil((((textField.scroll * lineHeight) * (mcTrack._y + mcTrack._height)) / textField.textHeight) + mcSlider._height);
+				mcSlider._y = Math.round((((textField.scroll * lineHeight) * (mcTrack._y + mcTrack._height)) / (textField.textHeight - textField._height)) + mcSlider._height);
 				if(mcSlider._y >= sliderBottomLimit) mcSlider._y = sliderBottomLimit;
 			}
 			
@@ -384,21 +394,24 @@ class as2classes.form.TextareaComponent extends MovieClip{
 	}
 	
 	private function getLinheHeight():Number{
-		textField.autoSize = true;
-		if(htmlText) textField.htmlText = "w";
-		else textField.text = "w";
-		lineHeight = textField.textHeight / 1.5;
-		textField.autoSize = false;
-		if(htmlText) textField.htmlText = "";
-		else textField.text = "";
-		clearField();
+		var temp = mc.duplicateMovieClip("temp", 10, {_x: 150, _visible: false});
+			temp._xscale = temp._yscale = 100;
+			temp.fld_text.text = "Wg";
+			temp.fld_text.autoSize = true;
+		
+		lineHeight = Math.round(temp.fld_text.textHeight - 2);
+		temp.unloadMovie();
+		
 		return lineHeight;
 	}
 	
 	private function moveUsingWheel(delta:Number):Void{
-			if(delta <0) doScrollDown()
-			else doScrollUp();
-			positionSlider();
+		
+			if(mc._xmouse >=0 && mc._xmouse <= mc._width && mc._ymouse >=0 && mc._ymouse <= mc._height){
+				if(delta <0) doScrollDown();
+				else doScrollUp();
+				positionSlider();
+			}
 	}
 	
 }
