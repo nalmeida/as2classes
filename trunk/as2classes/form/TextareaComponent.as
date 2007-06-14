@@ -2,6 +2,8 @@
 * Textarea Component
 * @author Nicholas Almeida
 * @version 0.1
+* 
+* TODO: BUG: o slider, quando muito grande dá problema dpois da metade
 */
 
 import as2classes.util.Delegate;
@@ -36,6 +38,7 @@ class as2classes.form.TextareaComponent extends MovieClip{
 	public var type:String;
 	public var restrict:String;
 	public var border:Boolean;
+	public var htmlText:Boolean;
 	
 	function TextareaComponent(){
 		mc = this;
@@ -92,6 +95,7 @@ class as2classes.form.TextareaComponent extends MovieClip{
 	* @param initText:String. Default = ""
 	* @param restrict:String. Default = ""
 	* @param title:String. Default = ""
+	* @param htmlText:Boolean. Default = false
 	*/
 	public function init(obj:Object):Void{
 		
@@ -99,7 +103,6 @@ class as2classes.form.TextareaComponent extends MovieClip{
 		if(!obj.title) trace("WARNING on TextField: " + mc + " parameter \"title\" not defined.");
 		title = obj.title || mc._name;
 		
-
 		lineHeight = getLinheHeight();
 		
 		// reset size
@@ -109,7 +112,21 @@ class as2classes.form.TextareaComponent extends MovieClip{
 		
 		textField.type = type;
 		
-		border = (obj.border == false ? false : true);
+		border = (obj.border === false ? false : true);
+		
+		htmlText = (obj.htmlText === true) ? true : false;
+		
+		if(obj.textColor) {
+			textField.textColor = obj.textColor;
+		}
+		
+		if(htmlText === true && obj.textColor) trace("WARNING on TextField: " + mc + ". If you are using htmlText, the textColor property don't work.");
+		
+		
+		if(htmlText){
+			textField.html = true;
+		}
+		
 		if(border == false){
 			textField.border = false;
 		}
@@ -204,17 +221,23 @@ class as2classes.form.TextareaComponent extends MovieClip{
 	}
 	
 	public function setText(txt):Void{
-		textField.text = value = txt;
+		if(htmlText) textField.htmlText = value = txt;
+		else textField.text = value = txt;
+		ajustSize();
 	}
 	
 	public function setInitText(txt:String):Void{
-		if(txt) textField.text = initText = txt;
+		if(txt) {
+			if(htmlText) textField.htmlText = initText = txt;
+			else textField.htmlText = initText = txt;
+		}
 		textField.onSetFocus = Delegate.create(this, clearField);
 		textField.onKillFocus = Delegate.create(this, checkIfIsEmpty);
 	}
 	
 	public function getText():String{
-		value = textField.text;
+		if(htmlText) value = textField.htmlText;
+		else value = textField.text;
 		return value;
 	}
 		
@@ -309,7 +332,8 @@ class as2classes.form.TextareaComponent extends MovieClip{
 	
 	private function clearField():Void{
 		if(getText() == initText || getText().length == 0){
-			textField.text = "";
+			if(htmlText) textField.htmlText = "";
+			else textField.text = "";
 			isEmpty = true;
 			value = "";
 		}
@@ -317,12 +341,14 @@ class as2classes.form.TextareaComponent extends MovieClip{
 	
 	private function checkIfIsEmpty():Void{
 		if(getText() == "") {
-			textField.text = initText;
+			if(htmlText) textField.htmlText = initText;
+			else textField.text = initText;
 			isEmpty = true;
 			value = "";
 		} else {
 			isEmpty = false;
-			value = textField.text;
+			if(htmlText) value = textField.htmlText;
+			else value = textField.text;
 		}
 	}
 	
@@ -359,10 +385,12 @@ class as2classes.form.TextareaComponent extends MovieClip{
 	
 	private function getLinheHeight():Number{
 		textField.autoSize = true;
-		textField.text = "w";
+		if(htmlText) textField.htmlText = "w";
+		else textField.text = "w";
 		lineHeight = textField.textHeight / 1.5;
 		textField.autoSize = false;
-		textField.text = "";
+		if(htmlText) textField.htmlText = "";
+		else textField.text = "";
 		clearField();
 		return lineHeight;
 	}
