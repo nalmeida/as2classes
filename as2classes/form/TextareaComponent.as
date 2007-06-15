@@ -405,12 +405,11 @@ class as2classes.form.TextareaComponent extends MovieClip{
 	}
 	
 	private function moveUsingWheel(delta:Number):Void{
-		
-			if(mc._xmouse >=0 && mc._xmouse <= mc._width && mc._ymouse >=0 && mc._ymouse <= mc._height){
-				if(delta <0) doScrollDown();
-				else doScrollUp();
-				positionSlider();
-			}
+		if(mc._xmouse >=0 && mc._xmouse <= mc._width && mc._ymouse >=0 && mc._ymouse <= mc._height){
+			if(delta <0) doScrollDown();
+			else doScrollUp();
+			positionSlider();
+		}
 	}
 	
 }
