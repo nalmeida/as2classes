@@ -2,8 +2,7 @@
 * Textarea Component
 * @author Nicholas Almeida
 * @version 0.1
-* 
-* TODO: BUG: o slider, quando muito grande dá problema dpois da metade
+* @history 15/07/2007 : Lots of bugs fixeds
 */
 
 import as2classes.util.Delegate;
@@ -178,9 +177,7 @@ class as2classes.form.TextareaComponent extends MovieClip{
 		
 		mcTrack._y = mcArrowUp._height - 1;
 		mcTrack._height = initSize.h - mcArrowDown._height - mcArrowUp._height + 2;
-		
-		//mcSlider._height = mcTrack._height;
-		
+
 		onChange();
 	}
 	
@@ -275,15 +272,6 @@ class as2classes.form.TextareaComponent extends MovieClip{
 		mcScrollBar._alpha = 100;
 		Mouse.addListener(mouseListener);
 		
-		/*
-		var calc = textField.textHeight - textField._height;
-		if(calc>0){
-			if(mcSlider._height > minSliderHeight)
-				mcSlider._height -= (calc/2);
-			else 
-				mcSlider._height = minSliderHeight;
-		}
-		*/
 	}	
 	
 	private function releaseSlider():Void{
@@ -313,13 +301,25 @@ class as2classes.form.TextareaComponent extends MovieClip{
 	}
 	
 	private function onChange():Void{
+	
 		checkIfNeedScroll();
 		positionSlider();
 		
 		if(htmlText) value = (textField.htmlText != initText) ? textField.htmlText : "";
 		else value = (textField.text != initText) ? textField.text : "";
+		
+		//calcSliderHeight();
 	}
 	
+	/*
+	private function calcSliderHeight():Void{
+		
+		var sobra:Number = Math.round((textField.textHeight - textField._height)/10);
+		mcSlider._height = mcTrack._height - sobra;
+		
+		trace(mcSlider._yscale)
+	}
+	*/
 	
 	private function positionSlider():Void{
 		
@@ -333,7 +333,6 @@ class as2classes.form.TextareaComponent extends MovieClip{
 			}
 			
 		}
-		
 		// editando área do começo do texto
 		else 
 			mcSlider._y = mcArrowUp._height;
