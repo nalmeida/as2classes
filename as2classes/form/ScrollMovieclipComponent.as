@@ -73,6 +73,11 @@ class as2classes.form.ScrollMovieclipComponent extends MovieClip{
 		difference = 10 + (Math.ceil(mcMasked._height / mcMask._height)*2);
 	}
 	
+	public function setHeight(newHeight:Number):Void{
+		initSize.h = newHeight;
+		ajustSize();
+	}
+	
 	public function ajustSize():Void{
 		mc._xscale = mc._yscale = 100;
 		
@@ -86,6 +91,13 @@ class as2classes.form.ScrollMovieclipComponent extends MovieClip{
 			mc._visible = false;
 			mouseInstance.removeEventObserver();
 		}
+		
+		if(mcSlider._height > mcTrack._height) hideSlider();
+	}
+	
+	public function hideSlider():Void{
+		mcSlider._visible = false;
+		mcTrack.onPress = null;
 	}
 	
 	public function enable():Void{
@@ -105,6 +117,14 @@ class as2classes.form.ScrollMovieclipComponent extends MovieClip{
 		mouseInstance.removeEventObserver();
 		mc._alpha = 50;
 	}
+	
+	public function hide():Void{
+		mc._visible = false;
+	}
+	
+	public function show():Void{
+		mc._visible = true;
+	}	
 	
 	/*
 	* Arrows Stuff
@@ -192,6 +212,7 @@ class as2classes.form.ScrollMovieclipComponent extends MovieClip{
 	}
 	//}
 	
+	
 	/*
 	* Track Stuff
 	*/
@@ -205,6 +226,7 @@ class as2classes.form.ScrollMovieclipComponent extends MovieClip{
 		doScollSlider();
 	}
 	//}
+	
 	
 	/*
 	* Wheel Stuff
