@@ -49,8 +49,7 @@ class as2classes.form.CheckboxComponent extends MovieClip{
 				mc.fld_label.wordWrap = true;
 				mc.fld_label.multiline = true;
 				mc.fld_label._width = obj.width;
-				mc.fld_label._width = 150;
-			} 
+			}
 			mc.fld_label.autoSize = true;
 			
 			// Align
