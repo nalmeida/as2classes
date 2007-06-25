@@ -45,7 +45,7 @@ class as2classes.util.Library{
       params:Object
    ):Object
    {
-      var mc:MovieClip=target.createEmptyMovieClip(name,depth);
+      var mc:MovieClip = target.createEmptyMovieClip(name,depth);
       mc.__proto__ = classRef.prototype;
       if (params != undefined) //Filling with given parameters like attachMovie
       {

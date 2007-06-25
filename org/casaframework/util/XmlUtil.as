@@ -158,7 +158,7 @@ class org.casaframework.util.XmlUtil {
 	public static function objectToXml(objectData:Object):XML {
 		for (var i:String in objectData)
 			if (!TypeUtil.isTypeOf(objectData[i], 'object'))
-				return;
+				break;
 		
 		return XmlUtil.$createXMLNodesFromObject(objectData);
 	}

@@ -2,7 +2,8 @@
 * ComboBox Component
 * @author Nicholas Almeida
 * @version 0.1
-* @history 18/07/2007 : Created
+* @history 	25/07/2007 : Some bugs fixed when it's compiled by MTASC
+* 			18/07/2007 : Created
 */
 
 import as2classes.util.Delegate;
@@ -24,7 +25,8 @@ class as2classes.form.ComboBoxComponent extends MovieClip{
 		private var mcComboTextBg:MovieClip;
 	
 	private var textField:TextField;
-	private var mcScroll:ScrollMovieclipComponent;
+	private var mcScroll:MovieClip;
+	private var scroll:ScrollMovieclipComponent;
 	private var maxWidth:Number;
 	private var rows:Number;
 	public var  onChanged:Function;
@@ -41,8 +43,8 @@ class as2classes.form.ComboBoxComponent extends MovieClip{
 	private var arrItens:Array;
 	private var isOpened:Boolean;
 		
-	function ComboBoxComponent(){
-		mc = this;
+	function ComboBoxComponent($mc:MovieClip){
+		mc = $mc || this;
 		mc.isFormField = true;
 		mcBt = mc.mcBt;
 		mcComboItens = mc.mcComboItens;
@@ -54,7 +56,8 @@ class as2classes.form.ComboBoxComponent extends MovieClip{
 		mcComboText = mc.mcComboText;
 			mcComboTextBg = mcComboText.mcComboTextBackground;
 			textField = mcComboText.fld_text;
-		mcScroll = mc.mcScroll;
+		mcScroll = mc.mcScroll
+		scroll = new ScrollMovieclipComponent(mcScroll);
 		mcBg = mc.mcBg
 		
 		
@@ -107,9 +110,17 @@ class as2classes.form.ComboBoxComponent extends MovieClip{
 		mcBt.tabIndex = obj.tabIndex || 1;
 	}
 	
-	public function setData():Void{
-		
+	public function setData($arrData:Array):Void{
+		arrData = $arrData;
+		arrItens = [];
 		var selectedItem:Number;
+		
+		// removing existend MovieClips
+		for (var i in mcComboItensHolder) {
+			if(mcComboItensHolder[i]._name != "mcItem") {
+				mcComboItensHolder[i].removeMovieClip();
+			}
+		}
 		
 		for (var i:Number = 0; i<arrData.length; i++) {
 			var newItem:MovieClip = mcItem.duplicateMovieClip("mcItem_"+i, i, {_y:mcItem._height*i});
@@ -136,7 +147,7 @@ class as2classes.form.ComboBoxComponent extends MovieClip{
 		
 		sliceItens();
 		
-		mcItem.unloadMovie();
+		mcItem._visible = false;
 	}
 	
 	public function setSelected($index:Number):Void{
@@ -164,7 +175,7 @@ class as2classes.form.ComboBoxComponent extends MovieClip{
 	}
 	
 	public function enable():Void{
-		mcScroll.enable();
+		scroll.enable();
 		mcBt.enabled = true;
 		mcArrow._alpha = 
 		mcComboText._alpha = 100;
@@ -172,7 +183,7 @@ class as2classes.form.ComboBoxComponent extends MovieClip{
 	
 	public function disable():Void{
 		close();
-		mcScroll.disable();
+		scroll.disable();
 		mcBt.enabled = false;
 		mcArrow._alpha = 
 		mcComboText._alpha = 50;
@@ -186,8 +197,8 @@ class as2classes.form.ComboBoxComponent extends MovieClip{
 		
 		mcBg._height = mcMask._height = arrItens[0]._height * rows;
 		
-		mcScroll.init({mcMask:mcMask, mcMasked:mcComboItensHolder});
-		mcScroll.setHeight(mcMask._height);
+		scroll.init({mcMask:mcMask, mcMasked:mcComboItensHolder});
+		scroll.setHeight(mcMask._height);
 	}
 	
 	public function ajustSize():Void{
@@ -214,7 +225,7 @@ class as2classes.form.ComboBoxComponent extends MovieClip{
 		}
 		
 		if(direction == "up"){
-			mcBg._y = -mcBg._height+2;
+			mcBg._y = -(arrItens[0]._height * rows)+1;
 			mcComboItens._y = mcBg._y;
 			mcScroll._y = mcBg._y+1;
 		}
