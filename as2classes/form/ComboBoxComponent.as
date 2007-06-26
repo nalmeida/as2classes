@@ -29,6 +29,7 @@ class as2classes.form.ComboBoxComponent extends MovieClip{
 	private var scroll:ScrollMovieclipComponent;
 	private var maxWidth:Number;
 	private var rows:Number;
+	private var rows_old:Number;
 	public var  onChanged:Function;
 	private var initSize:Object;
 	private var index:Number;
@@ -83,6 +84,18 @@ class as2classes.form.ComboBoxComponent extends MovieClip{
 		close();
 	}
 	
+	/**
+		Initialize the Combobox Component.
+		
+		@param obj:Object - Object notation to get the real parameters.
+		@param obj.title:String - Title used to validade the form.
+		@param obj.rows:Number - Determine visible portion of Combobox. Minimum 2.
+		@param obj.width:Number - Combobox width.
+		@param obj.direction:String - Determines if Combobox will open above or under. Valid values "up" or "down". Defalut "".
+		@param obj.required:Boolean - Used on form validation to set the field as required.
+		@param obj.data:Array - Initial Combobox data.
+		@return Return none.
+	*/
 	public function init(obj:Object):Void{
 		
 		// Title
@@ -91,6 +104,7 @@ class as2classes.form.ComboBoxComponent extends MovieClip{
 		
 		rows = (obj.rows) ? obj.rows : 3;
 		if(rows<3) rows = 2; // min = 2
+		rows_old = rows;
 		
 		if(obj.width) width = obj.width;
 		
@@ -110,17 +124,17 @@ class as2classes.form.ComboBoxComponent extends MovieClip{
 		mcBt.tabIndex = obj.tabIndex || 1;
 	}
 	
+	/**
+		Set Combobox data.
+		
+		@param $arrData:Array - Data array. Each array value MUST be an object with "label" and "value" paramenters. Eg.: [{value: 1, label: "test 1"}]
+		@return Return none.
+	*/
 	public function setData($arrData:Array):Void{
 		arrData = $arrData;
-		arrItens = [];
 		var selectedItem:Number;
 		
-		// removing existend MovieClips
-		for (var i in mcComboItensHolder) {
-			if(mcComboItensHolder[i]._name != "mcItem") {
-				mcComboItensHolder[i].removeMovieClip();
-			}
-		}
+		clear();
 		
 		for (var i:Number = 0; i<arrData.length; i++) {
 			var newItem:MovieClip = mcItem.duplicateMovieClip("mcItem_"+i, i, {_y:mcItem._height*i});
@@ -138,6 +152,8 @@ class as2classes.form.ComboBoxComponent extends MovieClip{
 			if(arrData[i].selected === true) selectedItem = i;
 			
 			arrItens.push(newItem);
+			
+			enable();
 		}
 
 		setSize(initSize.w);
@@ -147,9 +163,35 @@ class as2classes.form.ComboBoxComponent extends MovieClip{
 		
 		sliceItens();
 		
+		scroll.reset();
+		
 		mcItem._visible = false;
 	}
 	
+	/**
+		Clear Combobox data, remove the internal Movieclips and sets the value to undefined;
+		
+		@return Return none.
+	*/
+	public function clear():Void{
+		arrItens = [];
+		
+		for (var i in mcComboItensHolder) {
+			if(mcComboItensHolder[i]._name != "mcItem") {
+				mcComboItensHolder[i].removeMovieClip();
+			}
+		}
+		
+		value = undefined;
+		disable();
+	}
+	
+	/**
+		Select an Combobox item.
+		
+		@param $index:Number - Combobox item index. If you have 5 items and want to select de 2nd, $index should be 1.
+		@return Return none.
+	*/	
 	public function setSelected($index:Number):Void{
 		index = $index;
 		sliceText(textField, arrData[index].label);
@@ -158,22 +200,47 @@ class as2classes.form.ComboBoxComponent extends MovieClip{
 		close();
 	}
 	
+	/**
+		Get the Combobox item.
+		
+		@return Return Array - [Movieclip, Value, Label]. 
+	*/
 	public function getSelected():Array{
 		return [mc, value, arrData[index].label];
 	}
 	
+	/**
+		Get the current index of the Combobox selected item.
+		
+		@return Return Number - Combobox selected item .
+	*/
 	public function getSelectedIndex():Number{
 		return index;
 	}
 	
+	/**
+		Get all Combobox data.
+		
+		@return Return Array - All Combobox data.
+	*/
 	public function getData():Array{
 		return arrData;
 	}
 	
+	/**
+		Get all Combobox internal Movieclips.
+		
+		@return Return Array - Combobox internal Movieclips.
+	*/
 	public function getItens():Array{
 		return arrItens;
 	}
 	
+	/**
+		Enable Combobox
+		
+		@return Return none
+	*/
 	public function enable():Void{
 		scroll.enable();
 		mcBt.enabled = true;
@@ -181,6 +248,11 @@ class as2classes.form.ComboBoxComponent extends MovieClip{
 		mcComboText._alpha = 100;
 	}
 	
+	/**
+		Disable Combobox
+		
+		@return Return none
+	*/
 	public function disable():Void{
 		close();
 		scroll.disable();
@@ -189,18 +261,37 @@ class as2classes.form.ComboBoxComponent extends MovieClip{
 		mcComboText._alpha = 50;
 	}
 	
+	/**
+		Set the Combobox width.
+		
+		@param width:Number - Width.
+		@return Return none
+	*/
 	public function setSize(width:Number):Void{
 		
 		maxWidth = width - mcArrow._width;
 
-		ajustSize();
+		if(rows >= arrItens.length) {
+			rows = arrItens.length;
+			hideScroll();
+		} else {
+			rows = rows_old;
+			scroll.visibleStatus = "visible";
+		}
 		
 		mcBg._height = mcMask._height = arrItens[0]._height * rows;
+		
+		ajustSize();
 		
 		scroll.init({mcMask:mcMask, mcMasked:mcComboItensHolder});
 		scroll.setHeight(mcMask._height);
 	}
 	
+	/**
+		Ajust the Scroll size avoiding the Movieclip deformation.
+		
+		@return Return none.
+	*/
 	public function ajustSize():Void{
 		mc._xscale = mc._yscale = 100;
 
@@ -232,22 +323,59 @@ class as2classes.form.ComboBoxComponent extends MovieClip{
 		
 	}
 	
+	/**
+		Hide the Combobox scroll.
+		
+		@return Return none.
+	*/
+	public function hideScroll():Void{
+		scroll.hide();
+	}
+	
+	/**
+		Hide the Combobox scroll.
+		
+		@return Return none.
+	*/
+	public function showScroll():Void{
+		scroll.show();
+	}
+	
+	/**
+		Open Combobox.
+		
+		@return Return none.
+	*/
 	public function open():Void{
-		mcScroll._visible = 
+		if(scroll.visibleStatus != "hidden") mcScroll._visible = true;
+		
 		mcBg._visible = 
 		mcComboItens._visible = true;
 		
 		isOpened = true;
+		
+		scroll.reset();
 	}
 	
+	/**
+		Close Combobox.
+		
+		@return Return none.
+	*/
 	public function close():Void{
-		mcScroll._visible = 
+		if(scroll.visibleStatus != "hidden") mcScroll._visible = false;
+		
 		mcBg._visible = 
 		mcComboItens._visible = false;
 		
 		isOpened = false;
 	}
 	
+	/**
+		If the Combobox is opened, close else open it.
+		
+		@return Return none.
+	*/
 	public function openClose():Void{
 		if(isOpened) close();
 		else open();
