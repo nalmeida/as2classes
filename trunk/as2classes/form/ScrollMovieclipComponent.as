@@ -27,6 +27,8 @@ class as2classes.form.ScrollMovieclipComponent extends MovieClip{
 	
 	private var mouseInstance:EventMouse;
 	
+	public var visibleStatus:String;
+	
 	function ScrollMovieclipComponent($mc:MovieClip){
 		mc = $mc || this;
 
@@ -38,8 +40,18 @@ class as2classes.form.ScrollMovieclipComponent extends MovieClip{
 		initSize = {};
 			initSize.w = mc._width;
 			initSize.h = mc._height;
+			
+		visibleStatus = "visible";
 	}
 	
+	/**
+		Initialize the Scroll Component.
+		
+		@param obj: Object notation to get the real parameters.
+		@param obj.mcMask:MovieClip - MovieClip to use as mask.
+		@param obj.mcMasked:MovieClip - MovieClip to use be masked.
+		@return Return none.
+	*/
 	public function init(obj:Object):Void{
 		
 		mcMask = obj.mcMask;
@@ -75,11 +87,22 @@ class as2classes.form.ScrollMovieclipComponent extends MovieClip{
 		difference = 10 + (Math.ceil(mcMasked._height / mcMask._height)*2);
 	}
 	
+	/**
+		Set the Scroll Height
+		
+		@param newHeight:Number - Scroll height.
+		@return Return none.
+	*/
 	public function setHeight(newHeight:Number):Void{
 		initSize.h = newHeight;
 		ajustSize();
 	}
 	
+	/**
+		Ajust the Scroll size avoiding the Movieclip deformation.
+		
+		@return Return none.
+	*/
 	public function ajustSize():Void{
 		mc._xscale = mc._yscale = 100;
 		
@@ -97,11 +120,43 @@ class as2classes.form.ScrollMovieclipComponent extends MovieClip{
 		if(mcSlider._height > mcTrack._height) hideSlider();
 	}
 	
+	/**
+		Reset the Slider and mcMasked postiond to 0.
+		
+		@return Return none.
+	*/
+	public function reset():Void{
+		mcMasked._y = mcMask._y;
+		mcSlider._y = mcArrowUp._height;
+		if(mcSlider._height > mcTrack._height) hideSlider();
+		else showSlider();
+	}
+	
+	/**
+		Hide the slider
+		
+		@return Return none.
+	*/
 	public function hideSlider():Void{
 		mcSlider._visible = false;
 		mcTrack.onPress = null;
 	}
 	
+	/**
+		Show the slider
+		
+		@return Return none.
+	*/
+	public function showSlider():Void{
+		mcSlider._visible = true;
+		mcTrack.onPress = Delegate.create(this, pressTrack);
+	}
+	
+	/**
+		Enable the Scroll funcions and set de _alpha to 100.
+		
+		@return Return none.
+	*/
 	public function enable():Void{
 		mcArrowDown.enabled = 
 		mcArrowUp.enabled = 
@@ -111,6 +166,11 @@ class as2classes.form.ScrollMovieclipComponent extends MovieClip{
 		mc._alpha = 100;
 	}
 	
+	/**
+		Disable the Scroll funcions and set de _alpha to 50.
+		
+		@return Return none.
+	*/
 	public function disable():Void{
 		mcArrowDown.enabled = 
 		mcArrowUp.enabled = 
@@ -120,24 +180,42 @@ class as2classes.form.ScrollMovieclipComponent extends MovieClip{
 		mc._alpha = 50;
 	}
 	
+	/**
+		Hide the Scroll.
+		
+		@return Return none.
+	*/
 	public function hide():Void{
 		mc._visible = false;
+		visibleStatus = "hidden";
 	}
 	
+	/**
+		Show the Scroll.
+		
+		@return Return none.
+	*/
 	public function show():Void{
 		mc._visible = true;
+		visibleStatus = "visible";
 	}	
 	
 	/*
 	* Arrows Stuff
 	*/
 	//{
+	
+	/**
+		Scroll the content to UP.
+		
+		@return Return none.
+	*/
 	public function scrollUp():Void{
 		pressArrow(mcArrowUp);
 		doScrollUp(mcMask, mcMasked, difference, mcSlider, mcTrack);
 		interval = setInterval(Delegate.create(this, doScrollUp, mcMask, mcMasked, difference, mcSlider, mcTrack), 50);
 	}
-	
+
 	private function doScrollUp(mcMask:MovieClip, mcMasked:MovieClip, difference:Number, mcSlider:MovieClip, mcTrack:MovieClip):Void{
 		if(Math.abs(mcMasked._y) > difference) {
 			mcMasked._y += difference;
@@ -147,6 +225,11 @@ class as2classes.form.ScrollMovieclipComponent extends MovieClip{
 		positionSlider(mcMask, mcMasked, mcSlider, mcTrack);
 	}
 	
+	/**
+		Scroll the content to DOWN.
+		
+		@return Return none.
+	*/
 	public function scrollDown():Void{
 		pressArrow(mcArrowDown);
 		doScrollDown(mcMask, mcMasked, difference, mcSlider, mcTrack);
