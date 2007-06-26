@@ -271,7 +271,7 @@ class as2classes.form.ComboBoxComponent extends MovieClip{
 		
 		maxWidth = width - mcArrow._width;
 
-		if(rows >= arrItens.length) {
+		if(rows_old >= arrItens.length) {
 			rows = arrItens.length;
 			hideScroll();
 		} else {
