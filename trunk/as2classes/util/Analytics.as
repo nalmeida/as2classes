@@ -30,7 +30,13 @@ import flash.external.ExternalInterface;
 */
 
 class as2classes.util.Analytics{
-
+	
+	/**
+		Call the urchinTracker javascript function.
+		
+		@param arguments:String.
+		@return Return none.
+	*/
 	public static function call():Void{
 		trace("-------------------------------------------------------");
 		var strToSend:String="/";
