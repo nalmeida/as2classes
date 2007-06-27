@@ -1,13 +1,58 @@
-/**
-* ComboBox Component
-* @author Nicholas Almeida
-* @version 0.1
-* @history 	25/07/2007 : Some bugs fixed when it's compiled by MTASC
-* 			18/07/2007 : Created
+/*
+	AS2classes Framework for ActionScript 2.0
+	Copyright (C) 2007  Nicholas Almeida
+	http://nicholasalmeida.com
+	
+	This library is free software; you can redistribute it and/or
+	modify it under the terms of the GNU Lesser General Public
+	License as published by the Free Software Foundation; either
+	version 2.1 of the License, or (at your option) any later version.
+	http://www.gnu.org/licenses/lgpl.html
+	
+	This library is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+	Lesser General Public License for more details.
 */
 
 import as2classes.util.Delegate;
 import as2classes.form.ScrollMovieclipComponent;
+
+/**
+	ComboBox Component. A lightweight combobox component.
+	
+	@author Nicholas Almeida
+	@version 27/06/07
+	@since Flash Player 8
+	@example
+		<code>
+			mcCombo:ComboBoxComponent = new ComboBoxComponent(mcCombo);
+			
+			var arrData:Array = [
+									{value:0, label:"Select", selected: true},
+									{value:1, label:"Option 1"},
+									{value:2, label:"Option 2"},
+									{value:3, label:"Option 3"},
+									{value:4, label:"Option 4"}
+								]
+			
+			mcCombo.init({
+				title: "Combo Test",
+				data: arrData,
+				rows: 5, 
+				direction: "up"
+			});
+			
+			mcCombo.onChanged = function(arr:Array){
+				trace("mc: " + arr[0] + " -- value: " + arr[1] + " -- label: " + arr[2]);
+			}
+			
+			testButton.onRelease = function(){
+				trace("getSelected mc: " + mcCombo.getSelected()[0] + " -- value: " + mcCombo.getSelected()[1] + " -- label: " + mcCombo.getSelected()[2]);
+				trace("selectedIndex: " + mcCombo.getSelectedIndex());
+			}
+		</code>
+*/
 
 class as2classes.form.ComboBoxComponent extends MovieClip{
 	

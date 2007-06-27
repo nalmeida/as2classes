@@ -1,13 +1,41 @@
-/**
-* ScrollMovieclip Component
-* @author Nicholas Almeida
-* @version 0.1
-* @history 	25/07/2007 : Some bugs fixed when it's compiled by MTASC
-*  			15/07/2007 : Created
+/*
+	AS2classes Framework for ActionScript 2.0
+	Copyright (C) 2007  Nicholas Almeida
+	http://nicholasalmeida.com
+	
+	This library is free software; you can redistribute it and/or
+	modify it under the terms of the GNU Lesser General Public
+	License as published by the Free Software Foundation; either
+	version 2.1 of the License, or (at your option) any later version.
+	http://www.gnu.org/licenses/lgpl.html
+	
+	This library is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+	Lesser General Public License for more details.
 */
 
 import as2classes.util.Delegate;
 import org.casaframework.mouse.EventMouse;
+
+/**
+	ScrollMovieclip Component. A lightweight scroll component for movieclips.
+	
+	@author Nicholas Almeida
+	@version 27/06/07
+	@since Flash Player 8
+	@example
+		<code>
+			import as2classes.form.ScrollMovieclipComponent;
+
+			var mcScroll:ScrollMovieclipComponent = new ScrollMovieclipComponent(mcScroll);
+			
+			mcScroll.init({
+				mcMask:mcTest.mcMasck, 
+				mcMasked:mcTest.mcContent
+			});
+		</code>
+*/
 
 class as2classes.form.ScrollMovieclipComponent extends MovieClip{
 	
