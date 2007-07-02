@@ -1,25 +1,46 @@
 ﻿/*
-* USAGE
-
-loaderManager = new SimpleLoader();
-loaderManager.onInit = function(target){
+	AS2classes Framework for ActionScript 2.0
+	Copyright (C) 2007  Nicholas Almeida
+	http://nicholasalmeida.com
 	
-}
-loaderManager.onProgress = function(target, percent){
+	This library is free software; you can redistribute it and/or
+	modify it under the terms of the GNU Lesser General Public
+	License as published by the Free Software Foundation; either
+	version 2.1 of the License, or (at your option) any later version.
+	http://www.gnu.org/licenses/lgpl.html
 	
-}
-loaderManager.onError = function(target, errorCode, httpStatus){
-	Alert.show("Erro ao carregar a foto.\n\nPor favor tente novamente.\n\nErro: " + errorCode, "Erro");
-}
-loaderManager.onFinish = function(target){
-	
-}
-loaderManager.load("http://localhost:81/upload/img/deds.jpg", mcTarget); // TESTE local!
-
-
+	This library is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+	Lesser General Public License for more details.
 */
 
 import as2classes.util.Delegate;
+
+/**
+	SimpleLoader. An easy way to load an external SWF file and monitor the loading process.
+	
+	@author Nicholas Almeida
+	@version 28/6/2007
+	@since Flash Player 8
+	@example
+		<code>
+			loaderManager:SimpleLoader = new SimpleLoader();
+			loaderManager.onInit = function(target){
+				trace("onInit called. Target: " + target);
+			}
+			loaderManager.onProgress = function(target, percent){
+				trace("onProgress called. Target: " + target + " percent loaded: " + percent + "%");
+			}
+			loaderManager.onError = function(target, errorCode, httpStatus){
+				trace("onError called. Target: " + target + " errorCode: " + errorCode + " httpStatus: " + httpStatus);
+			}
+			loaderManager.onFinish = function(target){
+				trace("onFinish called. Target: " + target);
+			}
+			loaderManager.load("http://localhost:81/upload/img/deds.jpg", mcTarget)
+		</code>
+*/
 
 class as2classes.loader.SimpleLoader{
 	
@@ -48,6 +69,13 @@ class as2classes.loader.SimpleLoader{
 		if(arguments.length == 2) load(arguments[0], arguments[1]);
 	}
 	
+	/**
+		Starts the load process.
+		
+		@param $fileToLoad:String - SWF path to be loaded.
+		@param $target:MovieClip - SWF MovieClip holder.
+		@return Return none.
+	*/
 	public function load($fileToLoad:String, $target:MovieClip):Void{
 
 		doCancel();		
@@ -67,22 +95,32 @@ class as2classes.loader.SimpleLoader{
 		mcLoader.loadClip(fileToLoad, target);		
 	}
 	
-	public function cancel(){
+	/**
+		Cancel the loading process and unload de Target MovieClip.
+		
+		@return Return none.
+	*/
+	public function cancel():Void{
 		trace(" !! Loader CANCELED: " + fileToLoad + " -- movie:" + target + " CLEARED");
 		doCancel();
 	}
 	
-	public function changeLoad(){
-		doCancel();
-		load();
-	}
-	
+	/**
+		Sets a timeout for the loading process. Default is 10000 (10s).
+		
+		@param Timer:Number - Time in miliseconds.
+		@return Return none.
+	*/
 	public function setTimeout(timer:Number):Void{
 		timeout = timer;
 	}
 	
-	
-	public function clearTimeout(){
+	/**
+		Clear the timeout interval.
+		
+		@return Return none.
+	*/
+	public function clearTimeout():Void{
 		clearInterval(tmpInt);
 		clearInterval(timeoutListener);
 	}	

@@ -1,36 +1,51 @@
-/**
-* Simple Loader Queue Class
-* @author Nicholas Almeida
-* @version 1.0
-* @history 08/06/2007: Created
-* 
-* @usage
+/*
+	AS2classes Framework for ActionScript 2.0
+	Copyright (C) 2007  Nicholas Almeida
+	http://nicholasalmeida.com
 	
-	import as2classes.loader.SimpleLoaderQueue;
+	This library is free software; you can redistribute it and/or
+	modify it under the terms of the GNU Lesser General Public
+	License as published by the Free Software Foundation; either
+	version 2.1 of the License, or (at your option) any later version.
+	http://www.gnu.org/licenses/lgpl.html
 	
-	var loaderQueue:SimpleLoaderQueue = new SimpleLoaderQueue();
-	
-		loaderQueue.addMovie("movie_1.swf", movie1);
-		loaderQueue.addMovie("movie_2.swf", movie2);
-
-		loaderQueue.onItemProgress = function(target:MovieClip, percent:Number){
-			trace(target + " percent loaded = " + percent + "%");
-		}
-
-		loaderQueue.onItemFinish = function(target:MovieClip){
-			trace(target + " loaed.");
-		}
-
-		loaderQueue.onQueueFinish = function(){
-			trace("the end.");
-		}
-
-		loaderQueue.start();
-		
+	This library is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+	Lesser General Public License for more details.
 */
 
 import as2classes.loader.SimpleLoader;
 import as2classes.util.Delegate;
+
+/**
+	SimpleLoaderQueue. Creates a queue of files to be loaded.
+	
+	@author Nicholas Almeida
+	@version 08/06/2007
+	@since Flash Player 8
+	@example
+		<code>
+			var loaderQueue:SimpleLoaderQueue = new SimpleLoaderQueue();
+	
+			loaderQueue.addMovie("movie_1.swf", movie1);
+			loaderQueue.addMovie("movie_2.swf", movie2);
+
+			loaderQueue.onItemProgress = function(target:MovieClip, percent:Number){
+				trace(target + " percent loaded = " + percent + "%");
+			}
+
+			loaderQueue.onItemFinish = function(target:MovieClip){
+				trace(target + " loaed.");
+			}
+
+			loaderQueue.onQueueFinish = function(){
+				trace("the end.");
+			}
+
+			loaderQueue.start();
+		</code>
+*/
 
 class as2classes.loader.SimpleLoaderQueue {
 	
@@ -49,6 +64,14 @@ class as2classes.loader.SimpleLoaderQueue {
 		currentLoadIndex = 0;
 	}
 	
+	/**
+		Adds a new SWF to be loaded.
+		
+		@param movie:String - SWF path to be loaded.
+		@param target:String - SWF MovieClip holder.
+		@param priority:Number - Lower number loads first. 1 is the highest priority. Two loadings can have the same priority (the first one loads first). Default is 5.
+		@return Return none.
+	*/
 	public function addMovie(movie:String, target:MovieClip, priority:Number):Void{
 		arrToLoad.push({
 						target: target,
@@ -57,17 +80,16 @@ class as2classes.loader.SimpleLoaderQueue {
 					});
 	}
 	
+	/**
+		Starts the loading queue process
+		
+		@return Return none.
+	*/
 	public function start():Void{
 		arrToLoad.sortOn("priority");
 		trace("-------------------------------------------------------\n *** Loader Queue STARTED");
 		doLoad();
 	}
-	
-	
-	
-	
-	
-	
 	
 	private function doLoad():Void{
 		currentLoad = new SimpleLoader();
