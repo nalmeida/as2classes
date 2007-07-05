@@ -79,8 +79,18 @@ class as2classes.form.RadiobuttonComponent extends MovieClip{
 	
 	public var required:Boolean;
 	public var title:Boolean;
+	
+	public var _type:String;
 
+	/**
+		Radiobutton Component constructor.
+		
+		@param $mc:MovieClip - Movieclip to be used as the component.
+		@return Return none.
+	*/
 	function RadiobuttonComponent($mc:MovieClip){
+		this._type = "radiobutton";
+		
 		mc = $mc || this;
 		mc.isFormField = true;
 		mcState = mc.mcRadioButtonState;
@@ -98,12 +108,15 @@ class as2classes.form.RadiobuttonComponent extends MovieClip{
 		
 		@param obj:Object - Object notation to get the real parameters.
 		@param obj.title:String - Title used to validade the form.
+		@param obj.tabIndex:Number or Booblean - Number represents the tabIndex value. To disable the tabIndex, set it to false. Default value 1.
+		@param obj.required:Boolean - Used on form validation to set the field as required.
+		
+		@param obj.selected:Booblean - If you need the Radiobutton starts as selected. Default false.
 		@param obj.groupName:String - The name of the Radiobutton Group.
 		@param obj.label:String - The text of Radiobutton.
 		@param obj.value:String - The value of Radiobutton.
 		@param obj.align:String - The align of textField. Valid values "left" or "right". Default "right".
 		@param obj.width:Number - Combobox width. Default is undefined and it make the textField be autoSize = true.
-		@param obj.required:Boolean - Used on form validation to set the field as required.
 		@return Return none.
 	*/
 	public function init(obj:Object):Void{
@@ -149,10 +162,14 @@ class as2classes.form.RadiobuttonComponent extends MovieClip{
 		setSelected(obj.selected, true);
 		
 		// Tab
-		mc.tabEnabled = true;
-		mc.tabChildren = false;
-		
-		mc.tabIndex = obj.tabIndex || 1;
+		if(obj.tabIndex === false){
+			mc.tabEnabled = false;
+			mc.tabChildren = false;
+		} else {
+			mc.tabEnabled = true;
+			mc.tabChildren = false;
+			mc.tabIndex = obj.tabIndex || 1;
+		}
 	}
 	
 	/**

@@ -88,8 +88,18 @@ class as2classes.form.ComboBoxComponent extends MovieClip{
 	private var arrData:Array;
 	private var arrItens:Array;
 	private var isOpened:Boolean;
+	
+	public var _type:String;
+	
+	/**
+		ComboBox Component constructor.
 		
+		@param $mc:MovieClip - Movieclip to be used as the component.
+		@return Return none.
+	*/
 	function ComboBoxComponent($mc:MovieClip){
+		this._type = "combobox";
+		
 		mc = $mc || this;
 		mc.isFormField = true;
 		mcBt = mc.mcBt;
@@ -134,10 +144,12 @@ class as2classes.form.ComboBoxComponent extends MovieClip{
 		
 		@param obj:Object - Object notation to get the real parameters.
 		@param obj.title:String - Title used to validade the form.
+		@param obj.required:Boolean - Used on form validation to set the field as required.
+		@param obj.tabIndex:Number or Booblean - Number represents the tabIndex value. To disable the tabIndex, set it to false. Default value 1.
+		
 		@param obj.rows:Number - Determine visible portion of Combobox. Minimum 2.
 		@param obj.width:Number - Combobox width.
 		@param obj.direction:String - Determines if Combobox will open above or under. Valid values "up" or "down". Defalut "".
-		@param obj.required:Boolean - Used on form validation to set the field as required.
 		@param obj.data:Array - Initial Combobox data.
 		@return Return none.
 	*/
@@ -165,8 +177,12 @@ class as2classes.form.ComboBoxComponent extends MovieClip{
 		setData(arrData);
 		
 		// Tab
-		mcBt.tabEnabled = true;
-		mcBt.tabIndex = obj.tabIndex || 1;
+		if(obj.tabIndex === false){
+			mcBt.tabEnabled = false;
+		} else {
+			mcBt.tabEnabled = true;
+			mcBt.tabIndex = obj.tabIndex || 1;
+		}
 	}
 	
 	/**
@@ -282,7 +298,7 @@ class as2classes.form.ComboBoxComponent extends MovieClip{
 	}
 	
 	/**
-		Enable Combobox
+		Enable Combobox.
 		
 		@return Return none
 	*/
@@ -294,7 +310,7 @@ class as2classes.form.ComboBoxComponent extends MovieClip{
 	}
 	
 	/**
-		Disable Combobox
+		Disable Combobox.
 		
 		@return Return none
 	*/
