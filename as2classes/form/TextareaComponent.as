@@ -1,12 +1,58 @@
-/**
-* Textarea Component
-* @author Nicholas Almeida
-* @version 0.1
-* @history 15/07/2007 : Lots of bugs fixeds
+/*
+	AS2classes Framework for ActionScript 2.0
+	Copyright (C) 2007  Nicholas Almeida
+	http://nicholasalmeida.com
+	
+	This library is free software; you can redistribute it and/or
+	modify it under the terms of the GNU Lesser General Public
+	License as published by the Free Software Foundation; either
+	version 2.1 of the License, or (at your option) any later version.
+	http://www.gnu.org/licenses/lgpl.html
+	
+	This library is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+	Lesser General Public License for more details.
 */
 
 import as2classes.util.Delegate;
 import as2classes.form.TextfieldUtil;
+import org.casaframework.mouse.EventMouse;
+
+/**
+	TextareaComponent. An useful component to use as an extended Textfield.
+	
+	@author Nicholas Almeida
+	@version 5/7/2007
+	@since Flash Player 8
+	@example
+		<code>
+			mcTest = new TextareaComponent(mcTest);
+			mcTestBig = new TextareaComponent(mcTestBig);
+			mcTestSmall = new TextareaComponent(mcTestSmall);
+
+			mcTest.init({
+				title: "Text",
+				restrict: "alpha",
+				required: true,
+				title: "Textarea default"
+			});
+
+			mcTestBig.init({
+				type:"dynamic", 
+				textColor:0xFF0000,
+				title: "Big Textarea"
+			});
+			mcTestSmall.init({
+				htmlText: true,
+				title: "Small Textarea"
+			});
+			
+			mcTestSmall.setText("<b>asd</b>");
+
+			mcTestBig.setText("Maecenas nulla lorem, rhoncus ac, blandit vel, tempus id, felis. Quisque arcu. Quisque tristique, mi nec rhoncus imperdiet, urna nisi sagittis tortor, a interdum nulla lectus eu sapien. Nullam vestibulum blandit massa. Morbi nec nisl. Ut at nibh at eros placerat venenatis. Curabitur pretium molestie nisl. Phasellus ultricies dui in augue. Duis at dolor. Etiam congue tellus a ipsum. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec pellentesque pulvinar urna. Praesent in tellus quis nibh sollicitudin lobortis.\n\nIn auctor. Praesent non felis ac turpis lobortis aliquam. Nam bibendum eleifend elit. Phasellus ac lorem. Suspendisse facilisis adipiscing tellus. Pellentesque turpis elit, auctor eu, lacinia sed, congue euismod, ligula. Curabitur porta nibh dapibus tortor. Sed eu nibh. Fusce vel turpis. Nam cursus.\n\nMorbi sem neque, laoreet ut, nonummy ut, pulvinar id, magna. Nulla facilisi. Nunc sed libero. In condimentum dolor et lacus. Integer a nunc. Curabitur eu felis. Fusce lacinia nunc. Morbi tellus nisl, tempus non, feugiat ac, tempor sed, libero. Curabitur dictum. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec condimentum posuere nisi. Sed lacinia, justo id dignissim varius, lorem ante tristique sem, sit amet suscipit diam felis vel pede. Mauris tincidunt risus sed dolor. Quisque rutrum lobortis leo.\n\nFusce ullamcorper varius quam. In vitae libero ut sem feugiat pulvinar. Sed ligula. Proin dolor. Integer semper. Integer sit amet diam nec eros imperdiet molestie. Maecenas vulputate, enim id egestas nonummy, odio tellus sodales augue, non fermentum leo leo eu leo. Aenean blandit sem et neque. Aliquam erat volutpat. Etiam sollicitudin. Phasellus nec mauris. Pellentesque sed metus at lorem porttitor volutpat. Nulla posuere tincidunt mi. In placerat justo id arcu dignissim varius. Morbi quam quam, pretium ac, mattis a, molestie non, odio. Sed eget felis. Quisque pretium nunc et magna. Nulla lobortis felis sit amet ante lacinia accumsan. Donec auctor mauris vel risus.\n\nAliquam volutpat lectus vitae purus. Fusce purus eros, mollis non, iaculis vitae, congue sed, ante. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Duis neque elit, tincidunt in, faucibus aliquam, bibendum vel, odio. Aliquam erat volutpat. Sed luctus leo ac neque. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Pellentesque tristique nunc cursus lacus. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Duis nonummy nibh condimentum orci. Mauris vulputate lorem.\n\nSuspendisse iaculis sodales metus. Vestibulum tincidunt urna non leo. Morbi elit. Maecenas quis sapien. Aliquam bibendum, arcu nec congue posuere, nulla eros sagittis nulla, sit amet tincidunt justo tellus ac lectus. Fusce et sem. Nullam nonummy dignissim ante. Donec nulla arcu, accumsan et, sagittis ac, euismod blandit, lacus. Phasellus varius leo. Praesent viverra pede a tellus. Integer in enim. Aliquam venenatis. Etiam nec nisl. Aenean convallis mi eget sapien. \n -- MEIO\nMaecenas nulla lorem, rhoncus ac, blandit vel, tempus id, felis. Quisque arcu. Quisque tristique, mi nec rhoncus imperdiet, urna nisi sagittis tortor, a interdum nulla lectus eu sapien. Nullam vestibulum blandit massa. Morbi nec nisl. Ut at nibh at eros placerat venenatis. Curabitur pretium molestie nisl. Phasellus ultricies dui in augue. Duis at dolor. Etiam congue tellus a ipsum. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec pellentesque pulvinar urna. Praesent in tellus quis nibh sollicitudin lobortis.\n\nIn auctor. Praesent non felis ac turpis lobortis aliquam. Nam bibendum eleifend elit. Phasellus ac lorem. Suspendisse facilisis adipiscing tellus. Pellentesque turpis elit, auctor eu, lacinia sed, congue euismod, ligula. Curabitur porta nibh dapibus tortor. Sed eu nibh. Fusce vel turpis. Nam cursus.\n\nMorbi sem neque, laoreet ut, nonummy ut, pulvinar id, magna. Nulla facilisi. Nunc sed libero. In condimentum dolor et lacus. Integer a nunc. Curabitur eu felis. Fusce lacinia nunc. Morbi tellus nisl, tempus non, feugiat ac, tempor sed, libero. Curabitur dictum. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec condimentum posuere nisi. Sed lacinia, justo id dignissim varius, lorem ante tristique sem, sit amet suscipit diam felis vel pede. Mauris tincidunt risus sed dolor. Quisque rutrum lobortis leo.\n\nFusce ullamcorper varius quam. In vitae libero ut sem feugiat pulvinar. Sed ligula. Proin dolor. Integer semper. Integer sit amet diam nec eros imperdiet molestie. Maecenas vulputate, enim id egestas nonummy, odio tellus sodales augue, non fermentum leo leo eu leo. Aenean blandit sem et neque. Aliquam erat volutpat. Etiam sollicitudin. Phasellus nec mauris. Pellentesque sed metus at lorem porttitor volutpat. Nulla posuere tincidunt mi. In placerat justo id arcu dignissim varius. Morbi quam quam, pretium ac, mattis a, molestie non, odio. Sed eget felis. Quisque pretium nunc et magna. Nulla lobortis felis sit amet ante lacinia accumsan. Donec auctor mauris vel risus.\n\nAliquam volutpat lectus vitae purus. Fusce purus eros, mollis non, iaculis vitae, congue sed, ante. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Duis neque elit, tincidunt in, faucibus aliquam, bibendum vel, odio. Aliquam erat volutpat. Sed luctus leo ac neque. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Pellentesque tristique nunc cursus lacus. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Duis nonummy nibh condimentum orci. Mauris vulputate lorem.\n\nSuspendisse iaculis sodales metus. Vestibulum tincidunt urna non leo. Morbi elit. Maecenas quis sapien. Aliquam bibendum, arcu nec congue posuere, nulla eros sagittis nulla, sit amet tincidunt justo tellus ac lectus. Fusce et sem. Nullam nonummy dignissim ante. Donec nulla arcu, accumsan et, sagittis ac, euismod blandit, lacus. Phasellus varius leo. Praesent viverra pede a tellus. Integer in enim. Aliquam venenatis. Etiam nec nisl. Aenean convallis mi eget sapien. \n -- FIM");
+		</code>
+*/
 
 class as2classes.form.TextareaComponent extends MovieClip{
 	
@@ -39,8 +85,20 @@ class as2classes.form.TextareaComponent extends MovieClip{
 	public var border:Boolean;
 	public var htmlText:Boolean;
 	
-	function TextareaComponent(){
-		mc = this;
+	private var mouseInstance:EventMouse;
+	
+	public var _type:String;
+	
+	/**
+		Textarea Component constructor.
+		
+		@param $mc:MovieClip - Movieclip to be used as the component.
+		@return Return none.
+	*/
+	function TextareaComponent($mc:MovieClip){
+		this._type = "textarea";
+		
+		mc = $mc || this;
 		mc.isFormField = true;
 		textField = mc.fld_text;
 		
@@ -53,47 +111,26 @@ class as2classes.form.TextareaComponent extends MovieClip{
 		initSize = {};
 			initSize.w = mc._width;
 			initSize.h = mc._height;
-			
-		mcArrowUp.onPress = Delegate.create(this, scrollUp);
-		mcArrowUp.onRelease = 
-		mcArrowUp.onReleaseOutside = Delegate.create(this, releaseArrow, mcArrowUp);
-		
-		mcArrowDown.onPress = Delegate.create(this, scrollDown);
-		mcArrowDown.onRelease = 
-		mcArrowDown.onReleaseOutside = Delegate.create(this, releaseArrow, mcArrowDown);
-		
-		mcSlider.onPress = Delegate.create(this, slideScroll);
-		mcSlider.onMouseUp = Delegate.create(this, releaseSlider);
-		
-		mcTrack.onPress = Delegate.create(this, pressTrack);
-		
-		mcArrowUp.useHandCursor = mcArrowDown.useHandCursor = mcSlider.useHandCursor = mcTrack.useHandCursor = false;
-		
-		textField.onChanged = Delegate.create(this, onChange);
-		
-		textField.mouseWheelEnabled = false;
-		
-		mouseListener = {};
-		mouseListener.onMouseWheel = Delegate.create(this, moveUsingWheel);
-		Mouse.addListener(mouseListener);
-			
-		lineHeight = getLinheHeight();
-		
-		clearInterval(interval);
-		required = false;
-		minSliderHeight = 24;
-		
 	}
 	
 	/**
-	* @param type:String. Values: "input"(default) or "dynamic"
-	* @param maxChars:Number. Default = ""
-	* @param minChars:Number. Default = ""
-	* @param text:String. Default = ""
-	* @param initText:String. Default = ""
-	* @param restrict:String. Default = ""
-	* @param title:String. Default = ""
-	* @param htmlText:Boolean. Default = false
+		Initialize the TextareaComponent Component.
+		
+		@param obj:Object - Object notation to get the real parameters.
+		@param obj.title:String - Title used to validade the form.
+		@param obj.tabIndex:Number or Booblean - Number represents the tabIndex value. To disable the tabIndex, set it to false. Default value 1.
+		@param obj.required:Boolean - Used on form validation to set the field as required.
+		
+		@param obj.restrict::String - Restrict the characters of a Textfield. For the valid values, check TextfieldUtil.aplyRestriction method.
+		@param obj.type:String - The Textfield type. Valid values: "input", "dynamic" or "password". Default: "input".
+		@param obj.maxChars:Number - The maximum number of characters.
+		@param obj.minChars:Number - The minumum number of characters.
+		@param obj.text:String - The Textfield text.
+		@param obj.initText:Number - If you need a initial value for the Textfield, set it here. When the user select the Textfield, the Textfield text is set to "".
+		@param obj.htmlText:Boolean - Enables htmlText for TextField.
+		@param obj.textColor:Color - The text color.
+		@param obj.border:Boolean - If you need disables the textfield border, set it to false. Default true.
+		@return Return none.
 	*/
 	public function init(obj:Object):Void{
 		
@@ -118,7 +155,7 @@ class as2classes.form.TextareaComponent extends MovieClip{
 			textField.textColor = obj.textColor;
 		}
 		
-		if(htmlText === true && obj.textColor) trace("WARNING on TextField: " + mc + ". If you are using htmlText, the textColor property don't work.");
+		if(htmlText === true && obj.textColor) trace("WARNING on TextField: " + mc + ". If you are using htmlText, the textColor property doesn't work.");
 		
 		
 		if(htmlText){
@@ -149,17 +186,61 @@ class as2classes.form.TextareaComponent extends MovieClip{
 		
 		sliderBottomLimit = (mcTrack._y + mcTrack._height - mcSlider._height);
 		
-		if(obj.required != undefined) required = obj.required;
+		required = (obj.required == undefined) ? false  : obj.required;
 
 		checkIfNeedScroll();
 		
 		// Tab
-		mc.tabEnabled = false;
-		mc.tabChildren = true;
-		textField.tabEnabled = true;
-		textField.tabIndex = obj.tabIndex || 1;
+		if(obj.tabIndex === false){
+			mc.tabEnabled = false;
+			mc.tabChildren = false;
+			textField.tabEnabled = false;
+		} else {
+			mc.tabEnabled = false;
+			mc.tabChildren = true;
+			textField.tabEnabled = true;
+			textField.tabIndex = obj.tabIndex || 1;
+		}
+		
+		
+		// Events
+		
+		mcArrowUp.onPress = Delegate.create(this, scrollUp, this);
+		mcArrowUp.onRelease = 
+		mcArrowUp.onReleaseOutside = Delegate.create(this, releaseArrow, mcArrowUp);
+		
+		mcArrowDown.onPress = Delegate.create(this, scrollDown, this);
+		mcArrowDown.onRelease = 
+		mcArrowDown.onReleaseOutside = Delegate.create(this, releaseArrow, mcArrowDown);
+		
+		mcSlider.onPress = Delegate.create(this, slideScroll, this);
+		mcSlider.onMouseUp = Delegate.create(this, releaseSlider);
+		
+		mcTrack.onPress = Delegate.create(this, pressTrack, this);
+		
+		mcArrowUp.useHandCursor = mcArrowDown.useHandCursor = mcSlider.useHandCursor = mcTrack.useHandCursor = false;
+		
+		textField.onChanged = Delegate.create(this, onChange);
+		
+		textField.mouseWheelEnabled = false;
+		
+
+		mouseInstance = EventMouse.getInstance();
+		mouseInstance.addEventObserver(this, EventMouse.EVENT_MOUSE_WHEEL);
+
+		lineHeight = getLinheHeight();
+		
+		clearInterval(interval);
+		minSliderHeight = 24;
 	}
 	
+	/**
+		Set the size of Textarea Component.
+		
+		@param width:Number - Width.
+		@param height:Number - Height.
+		@return Return none.
+	*/
 	public function setSize(width:Number, height:Number):Void{
 		initSize.w = width;
 		initSize.h = height;
@@ -167,6 +248,11 @@ class as2classes.form.TextareaComponent extends MovieClip{
 		ajustSize();
 	}
 	
+	/**
+		Ajust the Scroll size avoiding the Movieclip deformation.
+		
+		@return Return none.
+	*/
 	public function ajustSize():Void{
 		mc._xscale = mc._yscale = 100;
 		textField._width = initSize.w - mcScrollBar._width;
@@ -181,6 +267,11 @@ class as2classes.form.TextareaComponent extends MovieClip{
 		onChange();
 	}
 	
+	/**
+		Enable Textarea.
+		
+		@return Return none
+	*/
 	public function enable():Void{
 		TextfieldUtil.aplyRestriction(textField, restrict);
 		textField.selectable = true;
@@ -190,6 +281,11 @@ class as2classes.form.TextareaComponent extends MovieClip{
 		mc._alpha = 100;
 	}
 	
+	/**
+		Enable disable.
+		
+		@return Return none
+	*/
 	public function disable():Void{
 		TextfieldUtil.aplyRestriction(textField, "disable");
 		textField.selectable = false;
@@ -200,28 +296,62 @@ class as2classes.form.TextareaComponent extends MovieClip{
 		if(mc._alpha != 50) mc._alpha = 50;
 	}
 	
+	/**
+		Set the maximum number of characters to Textarea.
+		
+		@param n:Number - Maximum number of characters.
+		@return Return none.
+	*/
 	public function setMaxChars(n:Number):Void{
 		textField.maxChars = maxChars = n;
 	}
 	
+	/**
+		Return the maximum number of Textarea characters.
+		
+		@return Return the maximum number of Textarea.
+	*/
 	public function getMaxChars():Number{
 		return maxChars;
 	}
 	
+	/**
+		Set the minimum number of characters to Textarea.
+		
+		@param n:Number - Maximum number of characters.
+		@return Return none.
+	*/
 	public function setMinChars(n:Number):Void{
 		minChars = n;
 	}
 	
+	/**
+		Return the minimum number of Textarea characters.
+		
+		@return Return the minimum number of Textarea.
+	*/
 	public function getMinChars():Number{
 		return minChars;
 	}
 	
+	/**
+		Set the text for Textarea.
+		
+		@param txt - The text.
+		@return Return none.
+	*/
 	public function setText(txt):Void{
 		if(htmlText) textField.htmlText = value = txt;
 		else textField.text = value = txt;
 		ajustSize();
 	}
 	
+	/**
+		Set the initial text for Textarea.
+		
+		@param txt - The text.
+		@return Return none.
+	*/
 	public function setInitText(txt:String):Void{
 		if(txt) {
 			if(htmlText) textField.htmlText = initText = txt;
@@ -231,73 +361,104 @@ class as2classes.form.TextareaComponent extends MovieClip{
 		textField.onKillFocus = Delegate.create(this, checkIfIsEmpty);
 	}
 	
+	/**
+		Get the current text of Textarea.
+		
+		@return Return none.
+	*/
 	public function getText():String{
 		if(htmlText) value = textField.htmlText;
 		else value = textField.text;
 		return value;
 	}
+	
+	/**
+		Scroll the content to UP.
 		
-	public function scrollUp():Void{
-		pressArrow(mcArrowUp);
-		doScrollUp();
-		interval = setInterval(Delegate.create(mc, doScrollUp), 80);
+		@param theClass:TextareaComponent - The class.
+		@return Return none.
+	*/
+	public function scrollUp(theClass:TextareaComponent):Void{
+		theClass.pressArrow(theClass.mcArrowUp);
+		theClass.doScrollUp();
+		theClass.interval = setInterval(Delegate.create(theClass, doScrollUp, theClass), 80);
 	}
 	
-	public function scrollDown():Void{
-		pressArrow(mcArrowDown);
-		doScrollDown();
-		interval = setInterval(Delegate.create(mc, doScrollDown), 80);
+	/**
+		Scroll the content to DOWN.
+		
+		@param theClass:TextareaComponent - The class.
+		@return Return none.
+	*/
+	public function scrollDown(theClass:TextareaComponent):Void{
+		theClass.pressArrow(theClass.mcArrowDown);
+		theClass.doScrollDown();
+		theClass.interval = setInterval(Delegate.create(theClass, doScrollDown, theClass), 80);
 	}
 	
-	
+	/**
+		Check if the scroll is needed or not. If not, disables the scroll.
+		
+		@return Return none.
+	*/
 	public function checkIfNeedScroll():Void{
 		if(textField.textHeight - textField._height <=0) disableScroll();
 		else enableScroll();
 	}
 	
+	/**
+		Disables the scoll
+		
+		@return Return none.
+	*/
 	public function disableScroll():Void{
 		for (var i in mcScrollBar) {
 			mcScrollBar[i].enabled = false;
 		}
 		mcSlider._visible = false;
 		mcScrollBar._alpha = 50;
-		Mouse.removeListener(mouseListener);
 	}
 	
+	/**
+		Enables the scoll
+		
+		@return Return none.
+	*/
 	public function enableScroll():Void{
 		for (var i in mcScrollBar) {
 			mcScrollBar[i].enabled = true;
 		}
 		mcSlider._visible = true;
-		mcScrollBar._alpha = 100;
-		Mouse.addListener(mouseListener);
-		
+		mcScrollBar._alpha = 100;		
 	}	
+	
+	
+	// Private methods
 	
 	private function releaseSlider():Void{
 		mcSlider.stopDrag();
 		clearInterval(interval);
 	}
 	
-	private function slideScroll():Void{
-		mcSlider.startDrag(false,0,mcTrack._y+1,0,sliderBottomLimit);
-		clearInterval(interval);
+	private function slideScroll(theClass:TextareaComponent):Void{
+		theClass.mcSlider.startDrag(false,0,theClass.mcTrack._y+1,0,theClass.sliderBottomLimit);
+		clearInterval(theClass.interval);
 		
-		interval = setInterval(Delegate.create(mc, doScollSlider), 50);
+		theClass.interval = setInterval(Delegate.create(theClass, doScollSlider, theClass), 50);
 	}
 	
-	private function doScollSlider():Void{
-		var sobra:Number = textField.textHeight - textField._height;
-		if(sobra <= textField._height) sobra = textField._height;
+	private function doScollSlider(theClass:TextareaComponent):Void{
+		var sobra:Number = theClass.textField.textHeight - theClass.textField._height;
+		if(sobra <= theClass.textField._height) sobra = theClass.textField._height;
 
-		var altTrack:Number = mcTrack._height - mcSlider._height;
-		var posSlider:Number = mcSlider._y - mcSlider._height + mcArrowUp._height;
+		var altTrack:Number = theClass.mcTrack._height - theClass.mcSlider._height;
+		var posSlider:Number = theClass.mcSlider._y - theClass.mcSlider._height + theClass.mcArrowUp._height;
 
 		var calc:Number = (sobra * posSlider) / altTrack;
-		var final:Number = Math.abs(calc / lineHeight);
+		var final:Number = Math.abs(calc / theClass.lineHeight);
 		
-		if(final > textField.maxscroll) final = textField.maxscroll;
-		textField.scroll = Math.ceil(final);
+		if(final > theClass.textField.maxscroll) final = theClass.textField.maxscroll;
+		theClass.textField.scroll = Math.ceil(final);
 	}
 	
 	private function onChange():Void{
@@ -308,18 +469,7 @@ class as2classes.form.TextareaComponent extends MovieClip{
 		if(htmlText) value = (textField.htmlText != initText) ? textField.htmlText : "";
 		else value = (textField.text != initText) ? textField.text : "";
 		
-		//calcSliderHeight();
 	}
-	
-	/*
-	private function calcSliderHeight():Void{
-		
-		var sobra:Number = Math.round((textField.textHeight - textField._height)/10);
-		mcSlider._height = mcTrack._height - sobra;
-		
-		trace(mcSlider._yscale)
-	}
-	*/
 	
 	private function positionSlider():Void{
 		
@@ -361,14 +511,14 @@ class as2classes.form.TextareaComponent extends MovieClip{
 		}
 	}
 	
-	private function pressTrack():Void{
+	private function pressTrack(theClass:TextareaComponent):Void{
 		
-		if(this._ymouse <= sliderBottomLimit)
-			mcSlider._y = this._ymouse;
+		if(theClass.mc._ymouse <= theClass.sliderBottomLimit)
+			theClass.mcSlider._y = theClass.mc._ymouse;
 		else 
-			mcSlider._y = sliderBottomLimit;
+			theClass.mcSlider._y = theClass.sliderBottomLimit;
 			
-		doScollSlider();
+		theClass.doScollSlider(theClass);
 	}
 	
 	private function pressArrow(arrow:MovieClip):Void{
@@ -382,14 +532,14 @@ class as2classes.form.TextareaComponent extends MovieClip{
 	
 	
 	
-	private function doScrollDown():Void{
-		textField.scroll++;
-		positionSlider();
+	private function doScrollDown(theClass:TextareaComponent):Void{
+		theClass.textField.scroll++;
+		theClass.positionSlider();
 	}
 	
-	private function doScrollUp():Void{
-		textField.scroll--;
-		positionSlider();
+	private function doScrollUp(theClass:TextareaComponent):Void{
+		theClass.textField.scroll--;
+		theClass.positionSlider();
 	}
 	
 	private function getLinheHeight():Number{
@@ -404,11 +554,11 @@ class as2classes.form.TextareaComponent extends MovieClip{
 		return lineHeight;
 	}
 	
-	private function moveUsingWheel(delta:Number):Void{
+	private function onMouseWheel(delta:Number, target:String):Void{
 		if(mc._xmouse >=0 && mc._xmouse <= mc._width && mc._ymouse >=0 && mc._ymouse <= mc._height){
-			if(delta <0) doScrollDown();
-			else doScrollUp();
-			positionSlider();
+			if(delta <0) doScrollDown(this);
+			else doScrollUp(this);
+			positionSlider(this);
 		}
 	}
 	

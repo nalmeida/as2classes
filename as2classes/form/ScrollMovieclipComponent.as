@@ -57,6 +57,12 @@ class as2classes.form.ScrollMovieclipComponent extends MovieClip{
 	
 	public var visibleStatus:String;
 	
+	/**
+		ScrollMovieclip Component constructor.
+		
+		@param $mc:MovieClip - Movieclip to be used as the component.
+		@return Return none.
+	*/
 	function ScrollMovieclipComponent($mc:MovieClip){
 		mc = $mc || this;
 
@@ -344,10 +350,6 @@ class as2classes.form.ScrollMovieclipComponent extends MovieClip{
 	*/
 	//{
 	private function onMouseWheel(delta:Number, target:String):Void{
-		/*
-		mcMask = Global.getVar("mcMask");
-		mcMasked = Global.getVar("mcMasked");
-		*/
 		if((mcMask._xmouse >=0 && mcMask._xmouse <= mcMask._width && mcMask._ymouse >=0 && mcMask._ymouse <= mcMask._height)  // over mask
 			|| 
 			(mc._xmouse >=0 && mc._xmouse <= mc._width && mc._ymouse >=0 && mc._ymouse <= mc._height) // over scroll
