@@ -22,5 +22,9 @@ class as2classes.util.ArrayUtil{
 		return newArr;
 	}
 	
+	public static function clear():Array{
+		return [];
+	}
+	
 	private function ArrayUtil() {} // Prevents instance creation
 }
