@@ -66,7 +66,7 @@ class as2classes.util.Post{
 		@param obj.extra - Anything you want.
 		@return Return none.
 	*/
-	public static function send(obj:Object):Void{
+	public static function send(obj:Object){
 		
 		url = obj.url;
 		parameters = obj.parameters;
@@ -76,8 +76,7 @@ class as2classes.util.Post{
 		onError = obj.onError;
 		extra = obj.extra;
 		
-		
-		if(!url){
+		if(url.length === 0){
 			trace("ERROR: URL not defined.");
 			return;
 		}
