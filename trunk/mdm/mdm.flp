@@ -1,0 +1,94 @@
+
+<flash_project version='1' name='mdm'>
+  <project_folder expanded='false' name='Application'>
+    <project_file path='Application\Library.as' filetype='as'/>
+    <project_file path='Application\Screensaver.as' filetype='as'/>
+    <project_file path='Application\Timer.as' filetype='as'/>
+    <project_file path='Application\Trial.as' filetype='as'/>
+  </project_folder>
+  <project_folder expanded='false' name='Database'>
+    <project_file path='Database\ADO.as' filetype='as'/>
+    <project_file path='Database\MSAccess.as' filetype='as'/>
+    <project_file path='Database\MySQL.as' filetype='as'/>
+  </project_folder>
+  <project_folder expanded='false' name='Dialogs'>
+    <project_file path='Dialogs\BrowseFile.as' filetype='as'/>
+    <project_file path='Dialogs\BrowseFileToSave.as' filetype='as'/>
+    <project_file path='Dialogs\BrowseFileUnicode.as' filetype='as'/>
+    <project_file path='Dialogs\BrowseFolder.as' filetype='as'/>
+  </project_folder>
+  <project_folder expanded='false' name='Exception'>
+    <project_file path='Exception\DebugWindow.as' filetype='as'/>
+  </project_folder>
+  <project_folder expanded='false' name='FileExplorer'>
+    <project_file path='FileExplorer\ComboBox.as' filetype='as'/>
+    <project_file path='FileExplorer\ListView.as' filetype='as'/>
+    <project_file path='FileExplorer\TreeView.as' filetype='as'/>
+  </project_folder>
+  <project_folder expanded='false' name='FileSystem'>
+    <project_file path='FileSystem\BinaryFile.as' filetype='as'/>
+  </project_folder>
+  <project_folder expanded='false' name='Image'>
+    <project_file path='Image\ScreenCapture.as' filetype='as'/>
+  </project_folder>
+  <project_folder expanded='false' name='Input'>
+    <project_file path='Input\Joystick.as' filetype='as'/>
+    <project_file path='Input\Mouse.as' filetype='as'/>
+    <project_file path='Input\Tablet.as' filetype='as'/>
+    <project_file path='Input\Twain.as' filetype='as'/>
+  </project_folder>
+  <project_folder expanded='false' name='Menu'>
+    <project_file path='Menu\Context.as' filetype='as'/>
+    <project_file path='Menu\Main.as' filetype='as'/>
+    <project_file path='Menu\Tray.as' filetype='as'/>
+  </project_folder>
+  <project_folder expanded='false' name='Network'>
+    <project_file path='Network\HTTPD.as' filetype='as'/>
+    <project_file path='Network\Mail.as' filetype='as'/>
+    <project_folder expanded='true' name='TCP'>
+      <project_file path='Network\TCP\FileServer.as' filetype='as'/>
+      <project_file path='Network\TCP\ProxyHTTP.as' filetype='as'/>
+    </project_folder>
+    <project_folder expanded='false' name='UDP'>
+      <project_file path='Network\UDP\Socket.as' filetype='as'/>
+      <project_file path='Network\UDP\TFTP.as' filetype='as'/>
+    </project_folder>
+  </project_folder>
+  <project_folder expanded='false' name='System'>
+    <project_file path='System\DirectX.as' filetype='as'/>
+    <project_file path='System\JScript.as' filetype='as'/>
+    <project_file path='System\Paths.as' filetype='as'/>
+    <project_file path='System\Registry.as' filetype='as'/>
+    <project_file path='System\VBScript.as' filetype='as'/>
+  </project_folder>
+  <project_file path='ActiveX.as' filetype='as'/>
+  <project_file path='AppleScript.as' filetype='as'/>
+  <project_file path='Application.as' filetype='as'/>
+  <project_file path='Audio.as' filetype='as'/>
+  <project_file path='Browser.as' filetype='as'/>
+  <project_file path='Clipboard.as' filetype='as'/>
+  <project_file path='COMPort.as' filetype='as'/>
+  <project_file path='Dialogs.as' filetype='as'/>
+  <project_file path='DLL.as' filetype='as'/>
+  <project_file path='Encryption.as' filetype='as'/>
+  <project_file path='Exception.as' filetype='as'/>
+  <project_file path='FileExplorer.as' filetype='as'/>
+  <project_file path='FileSystem.as' filetype='as'/>
+  <project_file path='Flash.as' filetype='as'/>
+  <project_file path='Forms.as' filetype='as'/>
+  <project_file path='FTP.as' filetype='as'/>
+  <project_file path='HTTP.as' filetype='as'/>
+  <project_file path='Image.as' filetype='as'/>
+  <project_file path='MacShell.as' filetype='as'/>
+  <project_file path='MediaPlayer6.as' filetype='as'/>
+  <project_file path='MediaPlayer9.as' filetype='as'/>
+  <project_file path='Network.as' filetype='as'/>
+  <project_file path='PDF6.as' filetype='as'/>
+  <project_file path='PDF7.as' filetype='as'/>
+  <project_file path='Process.as' filetype='as'/>
+  <project_file path='QuickTime.as' filetype='as'/>
+  <project_file path='RealMedia.as' filetype='as'/>
+  <project_file path='Shockwave.as' filetype='as'/>
+  <project_file path='StringUtils.as' filetype='as'/>
+  <project_file path='System.as' filetype='as'/>
+</flash_project>
