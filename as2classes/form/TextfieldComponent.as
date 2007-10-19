@@ -81,7 +81,7 @@ class as2classes.form.TextfieldComponent extends MovieClip{
 	*/
 	function TextfieldComponent($mc:MovieClip){
 		this._type = "textfield";
-	
+		
 		mc = $mc || this;
 		mc.isFormField = true;
 		textField = mc.fld_text;
@@ -90,8 +90,8 @@ class as2classes.form.TextfieldComponent extends MovieClip{
 			initSize.w = mc._width;
 			initSize.h = mc._height;
 			
-		required = false;
 		border = true;
+		
 	}
 	
 	/**
@@ -100,7 +100,7 @@ class as2classes.form.TextfieldComponent extends MovieClip{
 		@param obj:Object - Object notation to get the real parameters.
 		@param obj.title:String - Title used to validade the form.
 		@param obj.tabIndex:Number or Booblean - Number represents the tabIndex value. To disable the tabIndex, set it to false. Default value 1.
-		@param obj.required:Boolean - Used on form validation to set the field as required.
+		@param obj.required:Boolean - Used at form validation to set the field as required.
 		
 		@param obj.restrict::String - Restrict the characters of a Textfield. For the valid values, check TextfieldUtil.aplyRestriction method.
 		@param obj.type:String - The Textfield type. Valid values: "input", "dynamic" or "password". Default: "input".
@@ -124,7 +124,7 @@ class as2classes.form.TextfieldComponent extends MovieClip{
 		else 
 			textField.type = type;
 
-		border = (obj.border == false ? false : true);
+		border = (obj.border === false ? false : true);
 		if(border == false){
 			textField.border = false;
 		}
@@ -133,6 +133,8 @@ class as2classes.form.TextfieldComponent extends MovieClip{
 			restrict = obj.restrict;
 			TextfieldUtil.aplyRestriction(textField, restrict);
 		}
+		
+		required = (obj.required === true) ? true : false;
 		
 		if(obj.maxChars) setMaxChars(obj.maxChars);
 		if(obj.minChars) setMinChars(obj.minChars);
@@ -297,9 +299,6 @@ class as2classes.form.TextfieldComponent extends MovieClip{
 	}
 	
 	
-	
-	
-	
 	// Private methods
 	private function clearField():Void{
 		if(getText() == initText || getText().length == 0){
@@ -325,6 +324,7 @@ class as2classes.form.TextfieldComponent extends MovieClip{
 	}
 
 }
+
 
 
 
