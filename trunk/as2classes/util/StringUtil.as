@@ -3,7 +3,7 @@ class as2classes.util.StringUtil{
 	private static var txtArrSt:Array;
 	private static var txtSt:String;
 
-	static public function wordCapitalize(txt:String):String{
+	public static function wordCapitalize(txt:String):String{
 		txtArrSt = txt.split(" ");
 		txtSt = "";
 		for(var i:Number = 0; i<txtArrSt.length; i++) {
@@ -11,13 +11,25 @@ class as2classes.util.StringUtil{
 		}
 		return txtSt;
 	}
-	static public function lowerCase(txt:String):String{
+	public static function lowerCase(txt:String):String{
 		return txt.toLowerCase();
 	}
-	static public function upperCase(txt:String):String{
+	public static function upperCase(txt:String):String{
 		return txt.toUpperCase();
 	}
-	static public function capitalize(txt:String):String{
+	public static function capitalize(txt:String):String{
 		return txt.slice(0,1).toUpperCase() + "" + txt.slice(1).toLowerCase();
+	}
+	
+	/**
+		Replaces target characters with new characters.
+		
+		@param source: String to replace characters from.
+		@param remove: String describing characters to remove.
+		@param replace: String to replace removed characters.
+		@return String with characters replaced.
+	*/
+	public static function replace(source:String, remove:String, replace:String):String {
+		return source.split(remove).join(replace);
 	}
 }
