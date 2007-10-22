@@ -97,7 +97,7 @@ class as2classes.form.ComboBoxComponent extends MovieClip{
 		@param $mc:MovieClip - Movieclip to be used as the component.
 		@return Return none.
 	*/
-	function ComboBoxComponent($mc:MovieClip){
+	function ComboBoxComponent($mc:MovieClip, objectSetup:Object){
 		this._type = "combobox";
 		
 		mc = $mc || this;
@@ -137,6 +137,8 @@ class as2classes.form.ComboBoxComponent extends MovieClip{
 		arrItens = [];
 		
 		close();
+		
+		if(objectSetup) init(objectSetup);
 	}
 	
 	/**

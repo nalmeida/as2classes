@@ -88,7 +88,7 @@ class as2classes.form.RadiobuttonComponent extends MovieClip{
 		@param $mc:MovieClip - Movieclip to be used as the component.
 		@return Return none.
 	*/
-	function RadiobuttonComponent($mc:MovieClip){
+	function RadiobuttonComponent($mc:MovieClip, objectSetup:Object){
 		this._type = "radiobutton";
 		
 		mc = $mc || this;
@@ -100,6 +100,8 @@ class as2classes.form.RadiobuttonComponent extends MovieClip{
 		mc.onReleaseOutside = Delegate.create(this, setSelected, true);
 		
 		required = false;
+		
+		if(objectSetup) init(objectSetup);
 	
 	}
 	
