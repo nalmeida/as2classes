@@ -67,6 +67,7 @@ class as2classes.form.TextfieldComponent extends MovieClip{
 	public var type:String;
 	public var restrict:String;
 	public var border:Boolean;
+	public var equal:TextfieldComponent;
 	
 	private var align:String;
 	private var format:TextFormat;
@@ -79,7 +80,7 @@ class as2classes.form.TextfieldComponent extends MovieClip{
 		@param $mc:MovieClip - Movieclip to be used as the component.
 		@return Return none.
 	*/
-	function TextfieldComponent($mc:MovieClip){
+		function TextfieldComponent($mc:MovieClip, objectSetup:Object){
 		this._type = "textfield";
 		
 		mc = $mc || this;
@@ -92,6 +93,7 @@ class as2classes.form.TextfieldComponent extends MovieClip{
 			
 		border = true;
 		
+		if(objectSetup) init(objectSetup);
 	}
 	
 	/**
@@ -133,6 +135,11 @@ class as2classes.form.TextfieldComponent extends MovieClip{
 			restrict = obj.restrict;
 			TextfieldUtil.aplyRestriction(textField, restrict);
 		}
+		
+		if(obj.equal) {
+			equal = obj.equal;
+		}
+		
 		
 		required = (obj.required === true) ? true : false;
 		
@@ -248,6 +255,7 @@ class as2classes.form.TextfieldComponent extends MovieClip{
 	public function setInitText(txt:String):Void{
 		if(txt) textField.text = initText = txt;
 		textField.onSetFocus = Delegate.create(this, clearField);
+		textField.onChanged = Delegate.create(this, checkIfIsEmpty);
 		textField.onKillFocus = Delegate.create(this, checkIfIsEmpty);
 	}
 	
