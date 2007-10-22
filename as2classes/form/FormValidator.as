@@ -1,5 +1,6 @@
 
 import as2classes.form.TextfieldComponent;
+import as2classes.form.TextareaComponent;
 import as2classes.form.ComboBoxComponent;
 import as2classes.form.RadiobuttonComponent;
 import as2classes.form.CheckboxComponent;
@@ -29,7 +30,7 @@ class as2classes.form.FormValidator extends MovieClip{
 			var t:String = fld._type;
 			var tmp;
 			
-			if(t === "textfield"){ // textfield validation
+			if(t === "textfield" || t === "textarea"){ // textfield  or textarea validation
 				
 				/* ---------------------------------------------------------------------- Required */
 				if(fld.required === true) {
@@ -126,7 +127,7 @@ class as2classes.form.FormValidator extends MovieClip{
 	/* Textfield validations */
 //{
 	/* ---------------------------------------------------------------------- Required */
-	public function checkRequired(fld:TextfieldComponent){
+	public function checkRequired(fld){
 		if(fld.isEmpty){
 			if(language == "en")
 				return {fld:fld, message:"The field \"" + fld.title + "\" is required."};
@@ -136,7 +137,7 @@ class as2classes.form.FormValidator extends MovieClip{
 		return true;
 	}
 	/* ---------------------------------------------------------------------- Min */
-	public function checkMinChars(fld:TextfieldComponent){
+	public function checkMinChars(fld){
 		if(fld.getText().length < fld.getMinChars()) {
 			if(language == "en")
 				return {fld:fld, message:"The field \"" + fld.title + "\" must have at least  " + fld.getMinChars() + " characters."};
@@ -146,7 +147,7 @@ class as2classes.form.FormValidator extends MovieClip{
 		return true;
 	}
 	/* ---------------------------------------------------------------------- Max */
-	public function checkMaxChars(fld:TextfieldComponent){
+	public function checkMaxChars(fld){
 		if(fld.getText().length > fld.getMaxChars()) {
 			if(language == "en")
 				return {fld:fld, message:"The field \"" + fld.title + "\" must have al maximum " + fld.getMaxChars() + " characters."};
@@ -156,7 +157,7 @@ class as2classes.form.FormValidator extends MovieClip{
 		return true;
 	}
 	/* ---------------------------------------------------------------------- Equal */
-	public function checkEqual(fld1:TextfieldComponent, fld2:TextfieldComponent){
+	public function checkEqual(fld1, fld2){
 		if(fld1.getText() !=  fld2.getText()) {
 			if(language == "en")
 				return {fld:fld2, message:"The field \"" + fld1.title + "\" should be equalt to the \"" + fld2.title + "\" field."};
@@ -166,7 +167,7 @@ class as2classes.form.FormValidator extends MovieClip{
 		return true;
 	}
 	/* ---------------------------------------------------------------------- Email */
-	public function checkEmail(fld:TextfieldComponent){
+	public function checkEmail(fld){
 		if(!isEmail(fld.getText())) {
 			if(language == "en")
 				return {fld:fld, message: "\"" + fld.getText() + "\" isn't a valid e-mail for \"" + fld.title + "\" field."};
@@ -176,7 +177,7 @@ class as2classes.form.FormValidator extends MovieClip{
 		return true;
 	}
 	/* ---------------------------------------------------------------------- Cpf */
-	public function checkCpf(fld:TextfieldComponent){
+	public function checkCpf(fld){
 		var onlyNumbers:String = StringUtil.replace(fld.getText(), ".", "");
 		onlyNumbers = StringUtil.replace(onlyNumbers, "-", "");
 		if(!isCpf(onlyNumbers)) {

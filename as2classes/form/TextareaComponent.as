@@ -95,7 +95,7 @@ class as2classes.form.TextareaComponent extends MovieClip{
 		@param $mc:MovieClip - Movieclip to be used as the component.
 		@return Return none.
 	*/
-	function TextareaComponent($mc:MovieClip){
+		function TextareaComponent($mc:MovieClip, objectSetup:Object){
 		this._type = "textarea";
 		
 		mc = $mc || this;
@@ -111,6 +111,8 @@ class as2classes.form.TextareaComponent extends MovieClip{
 		initSize = {};
 			initSize.w = mc._width;
 			initSize.h = mc._height;
+			
+		if(objectSetup) init(objectSetup);
 	}
 	
 	/**

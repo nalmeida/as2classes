@@ -75,7 +75,7 @@ class as2classes.form.CheckboxComponent extends MovieClip{
 		@param $mc:MovieClip - Movieclip to be used as the component.
 		@return Return none.
 	*/
-	function CheckboxComponent($mc:MovieClip){
+	function CheckboxComponent($mc:MovieClip, objectSetup:Object){
 		this._type = "checkbox";
 		
 		mc = $mc || this;
@@ -87,6 +87,8 @@ class as2classes.form.CheckboxComponent extends MovieClip{
 		mc.onReleaseOutside = Delegate.create(this, swapSelected, true);
 		
 		required = false;
+		
+		if(objectSetup) init(objectSetup);
 	}
 	
 	/**
