@@ -53,6 +53,7 @@ import as2classes.form.TextfieldUtil;
 class as2classes.form.TextfieldComponent extends MovieClip{
 	
 	private var mc:MovieClip;
+	private var mcBg:MovieClip;
 	public var textField:TextField;
 	
 	private var initSize:Object;
@@ -87,6 +88,7 @@ class as2classes.form.TextfieldComponent extends MovieClip{
 		mc = $mc || this;
 		mc.isFormField = true;
 		textField = mc.fld_text;
+		mcBg = mc.mcBg;
 		
 		initSize = {};
 			initSize.w = mc._width;
@@ -175,6 +177,8 @@ class as2classes.form.TextfieldComponent extends MovieClip{
 			textField.tabIndex = obj.tabIndex || 1;
 		}
 		
+		ajustSize();
+		
 		if(obj.customErrorMessage) customErrorMessage = obj.customErrorMessage;
 	}
 	
@@ -199,8 +203,14 @@ class as2classes.form.TextfieldComponent extends MovieClip{
 	*/
 	public function ajustSize():Void{
 		mc._xscale = mc._yscale = 100;
-		textField._width = initSize.w;
-		textField._height = initSize.h;
+		
+		textField._width = 
+		textField.textWidth = 
+		mcBg._width = initSize.w;
+		
+		textField._height = 
+		textField.textHeight = 
+		mcBg._height = initSize.h;
 	}
 	
 	/**

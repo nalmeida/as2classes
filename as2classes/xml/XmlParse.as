@@ -3,6 +3,12 @@
 
 // debug: mx.data.binding.ObjectDumper.toString(content_obj)
 
+/*
+var content_obj:Object = new Object();
+QuickParse.parse(content_obj, content_xml.firstChild);
+trace (content_obj.home.contact.value);
+*/
+
 class as2classes.xml.XmlParse {
 	
 	function QuickParse () {
