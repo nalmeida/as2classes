@@ -2,7 +2,10 @@
 
 USAGE:
 
-	Server.setAddress("_VAR_NAME_", {local:"__LOCAL_VALUE__, web: _root.$server + "__WEB_VALUE__", extra:"__EXTRA_VALUE__"});
+	Server.setAddress("cadastro", {
+					local:"__LOCAL_VALUE__", 
+					web: _root.$server + "__WEB_VALUE__", 
+					extra:"__EXTRA_VALUE__"});
 	Server.getVar("_VAR_NAME_", ["__USE_EXTRA__"]);
 	Server.list();
 
