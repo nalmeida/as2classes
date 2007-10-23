@@ -68,6 +68,7 @@ class as2classes.form.CheckboxComponent extends MovieClip{
 	public var onChanged:Function;
 	
 	public var _type:String;
+	public var customErrorMessage:String;
 	
 	/**
 		Checkbox Component constructor.
@@ -104,6 +105,7 @@ class as2classes.form.CheckboxComponent extends MovieClip{
 		@param obj.value:String - The value of Radiobutton.
 		@param obj.align:String - The align of textField. Valid values "left" or "right". Default "right".
 		@param obj.width:Number - Combobox width. Default is undefined and it make the textField be autoSize = true.
+		@param obj.customErrorMessage:String - Custom message to use with FormValidator class .
 		@return Return none.
 	*/
 	public function init(obj:Object):Void{
@@ -152,6 +154,8 @@ class as2classes.form.CheckboxComponent extends MovieClip{
 			mc.tabEnabled = true;
 			mc.tabIndex = obj.tabIndex || 1;
 		}
+		
+		if(obj.customErrorMessage) customErrorMessage = obj.customErrorMessage;
 	}
 	
 	/**

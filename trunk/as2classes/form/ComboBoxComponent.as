@@ -90,6 +90,7 @@ class as2classes.form.ComboBoxComponent extends MovieClip{
 	private var isOpened:Boolean;
 	
 	public var _type:String;
+	public var customErrorMessage:String;
 	
 	/**
 		ComboBox Component constructor.
@@ -153,6 +154,7 @@ class as2classes.form.ComboBoxComponent extends MovieClip{
 		@param obj.width:Number - Combobox width.
 		@param obj.direction:String - Determines if Combobox will open above or under. Valid values "up" or "down". Defalut "".
 		@param obj.data:Array - Initial Combobox data.
+		@param obj.customErrorMessage:String - Custom message to use with FormValidator class .
 		@return Return none.
 	*/
 	public function init(obj:Object):Void{
@@ -185,6 +187,8 @@ class as2classes.form.ComboBoxComponent extends MovieClip{
 			mcBt.tabEnabled = true;
 			mcBt.tabIndex = obj.tabIndex || 1;
 		}
+		
+		if(obj.customErrorMessage) customErrorMessage = obj.customErrorMessage;
 	}
 	
 	/**

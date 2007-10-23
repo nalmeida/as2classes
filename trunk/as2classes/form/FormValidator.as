@@ -22,7 +22,12 @@ class as2classes.form.FormValidator extends MovieClip{
 		setLanguage();
 	}
 	
-	public function validate():Void{
+	public function validate(validateAllFields:Boolean):Void{
+		
+		if(validateAllFields === false) { // Used to avoid validation and skip to onOk method.
+			return onOk();;
+		}
+		
 		Selection.setFocus("");
 		for (var i:Number = 0; i < arrToValidate.length; i++) {
 			
@@ -129,50 +134,65 @@ class as2classes.form.FormValidator extends MovieClip{
 	/* ---------------------------------------------------------------------- Required */
 	public function checkRequired(fld){
 		if(fld.isEmpty){
-			if(language == "en")
-				return {fld:fld, message:"The field \"" + fld.title + "\" is required."};
-			else
-				return {fld:fld, message:"O campo \"" + fld.title + "\" deve ser preenchido."};
+			if(fld.customErrorMessage) 
+				return {fld:fld, message:fld.customErrorMessage};
+			else 
+				if(language == "en")
+					return {fld:fld, message:"The field \"" + fld.title + "\" is required."};
+				else
+					return {fld:fld, message:"O campo \"" + fld.title + "\" deve ser preenchido."};
 		}
 		return true;
 	}
 	/* ---------------------------------------------------------------------- Min */
 	public function checkMinChars(fld){
 		if(fld.getText().length < fld.getMinChars()) {
-			if(language == "en")
-				return {fld:fld, message:"The field \"" + fld.title + "\" must have at least  " + fld.getMinChars() + " characters."};
-			else
-				return {fld:fld, message:"O campo \"" + fld.title + "\" deve conter no mínimo " + fld.getMinChars() + " caracteres."};
+			if(fld.customErrorMessage) 
+				return {fld:fld, message:fld.customErrorMessage};
+			else 
+				if(language == "en")
+					return {fld:fld, message:"The field \"" + fld.title + "\" must have at least  " + fld.getMinChars() + " characters."};
+				else
+					return {fld:fld, message:"O campo \"" + fld.title + "\" deve conter no mínimo " + fld.getMinChars() + " caracteres."};
 		}
 		return true;
 	}
 	/* ---------------------------------------------------------------------- Max */
 	public function checkMaxChars(fld){
 		if(fld.getText().length > fld.getMaxChars()) {
-			if(language == "en")
-				return {fld:fld, message:"The field \"" + fld.title + "\" must have al maximum " + fld.getMaxChars() + " characters."};
-			else
-				return {fld:fld, message:"O campo \"" + fld.title + "\" deve conter no máximo " + fld.getMaxChars() + " caracteres."};
+			if(fld.customErrorMessage) 
+				return {fld:fld, message:fld.customErrorMessage};
+			else 
+				if(language == "en")
+					return {fld:fld, message:"The field \"" + fld.title + "\" must have al maximum " + fld.getMaxChars() + " characters."};
+				else
+					return {fld:fld, message:"O campo \"" + fld.title + "\" deve conter no máximo " + fld.getMaxChars() + " caracteres."};
 		}
 		return true;
 	}
 	/* ---------------------------------------------------------------------- Equal */
 	public function checkEqual(fld1, fld2){
 		if(fld1.getText() !=  fld2.getText()) {
-			if(language == "en")
-				return {fld:fld2, message:"The field \"" + fld1.title + "\" should be equalt to the \"" + fld2.title + "\" field."};
-			else	
-				return {fld:fld2, message:"O campo \"" + fld1.title + "\" deve ser igual ao campo \"" + fld2.title + "\"."};
+			if(fld2.customErrorMessage) 
+				return {fld:fld2, message:fld2.customErrorMessage};
+			else 
+				if(language == "en")
+					return {fld:fld2, message:"The field \"" + fld1.title + "\" should be equalt to the \"" + fld2.title + "\" field."};
+				else	
+					return {fld:fld2, message:"O campo \"" + fld1.title + "\" deve ser igual ao campo \"" + fld2.title + "\"."};
 		}
 		return true;
 	}
 	/* ---------------------------------------------------------------------- Email */
 	public function checkEmail(fld){
 		if(!isEmail(fld.getText())) {
-			if(language == "en")
-				return {fld:fld, message: "\"" + fld.getText() + "\" isn't a valid e-mail for \"" + fld.title + "\" field."};
-			else
-				return {fld:fld, message: "\"" + fld.getText() + "\" não é considerado um endereço válido para o campo \"" + fld.title + "\"."};
+			if(fld.customErrorMessage) 
+				return {fld:fld, message:fld.customErrorMessage};
+			else 
+				if(language == "en")
+					return {fld:fld, message: "\"" + fld.getText() + "\" isn't a valid e-mail for \"" + fld.title + "\" field."};
+				else
+					return {fld:fld, message: "\"" + fld.getText() + "\" não é considerado um endereço válido para o campo \"" + fld.title + "\"."};
 		}
 		return true;
 	}
@@ -181,10 +201,13 @@ class as2classes.form.FormValidator extends MovieClip{
 		var onlyNumbers:String = StringUtil.replace(fld.getText(), ".", "");
 		onlyNumbers = StringUtil.replace(onlyNumbers, "-", "");
 		if(!isCpf(onlyNumbers)) {
-			if(language == "en")
-				return {fld:fld, message: "\"" + fld.getText() + "\" isn't a valid CPF for \"" + fld.title + "\" field."};
-			else
-				return {fld:fld, message: "\"" + fld.getText() + "\" não é considerado um valor válido de CPF para o campo \"" + fld.title + "\"."};
+			if(fld.customErrorMessage) 
+				return {fld:fld, message:fld.customErrorMessage};
+			else 
+				if(language == "en")
+					return {fld:fld, message: "\"" + fld.getText() + "\" isn't a valid CPF for \"" + fld.title + "\" field."};
+				else
+					return {fld:fld, message: "\"" + fld.getText() + "\" não é considerado um valor válido de CPF para o campo \"" + fld.title + "\"."};
 		}
 		return true;
 	}
@@ -194,10 +217,13 @@ class as2classes.form.FormValidator extends MovieClip{
 //{	
 	public static function checkCombo(fld:ComboBoxComponent){
 		if(fld.getSelectedIndex() == 0) {
-			if(language == "en")
-				return {fld:fld, message:"You must select an option for \"" + fld.title + "\" field."};
-			else
-				return {fld:fld, message:"Selecione uma das opções para o campo \"" + fld.title + "\"."};
+			if(fld.customErrorMessage) 
+				return {fld:fld, message:fld.customErrorMessage};
+			else 
+				if(language == "en")
+					return {fld:fld, message:"You must select an option for \"" + fld.title + "\" field."};
+				else
+					return {fld:fld, message:"Selecione uma das opções para o campo \"" + fld.title + "\"."};
 		}
 		return true;
 	}
@@ -207,10 +233,13 @@ class as2classes.form.FormValidator extends MovieClip{
 //{
 	public static function checkRadio(fld:RadiobuttonComponent){
 		if(fld.getSelected() == undefined) {
-			if(language== "en")
-				return {fld:fld, message:"You must select an option for \"" + fld.title + "\" field."};
-			else
-				return {fld:fld, message:"Selecione uma das opções para o campo \"" + fld.title + "\"."};
+			if(fld.customErrorMessage) 
+				return {fld:fld, message:fld.customErrorMessage};
+			else 
+				if(language== "en")
+					return {fld:fld, message:"You must select an option for \"" + fld.title + "\" field."};
+				else
+					return {fld:fld, message:"Selecione uma das opções para o campo \"" + fld.title + "\"."};
 		}
 		return true;
 	}
@@ -220,10 +249,13 @@ class as2classes.form.FormValidator extends MovieClip{
 //{
 	public static function checkCheck(fld:CheckboxComponent){
 		if(fld.getSelected() == false) {
-			if(language== "en")
-				return {fld:fld, message:"You must select the \"" + fld.title + "\" field."};
-			else
-				return {fld:fld, message:"Você deve selecionar o campo \"" + fld.title + "\"."};
+			if(fld.customErrorMessage) 
+				return {fld:fld, message:fld.customErrorMessage};
+			else 
+				if(language== "en")
+					return {fld:fld, message:"You must select the \"" + fld.title + "\" field."};
+				else
+					return {fld:fld, message:"Você deve selecionar o campo \"" + fld.title + "\"."};
 		}
 		return true;
 	}
