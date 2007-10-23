@@ -68,6 +68,7 @@ class as2classes.form.TextfieldComponent extends MovieClip{
 	public var restrict:String;
 	public var border:Boolean;
 	public var equal:TextfieldComponent;
+	public var customErrorMessage:String;
 	
 	private var align:String;
 	private var format:TextFormat;
@@ -111,6 +112,8 @@ class as2classes.form.TextfieldComponent extends MovieClip{
 		@param obj.text:String - The Textfield text.
 		@param obj.initText:Number - If you need a initial value for the Textfield, set it here. When the user select the Textfield, the Textfield text is set to "".
 		@param obj.align:String - The align of textField. Valid values "left", "center" or "right". Default "left".
+		@param obj.equal:TextfieldComponent - The TextfieldComponent that must have the same value.
+		@param obj.customErrorMessage:String - Custom message to use with FormValidator class .
 		@return Return none.
 	*/
 	public function init(obj:Object):Void{
@@ -171,6 +174,8 @@ class as2classes.form.TextfieldComponent extends MovieClip{
 			textField.tabEnabled = true;
 			textField.tabIndex = obj.tabIndex || 1;
 		}
+		
+		if(obj.customErrorMessage) customErrorMessage = obj.customErrorMessage;
 	}
 	
 	/**
@@ -266,6 +271,7 @@ class as2classes.form.TextfieldComponent extends MovieClip{
 	*/
 	public function getText():String{
 		value = textField.text;
+		if(value === "" || value === initText) value = "";
 		return value;
 	}
 	
