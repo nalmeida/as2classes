@@ -325,7 +325,7 @@ class as2classes.form.TextfieldComponent extends MovieClip{
 	
 	// Private methods
 	private function clearField():Void{
-		if(getText() == initText || getText().length == 0){
+		if(getText() == initText || getText().length == 0 || getText() == ""){
 			if(type == "password") textField.password = true;
 			textField.text = "";
 			isEmpty = true;

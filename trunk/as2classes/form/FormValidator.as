@@ -133,7 +133,7 @@ class as2classes.form.FormValidator extends MovieClip{
 //{
 	/* ---------------------------------------------------------------------- Required */
 	public function checkRequired(fld){
-		if(fld.isEmpty){
+		if(fld.getText().length === 0){
 			if(fld.customErrorMessage) 
 				return {fld:fld, message:fld.customErrorMessage};
 			else 
