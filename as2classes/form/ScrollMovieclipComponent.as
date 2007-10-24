@@ -32,7 +32,16 @@ import org.casaframework.mouse.EventMouse;
 			
 			mcScroll.init({
 				mcMask:mcTest.mcMasck, 
-				mcMasked:mcTest.mcContent
+				mcMasked:mcTest.mcContent,
+				mcMaskedHeight: 470,
+				skin: {
+						arrowUp: "mcArrowUpCustom",
+						arrowDown: "mcArrowDownCustom",
+						track: "mcTrackCustom",
+						slider: "mcSliderCustom"
+					  }
+					  
+				});
 			});
 		</code>
 */
@@ -45,6 +54,7 @@ class as2classes.form.ScrollMovieclipComponent extends MovieClip{
 	private var mcTrack:MovieClip;
 	private var mcSlider:MovieClip;
 	private var initSize:Object;
+	private var skin:Object;
 	
 	private var interval:Number;
 	private var sliderBottomLimit:Number;
@@ -52,6 +62,8 @@ class as2classes.form.ScrollMovieclipComponent extends MovieClip{
 	
 	private var mcMask:MovieClip;
 	private var mcMasked:MovieClip;
+	private var mcMaskedHeight:Number;
+	private var maskedHeight:Number;
 	
 	private var mouseInstance:EventMouse;
 	
@@ -70,10 +82,6 @@ class as2classes.form.ScrollMovieclipComponent extends MovieClip{
 		mcArrowDown = mc.mcArrowDown;
 		mcTrack = mc.mcTrack;
 		mcSlider = mc.mcSlider;
-		
-		initSize = {};
-			initSize.w = mc._width;
-			initSize.h = mc._height;
 			
 		visibleStatus = "visible";
 	}
@@ -84,17 +92,53 @@ class as2classes.form.ScrollMovieclipComponent extends MovieClip{
 		@param obj: Object notation to get the real parameters.
 		@param obj.mcMask:MovieClip - MovieClip to use as mask.
 		@param obj.mcMasked:MovieClip - MovieClip to use be masked.
+		@param obj.mcMaskedHeight:Number - Forces de mcMasked height to a fized number.
+		@param obj.skin:Object - Objects enales custom skin for each scroll. Uses attachMovie Method.
+			   obj.skin.arrowUp:String
+			   obj.skin.arrowDown:String
+			   obj.skin.arrowTrack:String
+			   obj.skin.arrowSlider:String
 		@return Return none.
 	*/
 	public function init(obj:Object):Void{
 		
 		mcMask = obj.mcMask;
 		mcMasked = obj.mcMasked;
+		mcMaskedHeight = obj.mcMaskedHeight;
+		skin = obj.skin;
 		
 		if(!mcMask) trace("ERROR on ScrollComponent: " + mc + " parameter \"mcMask\" not defined.");
 		if(!mcMasked) trace("ERROR on ScrollComponent: " + mc + " parameter \"mcMasked\" not defined.");
 		
 		mcMasked.setMask(mcMask);
+		
+		if(skin){
+
+			if(skin.arrowUp) {
+				mcArrowUp.unloadMovie();
+				mcArrowUp = mc.attachMovie(skin.arrowUp, "mcArrowUp", mc.getNextHighestDepth());
+			}
+			
+			if(skin.track) {
+				mcTrack.unloadMovie();
+				mcTrack = mc.attachMovie(skin.track, "mcTrack", mc.getNextHighestDepth(), {_y: mcArrowUp._y + mcArrowUp._height});
+			}
+			
+			if(skin.arrowDown) {
+				mcArrowDown.unloadMovie();
+				mcArrowDown = mc.attachMovie(skin.arrowDown, "mcArrowDown", mc.getNextHighestDepth(), {_y: mcTrack._y +  mcTrack._height});
+			}
+			
+			if(skin.slider) {
+				mcSlider.unloadMovie();
+				mcSlider = mc.attachMovie(skin.slider, "mcSlider", mc.getNextHighestDepth(), {_y: mcTrack._y});
+			}
+			
+		}
+		
+		initSize = {};
+			initSize.w = mc._width;
+			initSize.h = mc._height;
 		
 		// Handlers
 		mcArrowUp.onPress = Delegate.create(this, scrollUp);
@@ -104,7 +148,7 @@ class as2classes.form.ScrollMovieclipComponent extends MovieClip{
 		mcArrowDown.onPress = Delegate.create(this, scrollDown);
 		mcArrowDown.onRelease = 
 		mcArrowDown.onReleaseOutside = Delegate.create(this, releaseArrow, mcArrowDown);
-
+		
 		mcSlider.onPress = Delegate.create(this, slideScroll);
 		mcSlider.onMouseUp = Delegate.create(this, releaseSlider);
 		
@@ -117,8 +161,8 @@ class as2classes.form.ScrollMovieclipComponent extends MovieClip{
 		//
 		
 		ajustSize();
-
-		difference = 10 + (Math.ceil(mcMasked._height / mcMask._height)*2);
+		
+		difference = 10 + (Math.ceil(getMaskedHeight() / mcMask._height)*2);
 	}
 	
 	/**
@@ -139,14 +183,13 @@ class as2classes.form.ScrollMovieclipComponent extends MovieClip{
 	*/
 	public function ajustSize():Void{
 		mc._xscale = mc._yscale = 100;
-		
 		mcTrack._y = mcArrowUp._height-1;
 		mcTrack._height = initSize.h - mcArrowUp._height - mcArrowDown._height;
 		mcArrowDown._y = mcTrack._height + mcArrowDown._height-1;
 		
 		sliderBottomLimit = (mcTrack._y + mcTrack._height - mcSlider._height)+1;
 		
-		if(mcMasked._height <= mcMask._height) {
+		if(getMaskedHeight() <= mcMask._height) {
 			mc._visible = false;
 			mouseInstance.removeEventObserver();
 		}
@@ -271,17 +314,17 @@ class as2classes.form.ScrollMovieclipComponent extends MovieClip{
 	}
 	
 	private function doScrollDown(mcMask:MovieClip, mcMasked:MovieClip, difference:Number):Void{
-		if(Math.abs(mcMasked._y) < mcMasked._height - mcMask._height - difference) {
+		if(Math.abs(mcMasked._y) < getMaskedHeight() - mcMask._height - difference) {
 			mcMasked._y -= difference;
 		} else {
-			mcMasked._y = -(mcMasked._height - mcMask._height);
+			mcMasked._y = -(getMaskedHeight() - mcMask._height);
 		}
 		positionSlider(mcMask, mcMasked, mcSlider, mcTrack);
 	}
 	
 	private function positionSlider(mcMask:MovieClip, mcMasked:MovieClip, mcSlider:MovieClip, mcTrack:MovieClip):Void{
 		var track:Number = mcTrack._height - mcSlider._height;
-		var h:Number = mcMasked._height - mcMask._height;
+		var h:Number = getMaskedHeight() - mcMask._height;
 		var currPos:Number = mcMasked._y;
 		
 		var calc:Number = mcTrack._y - ((currPos * track) / h);
@@ -308,20 +351,18 @@ class as2classes.form.ScrollMovieclipComponent extends MovieClip{
 	private function slideScroll():Void{
 		mcSlider.startDrag(false,0,mcTrack._y+1,0,sliderBottomLimit);
 		clearInterval(interval);
-		
-		interval = setInterval(Delegate.create(mc, doScollSlider, mcMask, mcMasked), 50);
+		interval = setInterval(Delegate.create(mc, doScollSlider, mcMask, mcMasked, getMaskedHeight(), mcSlider, mcTrack), 50);
 	}
 	
-	private function doScollSlider(mcMask:MovieClip, mcMasked:MovieClip):Void{
-		var calc:Number = -((((mcSlider._y - mcTrack._y) * (mcMasked._height - mcMask._height)) / (mcTrack._height - mcSlider._height))-1);
-
+	private function doScollSlider(mcMask:MovieClip, mcMasked:MovieClip, getMaskedHeightResult:Number, mcSlider:MovieClip, mcTrack:MovieClip):Void{
+		var calc:Number = -((((mcSlider._y - mcTrack._y) * (getMaskedHeightResult - mcMask._height)) / (mcTrack._height - mcSlider._height))-1);
 		if(Math.abs(calc) < (difference/2)) {
 			calc = 0;
 		}
 		if(mcSlider._y == Math.floor(sliderBottomLimit)){
-			calc = -(mcMasked._height - mcMask._height);
+			calc = -(getMaskedHeightResult - mcMask._height);
 		}
-		mcMasked._y = calc;
+		mcMasked._y = Math.round(calc);
 	}
 	
 	private function releaseSlider():Void{
@@ -340,10 +381,14 @@ class as2classes.form.ScrollMovieclipComponent extends MovieClip{
 			mcSlider._y = mc._ymouse;
 		else 
 			mcSlider._y = sliderBottomLimit;
-		doScollSlider(mcMask, mcMasked);
+		doScollSlider(mcMask, mcMasked, getMaskedHeight(), mcSlider, mcTrack);
 	}
 	//}
 	
+	
+	private function getMaskedHeight():Number{
+		return (mcMaskedHeight) ? mcMaskedHeight : mcMasked._height;
+	}
 	
 	/*
 	* Wheel Stuff
