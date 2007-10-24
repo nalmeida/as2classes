@@ -22,7 +22,7 @@ class as2classes.form.FormValidator extends MovieClip{
 		setLanguage();
 	}
 	
-	public function validate(validateAllFields:Boolean):Void{
+	public function validate(validateAllFields:Boolean){
 		
 		if(validateAllFields === false) { // Used to avoid validation and skip to onOk method.
 			return onOk();;
