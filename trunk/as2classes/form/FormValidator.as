@@ -128,6 +128,12 @@ class as2classes.form.FormValidator extends MovieClip{
 		return language;
 	}
 	
+	public function reset():Void{
+		for (var i:Number = 0; i < arrToValidate.length; i++) {
+			arrToValidate[i].reset();
+		}
+	}
+	
 	
 	/* Textfield validations */
 //{

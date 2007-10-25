@@ -57,6 +57,7 @@ import org.casaframework.mouse.EventMouse;
 class as2classes.form.TextareaComponent extends MovieClip{
 	
 	private var mc:MovieClip;
+	private var mcBg:MovieClip;
 	public  var textField:TextField;
 	private var mcScrollBar:MovieClip;
 	private var mcArrowUp:MovieClip;
@@ -101,6 +102,7 @@ class as2classes.form.TextareaComponent extends MovieClip{
 		mc = $mc || this;
 		mc.isFormField = true;
 		textField = mc.fld_text;
+		mcBg = mc.mcBg;
 		
 		mcScrollBar = mc.mcScrollBar;
 		mcArrowUp = mcScrollBar.mcArrowUp;
@@ -257,7 +259,13 @@ class as2classes.form.TextareaComponent extends MovieClip{
 	*/
 	public function ajustSize():Void{
 		mc._xscale = mc._yscale = 100;
-		textField._width = initSize.w - mcScrollBar._width;
+		
+		mcBg._width = 
+		textField.textWidth = 
+		textField._width = initSize.w - mcScrollBar._width + 1;
+		
+		mcBg._height = 
+		textField.textHeight = 
 		textField._height = initSize.h;
 		
 		mcScrollBar._x = textField._width + 1;
@@ -277,7 +285,7 @@ class as2classes.form.TextareaComponent extends MovieClip{
 	public function enable():Void{
 		TextfieldUtil.aplyRestriction(textField, restrict);
 		textField.selectable = true;
-		enableScroll();
+		//enableScroll();
 		textField.onChanged = Delegate.create(this, onChange);
 		setInitText();
 		mc._alpha = 100;
@@ -291,7 +299,7 @@ class as2classes.form.TextareaComponent extends MovieClip{
 	public function disable():Void{
 		TextfieldUtil.aplyRestriction(textField, "disable");
 		textField.selectable = false;
-		disableScroll();
+		//disableScroll();
 		textField.onChanged = function(){};
 		textField.onSetFocus = function(){};
 		textField.onKillFocus = function(){};
@@ -432,7 +440,17 @@ class as2classes.form.TextareaComponent extends MovieClip{
 		}
 		mcSlider._visible = true;
 		mcScrollBar._alpha = 100;		
-	}	
+	}
+	
+	/**
+		Set Textfield and value to "".
+		
+		@return Return none
+	*/
+	public function reset():Void{
+		if(htmlText) textField.htmlText = value = "";
+		else textField.text = value = "";
+	}
 	
 	
 	// Private methods
@@ -502,8 +520,8 @@ class as2classes.form.TextareaComponent extends MovieClip{
 	
 	private function checkIfIsEmpty():Void{
 		if(getText() == "") {
-			if(htmlText) textField.htmlText = initText;
-			else textField.text = initText;
+			if(htmlText) textField.htmlText = initText || "";
+			else textField.text = initText || "";
 			isEmpty = true;
 			value = "";
 		} else {
