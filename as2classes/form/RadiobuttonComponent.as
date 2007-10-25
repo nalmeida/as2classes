@@ -262,7 +262,6 @@ class as2classes.form.RadiobuttonComponent extends MovieClip{
 		delete tmpArr;		
 	}
 	
-
 	// Private Methods
 	private function getMyGroup():Array{
 		var tmpArr:Array = [];

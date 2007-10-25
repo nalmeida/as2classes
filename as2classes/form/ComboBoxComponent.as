@@ -460,6 +460,15 @@ class as2classes.form.ComboBoxComponent extends MovieClip{
 		}
 	}
 	
+	/**
+		Set Combobox to the 0 index.
+		
+		@return Return none
+	*/
+	public function reset():Void{
+		setSelected(0);
+	}
+	
 	private function sliceText(fld:TextField, text:String):Void{
 		fld.text = text;
 	

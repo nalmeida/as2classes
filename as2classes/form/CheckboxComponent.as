@@ -216,4 +216,13 @@ class as2classes.form.CheckboxComponent extends MovieClip{
 		if(avoidAlpha !== false) mc._alpha = 50;
 	}
 	
+	/**
+		Set Checkbox value to false.
+		
+		@return Return none
+	*/
+	public function reset():Void{
+		setSelected(false);
+	}
+	
 }

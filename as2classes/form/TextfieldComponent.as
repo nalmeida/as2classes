@@ -322,6 +322,15 @@ class as2classes.form.TextfieldComponent extends MovieClip{
 		textField.setTextFormat(format);
 	}
 	
+	/**
+		Set Textfield and value to "".
+		
+		@return Return none
+	*/
+	public function reset():Void{
+		textField.text = value = "";
+	}
+	
 	
 	// Private methods
 	private function clearField():Void{
@@ -337,7 +346,7 @@ class as2classes.form.TextfieldComponent extends MovieClip{
 	private function checkIfIsEmpty():Void{
 		if(getText() == "") {
 			if(type == "password") textField.password = false;
-			textField.text = initText;
+			textField.text = initText || "";
 			isEmpty = true;
 			value = "";
 		} else {
