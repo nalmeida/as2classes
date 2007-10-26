@@ -120,6 +120,16 @@ class as2classes.form.FormValidator extends MovieClip{
 		arrToValidate.push(field);
 	}
 	
+	public function removeField(field):Void{
+		var t:Array = [];
+		for (var i:Number = 0; i < arrToValidate.length; i++) {
+			if(arrToValidate[i].mc != field.mc) {
+				t.push(arrToValidate[i]);
+			}
+		}
+		arrToValidate = t;
+	}
+	
 	public function setLanguage(lang:String):Void{
 		language = lang || "br";
 	}
