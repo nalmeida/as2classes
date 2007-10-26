@@ -101,6 +101,8 @@ class as2classes.form.ScrollMovieclipComponent extends MovieClip{
 			   obj.skin.arrowDown:String
 			   obj.skin.arrowTrack:String
 			   obj.skin.arrowSlider:String
+		@param obj.easing:Boolean - If you want to use an easing effect for scroll. Default false;
+		@param obj.easingSpeed:Number - If you want to change the easing speed. Default .8;
 		@return Return none.
 	*/
 	public function init(obj:Object):Void{
