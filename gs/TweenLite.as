@@ -204,10 +204,11 @@ class gs.TweenLite {
 					_color = new Color(_tg);
 					_colorParts = _color.getTransform();
 					var c = _colorParts;
+					var endColor_obj;
 					if (_v[p] == null || _v[p] == "") { //In case they're actually trying to remove the colorization, they should pass in null or "" for the mcColor
-						var endColor_obj = {rb:0, gb:0, bb:0, ra:100, ga:100, ba:100, ease:_v.ease, delay:ndl, overwrite:false, runBackwards:_v.runBackwards};
+						endColor_obj = {rb:0, gb:0, bb:0, ra:100, ga:100, ba:100, ease:_v.ease, delay:ndl, overwrite:false, runBackwards:_v.runBackwards};
 					} else {
-						var endColor_obj = {rb:(_v[p] >> 16), gb:(_v[p] >> 8) & 0xff, bb:(_v[p] & 0xff), ra:0, ga:0, ba:0, ease:_v.ease, delay:ndl, overwrite:false, runBackwards:_v.runBackwards};
+						endColor_obj = {rb:(_v[p] >> 16), gb:(_v[p] >> 8) & 0xff, bb:(_v[p] & 0xff), ra:0, ga:0, ba:0, ease:_v.ease, delay:ndl, overwrite:false, runBackwards:_v.runBackwards};
 					}
 					var partsTween = new TweenLite(c, _d, endColor_obj);
 					var colorTween = new TweenLite(this, _d, {colorProxy:1, delay:ndl, overwrite:false, runBackwards:_v.runBackwards}); 

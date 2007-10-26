@@ -17,6 +17,7 @@
 
 import as2classes.util.Delegate;
 import org.casaframework.mouse.EventMouse;
+import gs.TweenLite;
 
 /**
 	ScrollMovieclip Component. A lightweight scroll component for movieclips.
@@ -68,6 +69,8 @@ class as2classes.form.ScrollMovieclipComponent extends MovieClip{
 	private var mouseInstance:EventMouse;
 	
 	public var visibleStatus:String;
+	public var easing:Boolean;
+	public var easingSpeed:Number;
 	
 	/**
 		ScrollMovieclip Component constructor.
@@ -111,6 +114,18 @@ class as2classes.form.ScrollMovieclipComponent extends MovieClip{
 		if(!mcMasked) trace("ERROR on ScrollComponent: " + mc + " parameter \"mcMasked\" not defined.");
 		
 		mcMasked.setMask(mcMask);
+		
+		if(obj.easing) {
+			easing = obj.easing;
+		} else {
+			easing = false;
+		}
+		
+		if(obj.easingSpeed) {
+			easingSpeed = obj.easingSpeed;
+		} else {
+			easingSpeed = .8;
+		}
 		
 		if(skin){
 
@@ -162,7 +177,11 @@ class as2classes.form.ScrollMovieclipComponent extends MovieClip{
 		
 		ajustSize();
 		
-		difference = 10 + (Math.ceil(getMaskedHeight() / mcMask._height)*2);
+		var d:Number = 10;
+		if(easing) d = 35;
+		
+		difference = d + (Math.ceil(getMaskedHeight() / mcMask._height)*2);
+		delete d;
 	}
 	
 	/**
@@ -289,17 +308,30 @@ class as2classes.form.ScrollMovieclipComponent extends MovieClip{
 	*/
 	public function scrollUp():Void{
 		pressArrow(mcArrowUp);
-		doScrollUp(mcMask, mcMasked, difference, mcSlider, mcTrack);
-		interval = setInterval(Delegate.create(this, doScrollUp, mcMask, mcMasked, difference, mcSlider, mcTrack), 50);
+		doScrollUp(mcMask, mcMasked, difference, mcSlider, mcTrack, easing, easingSpeed);
+		interval = setInterval(Delegate.create(this, doScrollUp, mcMask, mcMasked, difference, mcSlider, mcTrack, easing, easingSpeed), 50);
 	}
 
-	private function doScrollUp(mcMask:MovieClip, mcMasked:MovieClip, difference:Number, mcSlider:MovieClip, mcTrack:MovieClip):Void{
+	private function doScrollUp(mcMask:MovieClip, mcMasked:MovieClip, difference:Number, mcSlider:MovieClip, mcTrack:MovieClip, easing:Boolean, easingSpeed:Number):Void{
+		var calc:Number;
 		if(Math.abs(mcMasked._y) > difference) {
-			mcMasked._y += difference;
+			calc = mcMasked._y + difference;
+			
+			if(easing){
+				TweenLite.to(mcMasked, easingSpeed, {_y:calc, overwrite:false});
+			} else {
+				mcMasked._y = calc;
+			}
 		} else {
-			mcMasked._y = 0;
+			calc = 0;
+			
+			if(easing){
+				TweenLite.to(mcMasked, easingSpeed, {_y:calc, overwrite:false});
+			} else {
+				mcMasked._y = calc;
+			}
 		}
-		positionSlider(mcMask, mcMasked, mcSlider, mcTrack);
+		positionSlider(mcMask, mcMasked, mcSlider, mcTrack, easing, easingSpeed);
 	}
 	
 	/**
@@ -309,20 +341,33 @@ class as2classes.form.ScrollMovieclipComponent extends MovieClip{
 	*/
 	public function scrollDown():Void{
 		pressArrow(mcArrowDown);
-		doScrollDown(mcMask, mcMasked, difference, mcSlider, mcTrack);
-		interval = setInterval(Delegate.create(this, doScrollDown, mcMask, mcMasked, difference, mcSlider, mcTrack), 50);
+		doScrollDown(mcMask, mcMasked, difference, mcSlider, mcTrack, easing, easingSpeed);
+		interval = setInterval(Delegate.create(this, doScrollDown, mcMask, mcMasked, difference, mcSlider, mcTrack, easing, easingSpeed), 50);
 	}
 	
-	private function doScrollDown(mcMask:MovieClip, mcMasked:MovieClip, difference:Number):Void{
+	private function doScrollDown(mcMask:MovieClip, mcMasked:MovieClip, difference:Number, mcSlider:MovieClip, mcTrack:MovieClip, easing:Boolean, easingSpeed:Number):Void{
+		var calc:Number;
 		if(Math.abs(mcMasked._y) < getMaskedHeight() - mcMask._height - difference) {
-			mcMasked._y -= difference;
+			calc = mcMasked._y - difference;
+			
+			if(easing){
+				TweenLite.to(mcMasked, easingSpeed, {_y:calc, overwrite:false});
+			} else {
+				mcMasked._y = calc;
+			}
 		} else {
-			mcMasked._y = -(getMaskedHeight() - mcMask._height);
+			calc = -(getMaskedHeight() - mcMask._height);
+			
+			if(easing){
+				TweenLite.to(mcMasked, easingSpeed, {_y:calc, overwrite:false});
+			} else {
+				mcMasked._y = calc;
+			}
 		}
-		positionSlider(mcMask, mcMasked, mcSlider, mcTrack);
+		positionSlider(mcMask, mcMasked, mcSlider, mcTrack, easing, easingSpeed);
 	}
 	
-	private function positionSlider(mcMask:MovieClip, mcMasked:MovieClip, mcSlider:MovieClip, mcTrack:MovieClip):Void{
+	private function positionSlider(mcMask:MovieClip, mcMasked:MovieClip, mcSlider:MovieClip, mcTrack:MovieClip, easing:Boolean, easingSpeed:Number):Void{
 		var track:Number = mcTrack._height - mcSlider._height;
 		var h:Number = getMaskedHeight() - mcMask._height;
 		var currPos:Number = mcMasked._y;
@@ -351,10 +396,10 @@ class as2classes.form.ScrollMovieclipComponent extends MovieClip{
 	private function slideScroll():Void{
 		mcSlider.startDrag(false,0,mcTrack._y+1,0,sliderBottomLimit);
 		clearInterval(interval);
-		interval = setInterval(Delegate.create(mc, doScollSlider, mcMask, mcMasked, getMaskedHeight(), mcSlider, mcTrack), 50);
+		interval = setInterval(Delegate.create(mc, doScollSlider, mcMask, mcMasked, getMaskedHeight(), mcSlider, mcTrack, easing, easingSpeed), 50);
 	}
 	
-	private function doScollSlider(mcMask:MovieClip, mcMasked:MovieClip, getMaskedHeightResult:Number, mcSlider:MovieClip, mcTrack:MovieClip):Void{
+	private function doScollSlider(mcMask:MovieClip, mcMasked:MovieClip, getMaskedHeightResult:Number, mcSlider:MovieClip, mcTrack:MovieClip, easing:Boolean, easingSpeed:Number):Void{
 		var calc:Number = -((((mcSlider._y - mcTrack._y) * (getMaskedHeightResult - mcMask._height)) / (mcTrack._height - mcSlider._height))-1);
 		if(Math.abs(calc) < (difference/2)) {
 			calc = 0;
@@ -362,7 +407,13 @@ class as2classes.form.ScrollMovieclipComponent extends MovieClip{
 		if(mcSlider._y == Math.floor(sliderBottomLimit)){
 			calc = -(getMaskedHeightResult - mcMask._height);
 		}
-		mcMasked._y = Math.round(calc);
+		
+		if(easing){
+			TweenLite.to(mcMasked, easingSpeed, {_y:Math.round(calc), overwrite:false});
+		} else {
+			mcMasked._y = Math.round(calc); // without easing
+		}
+		
 	}
 	
 	private function releaseSlider():Void{
@@ -378,10 +429,10 @@ class as2classes.form.ScrollMovieclipComponent extends MovieClip{
 	//{
 	private function pressTrack():Void{
 		if(mc._ymouse <= sliderBottomLimit)
-			mcSlider._y = mc._ymouse;
+			mcSlider._y = mc._ymouse; // without easing
 		else 
-			mcSlider._y = sliderBottomLimit;
-		doScollSlider(mcMask, mcMasked, getMaskedHeight(), mcSlider, mcTrack);
+			mcSlider._y = sliderBottomLimit; // without easing
+		doScollSlider(mcMask, mcMasked, getMaskedHeight(), mcSlider, mcTrack, easing, easingSpeed);
 	}
 	//}
 	
@@ -400,8 +451,8 @@ class as2classes.form.ScrollMovieclipComponent extends MovieClip{
 			(mc._xmouse >=0 && mc._xmouse <= mc._width && mc._ymouse >=0 && mc._ymouse <= mc._height) // over scroll
 		  ){
 
-			if(delta <0) doScrollDown(mcMask, mcMasked, difference, mcSlider, mcTrack);
-			else doScrollUp(mcMask, mcMasked, difference, mcSlider, mcTrack);
+			if(delta <0) doScrollDown(mcMask, mcMasked, difference, mcSlider, mcTrack, easing, easingSpeed);
+			else doScrollUp(mcMask, mcMasked, difference, mcSlider, mcTrack, easing, easingSpeed);
 		}
 	}
 	//}
