@@ -12,7 +12,7 @@ class as2classes.util.MovieclipUtil{
 	}
 
 	/**
-		removeChilds - removes the MovieClip Object.
+		remove - removes the MovieClip Object.
 		@param $mc:MovieClip - Movieclip to be removed.
 		@return none
 	*/
