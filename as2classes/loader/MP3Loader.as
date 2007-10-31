@@ -108,14 +108,15 @@ class as2classes.loader.MP3Loader{
 		var total:Number = snd.getBytesTotal();
 		var loaded:Number = snd.getBytesLoaded();
 		var percentLoaded:Number = Math.round((loaded/total) * 100);
-
+		
+		
 		attempt++;
 		
-		if(percentLoaded < 100 || snd.duration == 0){
-			if(snd.duration == 0) percentLoaded = 0;
+		if(percentLoaded < 100){
+			//if(snd.duration == 0) percentLoaded = 0;
 			trace(" %% MP3 Loader PROGRESS: " + percentLoaded);
 			onProgress(snd, percentLoaded, url);
-		}  else if(percentLoaded >=100 && snd.duration > 0){
+		}else if(percentLoaded >=100){
 			clearInterval(interval);
 			onFinish(snd);
 			trace(" >> MP3 Loader COMPLETE: " + url);
