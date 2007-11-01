@@ -25,7 +25,7 @@ import as2classes.util.Delegate;
 	@since Flash Player 8
 	@example
 		<code>
-			flvLoader = new FlvLoader();
+			var flvLoader = new FlvLoader();
 		
 			flvLoader.onInit = function(target){
 				//trace("começou " + target);
