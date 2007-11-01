@@ -35,5 +35,10 @@ class as2classes.util.ArrayUtil{
 		return [];
 	}
 	
+	public static function removeFirst(inArray:Array):Array{
+		return inArray.slice(1, inArray.length);
+		
+	}
+	
 	private function ArrayUtil() {} // Prevents instance creation
 }
