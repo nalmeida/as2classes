@@ -17,6 +17,7 @@
 
 import as2classes.loader.SimpleLoader;
 import as2classes.util.Delegate;
+import as2classes.util.ArrayUtil;
 
 /**
 	SimpleLoaderQueue. Creates a queue of files to be loaded.
@@ -52,7 +53,7 @@ class as2classes.loader.SimpleLoaderQueue {
 	public var arrToLoad:Array;
 	
 	private var currentLoad:SimpleLoader;
-	private var currentLoadIndex:Number;
+	//private var currentLoadIndex:Number;
 	
 	public var onItemFinish:Function;
 	public var onItemProgress:Function;
@@ -61,7 +62,7 @@ class as2classes.loader.SimpleLoaderQueue {
 	
 	function SimpleLoaderQueue(){
 		arrToLoad = [];
-		currentLoadIndex = 0;
+		//currentLoadIndex = 0;
 	}
 	
 	/**
@@ -74,10 +75,10 @@ class as2classes.loader.SimpleLoaderQueue {
 	*/
 	public function addMovie(movie:String, target:MovieClip, priority:Number):Void{
 		arrToLoad.push({
-						target: target,
-						movie: movie,
-						priority: priority || 5 // Priority is just a comparison number; two loadings can have the same priority (the first one loads first).
-					});
+			target: target,
+			movie: movie,
+			priority: priority || 5 // Priority is just a comparison number; two loadings can have the same priority (the first one loads first).
+		});
 	}
 	
 	/**
@@ -93,30 +94,31 @@ class as2classes.loader.SimpleLoaderQueue {
 	
 	private function doLoad():Void{
 		currentLoad = new SimpleLoader();
-		currentLoad.load(arrToLoad[currentLoadIndex].movie, arrToLoad[currentLoadIndex].target); 
+		currentLoad.load(arrToLoad[0].movie, arrToLoad[0].target); 
 		currentLoad.onProgress = Delegate.create(this, doOnPorgress);
 		currentLoad.onFinish = Delegate.create(this, loadNext);
 	}
 	
 	private function doOnItemFinish(target:MovieClip):Void{
-		onItemFinish(arrToLoad[currentLoadIndex].target);
+		onItemFinish(arrToLoad[0].target);
+		
+		arrToLoad = ArrayUtil.removeFirst(arrToLoad); // Removes the first element;
 	}
 	
 	private function doOnPorgress(target:MovieClip, percent:Number):Void{
-		onItemProgress(arrToLoad[currentLoadIndex].target, percent);
+		onItemProgress(arrToLoad[0].target, percent);
 	}
 	
 	private function loadNext():Void{
 		
-		doOnItemFinish(arrToLoad[currentLoadIndex].target);
+		doOnItemFinish(arrToLoad[0].target);
 		
-		currentLoadIndex++;
-		if(arrToLoad[currentLoadIndex]){
+		//currentLoadIndex++;
+		if(arrToLoad[0]){
 			doLoad();
 		} else {
 			trace(" >>> All Loader Queue COMPLETE\n-------------------------------------------------------");
 			onQueueFinish();
-			delete arrToLoad;
 		}
 	}
 	
