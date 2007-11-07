@@ -143,7 +143,7 @@ class as2classes.loader.SimpleLoader{
 	
 	private function doProgress(target, bytesLoaded:Number, bytesTotal:Number):Void{
 		
-		clearInterval();
+		clearTimeout();
 		
 		var p:Number = Math.round((bytesLoaded/ bytesTotal) *100);
 		trace(" %% Loader PROGRESS: " + target + " -- Percent loaded: " + p);
