@@ -6,8 +6,12 @@ class as2classes.util.TimeUtil{
 	private function TimeUtil(){}
 	
 	public static function setTimeout(scope, func, time:Number, arg):Void{
-		clearInterval(interval);
+		clearTimeout()
 		interval = setInterval(_setTimeoutFunction, time, {scope:scope, func:func, arg:arg});
+	}
+	
+	public static function clearTimeout():Void{
+		clearInterval(interval);
 	}
 	
 	private static function _setTimeoutFunction(obj:Object):Void{
@@ -22,7 +26,7 @@ class as2classes.util.TimeUtil{
 			func(arg)
 		}
 		
-		clearInterval(interval);
+		clearTimeout();
 	}
 	
 	
