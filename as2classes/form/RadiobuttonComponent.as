@@ -29,18 +29,18 @@ import as2classes.util.Delegate;
 			mcTeste2 = new RadiobuttonComponent(mcTeste2);
 
 			mcTeste1.init({
-				groupName:"outroGrupo", 
-				label:"test test test test test test test test test test test test 1", 
-				width: 100, 
-				align:"left", 
-				title: "Radio 1", 
+				groupName:"outroGrupo",
+				label:"test test test test test test test test test test test test 1",
+				width: 100,
+				align:"left",
+				title: "Radio 1",
 				value:1
 			});
 			mcTeste2.init({
-				groupName:"outroGrupo", 
-				label:"test test  2", 
-				align:"left", 
-				title: "Radio 1", 
+				groupName:"outroGrupo",
+				label:"test test  2",
+				align:"left",
+				title: "Radio 1",
 				value:2
 			});
 
@@ -82,6 +82,7 @@ class as2classes.form.RadiobuttonComponent extends MovieClip{
 	
 	public var _type:String;
 	public var customErrorMessage:String;
+	public var onGroupChanged:Function;
 
 	/**
 		Radiobutton Component constructor.
@@ -147,7 +148,7 @@ class as2classes.form.RadiobuttonComponent extends MovieClip{
 				mc.fld_label.multiline = true;
 				mc.fld_label._width = obj.width;
 				mc.fld_label._width = 150;
-			} 
+			}
 			mc.fld_label.autoSize = true;
 			
 			// Align
@@ -245,7 +246,7 @@ class as2classes.form.RadiobuttonComponent extends MovieClip{
 			tmpArr[i].mc.enabled = true;
 			if(avoidAlpha !== false) tmpArr[i].mc._alpha = 100;
 		}
-		delete tmpArr;	
+		delete tmpArr;
 	}
 	
 	/**
@@ -259,7 +260,7 @@ class as2classes.form.RadiobuttonComponent extends MovieClip{
 			tmpArr[i].mc.enabled = false;
 			if(avoidAlpha !== false) tmpArr[i].mc._alpha = 50;
 		}
-		delete tmpArr;		
+		delete tmpArr;
 	}
 	
 	// Private Methods
