@@ -102,6 +102,7 @@ class as2classes.video.VideoPlayerComponent extends MovieClip{
 		} else {
 			setVolume(Number(SO.get("VideoPlayerComponentVolume", mcVideoPlayer._name)));
 		}
+		
 		setVolumeSliderPosition();
 		disableAll();
 	}
@@ -111,7 +112,9 @@ class as2classes.video.VideoPlayerComponent extends MovieClip{
 		started = false;
 		state = "paused";
 		disableAll();
+		goTo(0);
 		
+		mcVideo._visible = false;
 		mcSlider._x = 0;
 		mcProgress._xscale = 0;
 		
@@ -138,7 +141,7 @@ class as2classes.video.VideoPlayerComponent extends MovieClip{
 		if(percent >= startAfter && state == "paused" && !started) {
 			
 			afterLoadFinish = null;
-			
+			mcVideo._visible = true;
 			started = true;
 			onProgress(mcVideoPlayer);
 			enableAll();
