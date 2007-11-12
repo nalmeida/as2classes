@@ -1,14 +1,14 @@
 class as2classes.util.Debug{
 
-	private static var btDebug:MovieClip;
-	private static var counter:Number = 0;
+	private var btDebug:MovieClip;
+	private var counter:Number = 0;
 	
 	/**
 		createButtom - create a Buttom with custom function.
 		@param $obj:Object - Object with options.
 		@return none
 	*/
-	public static function button($obj:Object):Void{
+	public function Debug($obj:Object){
 		/**
 			$obj.onRelease
 			$obj.onRollOver
@@ -19,6 +19,7 @@ class as2classes.util.Debug{
 			$obj._x
 			$obj._y
 			$obj.color
+			$obj.scope
 		*/
 		
 		btDebug = _root.createEmptyMovieClip("teste123"+counter,_root.getNextHighestDepth()+2000000);
@@ -32,10 +33,10 @@ class as2classes.util.Debug{
 		btDebug.lineTo(0,0);
 		btDebug.endFill();
 		
-		btDebug.onRelease = $obj.onRelease;
-		btDebug.onRollOver = $obj.onRollOver;
-		btDebug.onRollOut = $obj.onRollOut;
-		btDebug.onReleaseOutside = $obj.onReleaseOutside;
+		btDebug.onRelease = function(){$obj.onRelease($obj.scope)};
+		btDebug.onRollOver = function(){$obj.onRollOver($obj.scope)};
+		btDebug.onRollOut = function(){$obj.onRollOut($obj.scope)};
+		btDebug.onReleaseOutside = function(){$obj.onReleaseOutside($obj.scope)};
 		btDebug._x = $obj._x || 0;
 		btDebug._y = $obj._y || 0;
 		
@@ -44,7 +45,7 @@ class as2classes.util.Debug{
 		if($obj._height)
 			btDebug._height = $obj._height;
 	}
-	public static function getButton(){
+	public function getButton(){
 		return btDebug;
 	}
 }
