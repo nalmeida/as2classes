@@ -115,6 +115,9 @@ class as2classes.form.ScrollMovieclipComponent extends MovieClip{
 		if(!mcMask) trace("ERROR on ScrollComponent: " + mc + " parameter \"mcMask\" not defined.");
 		if(!mcMasked) trace("ERROR on ScrollComponent: " + mc + " parameter \"mcMasked\" not defined.");
 		
+		mcMask.cacheAsBitmap = 
+		mcMasked.cacheAsBitmap = true;
+		
 		mcMasked.setMask(mcMask);
 		
 		if(obj.easing) {
