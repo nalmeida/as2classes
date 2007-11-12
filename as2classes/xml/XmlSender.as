@@ -10,20 +10,19 @@
 * @usage		import XmlSender;
 * 				
 				XmlSender.send({
-						url:"URL", 
-						xml:"XML", 
-						onInit:function(extra){
-						}, 
-						onFinish:function(answer, extra, objXml){
-						}, 
-						onError:function(answer, extra){
-						}, 
-						extra:extra
+					url:"URL", 
+					xml:"XML", 
+					onInit:function(extra){
+					}, 
+					onFinish:function(answer, extra, objXml){
+					}, 
+					onError:function(answer, extra){
+					}, 
+					extra:extra
 				});
 */
 
 import as2classes.xml.XmlParse;
-import as2classes.util.Delegate;
 
 class as2classes.xml.XmlSender{
 	
@@ -59,7 +58,7 @@ class as2classes.xml.XmlSender{
 				var errorMessage:String;
 				if (this.status == 0) {
 					var parsedXml:Object = {};
-						XmlParse.parse(parsedXml, this);
+						XmlParse.parse(this, parsedXml);
 					o.onFinish(this, o.extra, parsedXml);
 					delete parsedXml;
 					XmlSender.arrQueue.shift();
