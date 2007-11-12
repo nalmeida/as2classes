@@ -59,7 +59,7 @@ class as2classes.form.FormValidator extends MovieClip{
 				if((fld.restrict == "email" || fld.restrict == "mail") && !fld.isEmpty) {
 					tmp = checkEmail(fld);
 					if(tmp !== true) return onError(tmp);
-				} 
+				}
 				
 				/* ---------------------------------------------------------------------- CPF */
 				if(fld.restrict == "cpf" && !fld.isEmpty) {
@@ -71,7 +71,7 @@ class as2classes.form.FormValidator extends MovieClip{
 				if(fld.equal && !fld.isEmpty) {
 					tmp = checkEqual(fld, fld.equal);
 					if(tmp !== true) return onError(tmp);
-				}				
+				}
 				
 			} else if(t === "combobox"){
 				/* ---------------------------------------------------------------------- Combo */
@@ -96,7 +96,7 @@ class as2classes.form.FormValidator extends MovieClip{
 			
 			delete tmp;
 		}
-		trace("------------ Validation \"" + mc._name + "\" done ------------");		
+		trace("------------ Validation \"" + mc._name + "\" done ------------");
 		onOk();
 	}
 	
@@ -117,7 +117,11 @@ class as2classes.form.FormValidator extends MovieClip{
 	}
 	
 	public function addField(field):Void{
-		arrToValidate.push(field);
+		if(typeof(field) == "movieclip"){
+			trace("addField ERROR: \"field\" must be a Object Class (TextfieldComponent, TextAreaComponent...)");
+		}else{
+			arrToValidate.push(field);
+		}
 	}
 	
 	public function removeField(field):Void{
@@ -144,15 +148,19 @@ class as2classes.form.FormValidator extends MovieClip{
 		}
 	}
 	
+	public function getAllValElms(){
+		return arrToValidate;
+	}
+	
 	
 	/* Textfield validations */
 //{
 	/* ---------------------------------------------------------------------- Required */
 	public function checkRequired(fld){
 		if(fld.getText().length === 0){
-			if(fld.customErrorMessage) 
+			if(fld.customErrorMessage)
 				return {fld:fld, message:fld.customErrorMessage};
-			else 
+			else
 				if(language == "en")
 					return {fld:fld, message:"The field \"" + fld.title + "\" is required."};
 				else
@@ -163,9 +171,9 @@ class as2classes.form.FormValidator extends MovieClip{
 	/* ---------------------------------------------------------------------- Min */
 	public function checkMinChars(fld){
 		if(fld.getText().length < fld.getMinChars()) {
-			if(fld.customErrorMessage) 
+			if(fld.customErrorMessage)
 				return {fld:fld, message:fld.customErrorMessage};
-			else 
+			else
 				if(language == "en")
 					return {fld:fld, message:"The field \"" + fld.title + "\" must have at least  " + fld.getMinChars() + " characters."};
 				else
@@ -176,9 +184,9 @@ class as2classes.form.FormValidator extends MovieClip{
 	/* ---------------------------------------------------------------------- Max */
 	public function checkMaxChars(fld){
 		if(fld.getText().length > fld.getMaxChars()) {
-			if(fld.customErrorMessage) 
+			if(fld.customErrorMessage)
 				return {fld:fld, message:fld.customErrorMessage};
-			else 
+			else
 				if(language == "en")
 					return {fld:fld, message:"The field \"" + fld.title + "\" must have al maximum " + fld.getMaxChars() + " characters."};
 				else
@@ -189,12 +197,12 @@ class as2classes.form.FormValidator extends MovieClip{
 	/* ---------------------------------------------------------------------- Equal */
 	public function checkEqual(fld1, fld2){
 		if(fld1.getText() !=  fld2.getText()) {
-			if(fld2.customErrorMessage) 
+			if(fld2.customErrorMessage)
 				return {fld:fld2, message:fld2.customErrorMessage};
-			else 
+			else
 				if(language == "en")
 					return {fld:fld2, message:"The field \"" + fld1.title + "\" should be equalt to the \"" + fld2.title + "\" field."};
-				else	
+				else
 					return {fld:fld2, message:"O campo \"" + fld1.title + "\" deve ser igual ao campo \"" + fld2.title + "\"."};
 		}
 		return true;
@@ -202,9 +210,9 @@ class as2classes.form.FormValidator extends MovieClip{
 	/* ---------------------------------------------------------------------- Email */
 	public function checkEmail(fld){
 		if(!isEmail(fld.getText())) {
-			if(fld.customErrorMessage) 
+			if(fld.customErrorMessage)
 				return {fld:fld, message:fld.customErrorMessage};
-			else 
+			else
 				if(language == "en")
 					return {fld:fld, message: "\"" + fld.getText() + "\" isn't a valid e-mail for \"" + fld.title + "\" field."};
 				else
@@ -217,9 +225,9 @@ class as2classes.form.FormValidator extends MovieClip{
 		var onlyNumbers:String = StringUtil.replace(fld.getText(), ".", "");
 		onlyNumbers = StringUtil.replace(onlyNumbers, "-", "");
 		if(!isCpf(onlyNumbers)) {
-			if(fld.customErrorMessage) 
+			if(fld.customErrorMessage)
 				return {fld:fld, message:fld.customErrorMessage};
-			else 
+			else
 				if(language == "en")
 					return {fld:fld, message: "\"" + fld.getText() + "\" isn't a valid CPF for \"" + fld.title + "\" field."};
 				else
@@ -230,12 +238,12 @@ class as2classes.form.FormValidator extends MovieClip{
 //}
 	
 	/* Combobox validation */
-//{	
+//{
 	public static function checkCombo(fld:ComboBoxComponent){
 		if(fld.getSelectedIndex() == 0) {
-			if(fld.customErrorMessage) 
+			if(fld.customErrorMessage)
 				return {fld:fld, message:fld.customErrorMessage};
-			else 
+			else
 				if(language == "en")
 					return {fld:fld, message:"You must select an option for \"" + fld.title + "\" field."};
 				else
@@ -249,9 +257,9 @@ class as2classes.form.FormValidator extends MovieClip{
 //{
 	public static function checkRadio(fld:RadiobuttonComponent){
 		if(fld.getSelected() == undefined) {
-			if(fld.customErrorMessage) 
+			if(fld.customErrorMessage)
 				return {fld:fld, message:fld.customErrorMessage};
-			else 
+			else
 				if(language== "en")
 					return {fld:fld, message:"You must select an option for \"" + fld.title + "\" field."};
 				else
@@ -265,9 +273,9 @@ class as2classes.form.FormValidator extends MovieClip{
 //{
 	public static function checkCheck(fld:CheckboxComponent){
 		if(fld.getSelected() == false) {
-			if(fld.customErrorMessage) 
+			if(fld.customErrorMessage)
 				return {fld:fld, message:fld.customErrorMessage};
-			else 
+			else
 				if(language== "en")
 					return {fld:fld, message:"You must select the \"" + fld.title + "\" field."};
 				else
@@ -296,16 +304,16 @@ class as2classes.form.FormValidator extends MovieClip{
 	public static function isCpf(cpf:String):Boolean{
 		if (cpf.length != 11 || cpf == "00000000000" || cpf == "11111111111" || cpf == "22222222222" || cpf == "33333333333" || cpf == "44444444444" || cpf == "55555555555" || cpf == "66666666666" || cpf == "77777777777" || cpf == "88888888888" || cpf == "99999999999")return false;
 		var soma = 0;
-		for (var i = 0; i < 9; i++) soma += parseInt(cpf.charAt(i)) * (10 - i); 
-		var resto = 11 - (soma % 11); 
-		if (resto == 10 || resto == 11) resto = 0; 
-		if (resto != parseInt(cpf.charAt(9)))return false; 
-		soma = 0; 
-		for (var i = 0; i < 10; i++)soma += parseInt(cpf.charAt(i)) * (11 - i); 
-		resto = 11 - (soma % 11); 
-		if (resto == 10 || resto == 11)resto = 0; 
-		if (resto != parseInt(cpf.charAt(10))) return false; 
-		return true; 
+		for (var i = 0; i < 9; i++) soma += parseInt(cpf.charAt(i)) * (10 - i);
+		var resto = 11 - (soma % 11);
+		if (resto == 10 || resto == 11) resto = 0;
+		if (resto != parseInt(cpf.charAt(9)))return false;
+		soma = 0;
+		for (var i = 0; i < 10; i++)soma += parseInt(cpf.charAt(i)) * (11 - i);
+		resto = 11 - (soma % 11);
+		if (resto == 10 || resto == 11)resto = 0;
+		if (resto != parseInt(cpf.charAt(10))) return false;
+		return true;
 	}
 }
 
