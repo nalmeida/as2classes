@@ -30,15 +30,15 @@ import as2classes.form.TextfieldUtil;
 			var mcTest2:TextfieldComponent = new TextfieldComponent(mcTest2);
 			
 			mcTest.init({
-				type:"password", 
+				type:"password",
 				maxChars:5,
 				initText:"Your password goes here",
 				title: "Your password"
 			});
 
 			mcTest2.init({
-				maxChars:5, 
-				initText:"Zip code goes here", 
+				maxChars:5,
+				initText:"Zip code goes here",
 				restrict:"num",
 				title: "Zip Code",
 				align: "center"
@@ -55,6 +55,9 @@ class as2classes.form.TextfieldComponent extends MovieClip{
 	private var mc:MovieClip;
 	private var mcBg:MovieClip;
 	public var textField:TextField;
+	public var onSetFocus:Function;
+	public var onKillFocus:Function;
+	public var onChanged:Function;
 	
 	private var initSize:Object;
 	private var initText:String;
@@ -128,7 +131,7 @@ class as2classes.form.TextfieldComponent extends MovieClip{
 		
 		if(type == "password" && !obj.initText)
 			textField.password = true;
-		else 
+		else
 			textField.type = type;
 
 		border = (obj.border === false ? false : true);
@@ -155,10 +158,17 @@ class as2classes.form.TextfieldComponent extends MovieClip{
 			isEmpty = false;
 		}
 		
+		//Apply custom functions
+		onSetFocus = onSetFocus || (obj.onSetFocus || null);
+		onKillFocus = onKillFocus || (obj.onKillFocus || null);
+
 		if(obj.initText && (type == "input" || type == "password")) {
 			setInitText(obj.initText);
 			value = "";
 			isEmpty = true;
+		}else{
+			textField.onSetFocus = onSetFocus;
+			textField.onKillFocus = onKillFocus;
 		}
 		
 		// Align
@@ -176,6 +186,7 @@ class as2classes.form.TextfieldComponent extends MovieClip{
 			textField.tabEnabled = true;
 			textField.tabIndex = obj.tabIndex || 1;
 		}
+		
 		
 		ajustSize();
 		
@@ -204,12 +215,12 @@ class as2classes.form.TextfieldComponent extends MovieClip{
 	public function ajustSize():Void{
 		mc._xscale = mc._yscale = 100;
 		
-		textField._width = 
-		textField.textWidth = 
+		textField._width =
+		textField.textWidth =
 		mcBg._width = initSize.w;
 		
-		textField._height = 
-		textField.textHeight = 
+		textField._height =
+		textField.textHeight =
 		mcBg._height = initSize.h;
 	}
 	
@@ -269,9 +280,16 @@ class as2classes.form.TextfieldComponent extends MovieClip{
 	*/
 	public function setInitText(txt:String):Void{
 		if(txt) textField.text = initText = txt;
-		textField.onSetFocus = Delegate.create(this, clearField);
-		textField.onChanged = Delegate.create(this, checkIfIsEmpty);
-		textField.onKillFocus = Delegate.create(this, checkIfIsEmpty);
+		textField.onSetFocus = Delegate.create(this, function(){
+			if(this.onSetFocus)
+				this.onSetFocus();
+			this.clearField();
+		});
+		textField.onKillFocus = Delegate.create(this, function(){
+			if(this.onKillFocus)
+				this.onKillFocus();
+			this.checkIfIsEmpty();
+		});
 	}
 	
 	/**
@@ -355,16 +373,30 @@ class as2classes.form.TextfieldComponent extends MovieClip{
 		}
 		setAlign(align);
 	}
+	
+	public function addHandler(type:String,fnc:Function):Void{
+		switch(type){
+			case "onSetFocus":
+				onSetFocus = fnc;
+				break;
+			case "onKillFocus":
+				onKillFocus = fnc;
+				break;
+			default:
+				textField[type] = fnc;
+				return;
+				break;
+		}
+		switch(type){
+			case "onSetFocus":
+			case "onKillFocus":
+				if(initText){
+					setInitText(initText);
+				}else{
+					textField[type] = fnc;
+				}
+				break;
+		}
+	}
 
 }
-
-
-
-
-
-
-
-
-
-
-
