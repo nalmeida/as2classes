@@ -187,7 +187,6 @@ class as2classes.form.TextfieldComponent extends MovieClip{
 			textField.tabIndex = obj.tabIndex || 1;
 		}
 		
-		
 		ajustSize();
 		
 		if(obj.customErrorMessage) customErrorMessage = obj.customErrorMessage;
@@ -286,6 +285,11 @@ class as2classes.form.TextfieldComponent extends MovieClip{
 				this.onSetFocus();
 			this.clearField();
 		});
+		
+		textField.onChanged = Delegate.create(this, function(){
+			this.checkIfIsEmpty(true);
+		});
+		
 		textField.onKillFocus = Delegate.create(this, function(){
 			if(this.onKillFocus)
 				this.onKillFocus();
@@ -362,10 +366,11 @@ class as2classes.form.TextfieldComponent extends MovieClip{
 		setAlign(align);
 	}
 	
-	private function checkIfIsEmpty():Void{
+	private function checkIfIsEmpty(onchange:Boolean):Void{
 		if(getText() == "") {
 			if(type == "password") textField.password = false;
-			textField.text = initText || "";
+			if(!onchange)
+				textField.text = initText || "";
 			isEmpty = true;
 			value = "";
 		} else {
