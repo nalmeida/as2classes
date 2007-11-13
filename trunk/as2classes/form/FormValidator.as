@@ -148,7 +148,12 @@ class as2classes.form.FormValidator extends MovieClip{
 		}
 	}
 	
-	public function getAllValElms(){
+	/**
+		Return an Array with all elements used in the validation
+		
+		@return Return Array width FormValidator elements.
+	*/
+	public function getAllValElms():Array{
 		return arrToValidate;
 	}
 	

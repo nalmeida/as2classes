@@ -215,9 +215,10 @@ class as2classes.form.TextfieldComponent extends MovieClip{
 	public function ajustSize():Void{
 		mc._xscale = mc._yscale = 100;
 		
-		textField._width =
-		textField.textWidth =
 		mcBg._width = initSize.w;
+		
+		textField._width =
+		textField.textWidth = initSize.w - (textField._x*2);
 		
 		textField._height =
 		textField.textHeight =
