@@ -24,19 +24,32 @@ class as2classes.util.MovieclipUtil{
 		$mc.removeMovieClip();
 	}
 	
-	//
+	/**
+		playReverse - Play a Movieclip reversily.
+		@param mc:MovieClip - Movieclip to be reversily played.
+		@param frame:Number - Frame to stop. Optional param. Default 1.
+		@return none
+	*/
 	public static function playReverse(mc:MovieClip, frame:Number):Void{
 		mc.stop();
-		mc.onEnterFrame = Delegate.create(mc, function(frame){
-			var prev:Number = mc._currentframe - 1;
-			if(prev <= frame) mc.onEnterFrame = null;
-			mc.gotoAndStop(prev);
-			updateAfterEvent();
-		}, frame);
+		mc.onEnterFrame = Delegate.create(mc, _reverse, {mc:mc, frame:frame || 1});
 	}
 	
+	/**
+		cancelPlayReverse - Cancel playReverse method. onEnterFrame = null.
+		@param mc:MovieClip - Movieclip.
+		@return none
+	*/
 	public static function cancelPlayReverse(mc:MovieClip):Void{
 		mc.onEnterFrame = null;
+	}
+	
+	// Private functions
+	private static function _reverse(obj):Void{
+		var prev:Number = obj.mc._currentframe - 1;
+		if(prev <= obj.frame) obj.mc.onEnterFrame = null;
+		obj.mc.gotoAndStop(prev);
+		updateAfterEvent();
 	}
 
 }
