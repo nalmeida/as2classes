@@ -11,12 +11,14 @@ class as2classes.form.FormValidator extends MovieClip{
 	
 	private var mc:MovieClip;
 	private var arrToValidate:Array;
+	private var arrButtons:Array;
 	
 	public var onError:Function;
 	public var onOk:Function;
 	
 	function FormValidator($mc:MovieClip){
 		mc = $mc;
+		arrButtons = [];
 		arrToValidate = [];
 		
 		setLanguage();
@@ -105,6 +107,10 @@ class as2classes.form.FormValidator extends MovieClip{
 			if(!arrToValidate[i].disable) arrToValidate[i].disableGroup();
 			else arrToValidate[i].disable();
 		}
+		for (var i:Number = 0; i < arrButtons.length; i++) {
+			arrButtons[i].enabled = false;
+			arrButtons[i]._alpha = 50;
+		}
 		//trace("Fields \"" + mc._name + "\" disabled.");
 	}
 	
@@ -112,6 +118,10 @@ class as2classes.form.FormValidator extends MovieClip{
 		for (var i:Number = 0; i < arrToValidate.length; i++) {
 			if(!arrToValidate[i].enable) arrToValidate[i].enableGroup();
 			else arrToValidate[i].enable();
+		}
+		for (var i:Number = 0; i < arrButtons.length; i++) {
+			arrButtons[i].enabled = true;
+			arrButtons[i]._alpha = 100;
 		}
 		//trace("Fields \"" + mc._name + "\" enabled.");
 	}
@@ -122,6 +132,10 @@ class as2classes.form.FormValidator extends MovieClip{
 		}else{
 			arrToValidate.push(field);
 		}
+	}
+	
+	public function addButton(field):Void{
+		arrButtons.push(field);
 	}
 	
 	public function removeField(field):Void{
@@ -146,6 +160,7 @@ class as2classes.form.FormValidator extends MovieClip{
 		for (var i:Number = 0; i < arrToValidate.length; i++) {
 			arrToValidate[i].reset();
 		}
+		enable();
 	}
 	
 	/**
