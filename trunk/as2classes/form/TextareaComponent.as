@@ -417,7 +417,7 @@ class as2classes.form.TextareaComponent extends MovieClip{
 	}
 	
 	/**
-		Disables the scoll
+		Disables the scroll
 		
 		@return Return none.
 	*/
@@ -430,7 +430,7 @@ class as2classes.form.TextareaComponent extends MovieClip{
 	}
 	
 	/**
-		Enables the scoll
+		Enables the scroll
 		
 		@return Return none.
 	*/
@@ -472,6 +472,7 @@ class as2classes.form.TextareaComponent extends MovieClip{
 		if(sobra <= theClass.textField._height) sobra = theClass.textField._height;
 
 		var altTrack:Number = theClass.mcTrack._height - theClass.mcSlider._height;
+		// TODO: mudar essa conta para:                     theClass.mcSlider._y - theClass.mcArrowUp._height;
 		var posSlider:Number = theClass.mcSlider._y - theClass.mcSlider._height + theClass.mcArrowUp._height;
 
 		var calc:Number = (sobra * posSlider) / altTrack;
