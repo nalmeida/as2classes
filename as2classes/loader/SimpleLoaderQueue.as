@@ -51,6 +51,7 @@ import as2classes.util.ArrayUtil;
 class as2classes.loader.SimpleLoaderQueue {
 	
 	public var arrToLoad:Array;
+	public var avoidTrace:Boolean;
 	
 	private var currentLoad:SimpleLoader;
 	//private var currentLoadIndex:Number;
@@ -60,7 +61,8 @@ class as2classes.loader.SimpleLoaderQueue {
 	public var onQueueFinish:Function;
 	
 	
-	function SimpleLoaderQueue(){
+	function SimpleLoaderQueue($avoidTrace:Boolean){
+		avoidTrace = $avoidTrace;
 		arrToLoad = [];
 		//currentLoadIndex = 0;
 	}
@@ -88,12 +90,12 @@ class as2classes.loader.SimpleLoaderQueue {
 	*/
 	public function start():Void{
 		arrToLoad.sortOn("priority");
-		trace("-------------------------------------------------------\n *** Loader Queue STARTED");
+		if(!avoidTrace) trace("-------------------------------------------------------\n *** Loader Queue STARTED");
 		doLoad();
 	}
 	
 	private function doLoad():Void{
-		currentLoad = new SimpleLoader();
+		currentLoad = new SimpleLoader(avoidTrace);
 		currentLoad.load(arrToLoad[0].movie, arrToLoad[0].target); 
 		currentLoad.onProgress = Delegate.create(this, doOnPorgress);
 		currentLoad.onFinish = Delegate.create(this, loadNext);
@@ -117,7 +119,7 @@ class as2classes.loader.SimpleLoaderQueue {
 		if(arrToLoad[0]){
 			doLoad();
 		} else {
-			trace(" >>> All Loader Queue COMPLETE\n-------------------------------------------------------");
+			if(!avoidTrace) trace(" >>> All Loader Queue COMPLETE\n-------------------------------------------------------");
 			onQueueFinish();
 		}
 	}
