@@ -30,9 +30,10 @@ class as2classes.util.MovieclipUtil{
 		@param frame:Number - Frame to stop. Optional param. Default 1.
 		@return none
 	*/
-	public static function playReverse(mc:MovieClip, frame:Number):Void{
+	public static function playReverse(mc:MovieClip, frame:Number, speed:Number):Void{
 		mc.stop();
-		mc.onEnterFrame = Delegate.create(mc, _reverse, {mc:mc, frame:frame || 1});
+		cancelPlayReverse();
+		mc.onEnterFrame = Delegate.create(mc, _reverse, {mc:mc, frame:frame || 1, speed: speed || 1});
 	}
 	
 	/**
@@ -46,9 +47,13 @@ class as2classes.util.MovieclipUtil{
 	
 	// Private functions
 	private static function _reverse(obj):Void{
-		var prev:Number = obj.mc._currentframe - 1;
-		if(prev <= obj.frame) obj.mc.onEnterFrame = null;
-		obj.mc.gotoAndStop(prev);
+		var prev:Number = obj.mc._currentframe - obj.speed;
+		if(prev <=1) prev=1;
+		if(prev <= obj.frame) {
+			obj.mc.gotoAndStop(obj.frame);
+			cancelPlayReverse(obj.mc);
+		}
+		else obj.mc.gotoAndStop(prev);
 		updateAfterEvent();
 	}
 
