@@ -53,6 +53,7 @@ class as2classes.loader.SimpleLoader{
 	private var timeoutListener:Number;
 	private var tmpTimeoutListener;
 	private var tmpInt;
+	private var avoidTrace:Boolean;
 	
 	public var onProgress:Function;
 	public var onFinish:Function;
@@ -61,7 +62,8 @@ class as2classes.loader.SimpleLoader{
 	public var onTimeout:Function;
 	
 	// Functions
-	function SimpleLoader(){
+	function SimpleLoader($avoidTrace:Boolean){
+		avoidTrace = $avoidTrace;
 		timeout = 10000; // 10s
 		loadListener = {};
 		mcLoader = new MovieClipLoader();
@@ -101,7 +103,7 @@ class as2classes.loader.SimpleLoader{
 		@return Return none.
 	*/
 	public function cancel():Void{
-		trace(" !! Loader CANCELED: " + fileToLoad + " -- movie:" + target + " CLEARED");
+		if(!avoidTrace) trace(" !! Loader CANCELED: " + fileToLoad + " -- movie:" + target + " CLEARED");
 		doCancel();
 	}
 	
@@ -136,8 +138,10 @@ class as2classes.loader.SimpleLoader{
 	}	
 	
 	private function doInit():Void{
-		trace("-------------------------------------------------------");
-		trace(" ** New loader STARTED: " + target);
+		if(!avoidTrace) {
+			trace("-------------------------------------------------------");
+			trace(" ** New loader STARTED: " + target);
+		}
 		onInit(target);
 	}
 	
@@ -146,22 +150,25 @@ class as2classes.loader.SimpleLoader{
 		clearTimeout();
 		
 		var p:Number = Math.round((bytesLoaded/ bytesTotal) *100);
-		trace(" %% Loader PROGRESS: " + target + " -- Percent loaded: " + p);
+		if(!avoidTrace) trace(" %% Loader PROGRESS: " + target + " -- Percent loaded: " + p);
 		onProgress(target,p);
 	}
 	
 	private function doFinish():Void{
 		
 		clearTimeout();
-		
-		trace(" >> Loader COMPLETE: " + target);
-		trace("-------------------------------------------------------");
+		if(!avoidTrace) {
+			trace(" >> Loader COMPLETE: " + target);
+			trace("-------------------------------------------------------");
+		}
 		onFinish(target);
 	}
 	
 	private function doError(target_mc:MovieClip, errorCode:String, httpStatus:Number){
-		trace(" !! Loader ERROR: " + fileToLoad + " -- Target: " + target + " -- Error: " + errorCode + " -- HttpStatus: " + httpStatus);
-		trace("-------------------------------------------------------");
+		if(!avoidTrace) {
+			trace(" !! Loader ERROR: " + fileToLoad + " -- Target: " + target + " -- Error: " + errorCode + " -- HttpStatus: " + httpStatus);
+			trace("-------------------------------------------------------");
+		}
 		
 		clearInterval(tmpInt);
 		clearInterval(timeoutListener);
