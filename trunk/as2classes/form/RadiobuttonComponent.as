@@ -67,7 +67,7 @@ import as2classes.util.Delegate;
 */
 class as2classes.form.RadiobuttonComponent extends MovieClip{
 	
-	private var mc:MovieClip;
+	public var mc:MovieClip;
 	private var mcState:MovieClip;
 	
 	private var label:String;

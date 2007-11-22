@@ -52,7 +52,7 @@ import as2classes.form.TextfieldUtil;
 
 class as2classes.form.TextfieldComponent extends MovieClip{
 	
-	private var mc:MovieClip;
+	public var mc:MovieClip;
 	public var mcBg:MovieClip;
 	public var textField:TextField;
 	public var onSetFocus:Function;

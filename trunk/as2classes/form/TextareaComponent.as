@@ -56,7 +56,7 @@ import org.casaframework.mouse.EventMouse;
 
 class as2classes.form.TextareaComponent extends MovieClip{
 	
-	private var mc:MovieClip;
+	public var mc:MovieClip;
 	private var mcBg:MovieClip;
 	public  var textField:TextField;
 	private var mcScrollBar:MovieClip;
