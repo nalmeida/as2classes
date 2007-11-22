@@ -85,6 +85,7 @@ class as2classes.form.TextareaComponent extends MovieClip{
 	public var restrict:String;
 	public var border:Boolean;
 	public var htmlText:Boolean;
+	public var alphaWhenScrollDisabled:Number;
 	
 	private var mouseInstance:EventMouse;
 	
@@ -134,6 +135,7 @@ class as2classes.form.TextareaComponent extends MovieClip{
 		@param obj.htmlText:Boolean - Enables htmlText for TextField.
 		@param obj.textColor:Color - The text color.
 		@param obj.border:Boolean - If you need disables the textfield border, set it to false. Default true.
+		@param obj.alphaWhenScrollDisabled:Number - The value when scroll is disabled or not necessary. Default 50.
 		@return Return none.
 	*/
 	public function init(obj:Object):Void{
@@ -187,6 +189,8 @@ class as2classes.form.TextareaComponent extends MovieClip{
 			value = "";
 			isEmpty = true;
 		}
+		alphaWhenScrollDisabled = obj.alphaWhenScrollDisabled || 50;
+		
 		
 		sliderBottomLimit = (mcTrack._y + mcTrack._height - mcSlider._height);
 		
@@ -426,7 +430,7 @@ class as2classes.form.TextareaComponent extends MovieClip{
 			mcScrollBar[i].enabled = false;
 		}
 		mcSlider._visible = false;
-		mcScrollBar._alpha = 50;
+		mcScrollBar._alpha = alphaWhenScrollDisabled;
 	}
 	
 	/**
