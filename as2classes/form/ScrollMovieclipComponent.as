@@ -49,7 +49,7 @@ import gs.TweenLite;
 
 class as2classes.form.ScrollMovieclipComponent extends MovieClip{
 	
-	private var mc:MovieClip;
+	public var mc:MovieClip;
 	private var mcArrowUp:MovieClip;
 	private var mcArrowDown:MovieClip;
 	private var mcTrack:MovieClip;

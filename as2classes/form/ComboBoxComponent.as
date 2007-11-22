@@ -56,7 +56,7 @@ import as2classes.form.ScrollMovieclipComponent;
 
 class as2classes.form.ComboBoxComponent extends MovieClip{
 	
-	private var mc:MovieClip;
+	public var mc:MovieClip;
 	
 	private var mcBt:Button;
 	private var mcComboItens:MovieClip;
