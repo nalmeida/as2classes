@@ -15,7 +15,7 @@
 	Lesser General Public License for more details.
 */
 
-import as2classes.util.ExecUrl;
+import flash.external.ExternalInterface;
 
 /**
 	Analytics. Send data do Google Analytics using getURL method.
@@ -45,8 +45,9 @@ class as2classes.util.Analytics{
 		}
 		trace(" >  Sending urchinTracker: " + strToSend);
 		if(_root._url.indexOf("file") != 0) {
-			var s:String = "javascript:urchinTracker('"+ strToSend + "');void(0);";
-			ExecUrl.sequence(s);
+			//var s:String = "javascript:urchinTracker('"+ strToSend + "');void(0);";
+			//ExecUrl.sequence(s);
+			ExternalInterface.call('urchinTracker', strToSend); // External Interface doesn't stop other javascript calls.			
 		} else {
 			trace("    WARINING: Running local file or StandAlone mode. \"" + "urchinTracker('" + strToSend + "');\" refused.");
 		}
