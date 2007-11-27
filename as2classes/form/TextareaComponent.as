@@ -454,6 +454,17 @@ class as2classes.form.TextareaComponent extends MovieClip{
 	public function reset():Void{
 		if(htmlText) textField.htmlText = value = "";
 		else textField.text = value = "";
+		resetScroll();
+	}
+	
+	/**
+		Reposition scroll elements to initial state.
+		
+		@return Return none
+	*/
+	public function resetScroll():Void{
+		textField.scroll = 0;
+		positionSlider();
 	}
 	
 	
