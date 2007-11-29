@@ -16,6 +16,7 @@
 */
 
 import as2classes.util.Delegate;
+import as2classes.util.TimeUtil;
 
 /**
 	MP3 loader is usefull class to load, stream and watch the loader progress.
@@ -54,7 +55,7 @@ class as2classes.loader.MP3Loader{
 	public var onFinish:Function;
 	public var onInit:Function;
 	public var onError:Function;
-
+	
 	function MP3Loader(){}
 	
 	/**
@@ -118,9 +119,10 @@ class as2classes.loader.MP3Loader{
 			onProgress(snd, percentLoaded, url);
 		}else if(percentLoaded >=100){
 			clearInterval(interval);
-			onFinish(snd);
 			trace(" >> MP3 Loader COMPLETE: " + url);
 			trace("-------------------------------------------------------");
+			
+			TimeUtil.setTimeout(onFinish,200,snd);
 		}
 		if(attempt > 250 && snd.duration == 0){
 			clearInterval(interval);
