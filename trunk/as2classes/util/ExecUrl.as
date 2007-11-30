@@ -37,7 +37,7 @@ class as2classes.util.ExecUrl{
 		} else{
 			ExternalInterface.call("document.location.replace", anchor);
 			if(pageTitle) {
-				TimeUtil.setTimeout(function(){ExternalInterface.call("function(a){document.title = a;}", pageTitle)}, 100);
+				TimeUtil.setTimeout(function(){ExternalInterface.call("function(a){document.title = a;}", pageTitle)}, 200);
 			}
 		}
 	}
