@@ -113,17 +113,21 @@ class as2classes.loader.MP3Loader{
 		
 		attempt++;
 		
-		if(percentLoaded < 100){
-			//if(snd.duration == 0) percentLoaded = 0;
-			trace(" %% MP3 Loader PROGRESS: " + percentLoaded);
-			onProgress(snd, percentLoaded, url);
-		}else if(percentLoaded >=100){
-			clearInterval(interval);
-			trace(" >> MP3 Loader COMPLETE: " + url);
-			trace("-------------------------------------------------------");
-			
-			TimeUtil.setTimeout(onFinish,200,snd);
-		}
+		if(!isNaN(percentLoaded))
+			if(percentLoaded < 100){
+				//if(snd.duration == 0) percentLoaded = 0;
+				trace(" %% MP3 Loader PROGRESS: " + percentLoaded);
+				onProgress(snd, percentLoaded, url);
+			}else if(percentLoaded >=100){
+				clearInterval(interval);
+				trace(" >> MP3 Loader COMPLETE: " + url);
+				trace(" >> MP3 Loader COMPLETE percentLoaded: " + percentLoaded);
+				trace(" >> MP3 Loader COMPLETE loaded: " + loaded);
+				trace(" >> MP3 Loader COMPLETE total: " + total);
+				trace("-------------------------------------------------------");
+				
+				TimeUtil.setTimeout(onFinish,200,snd);
+			}
 		if(attempt > 250 && snd.duration == 0){
 			clearInterval(interval);
 			trace("ERROR 404: File \"" + url + "\" not found.");
