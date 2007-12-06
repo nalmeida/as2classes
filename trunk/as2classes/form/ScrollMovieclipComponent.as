@@ -299,6 +299,19 @@ class as2classes.form.ScrollMovieclipComponent extends MovieClip{
 	public function show():Void{
 		mc._visible = true;
 		visibleStatus = "visible";
+	}
+	
+	/**
+		Moves the masked MC and scroll to a position.
+		
+		@return Return none.
+	*/
+	public function scrollTo(positionY:Number):Void{
+		
+		if((mcMasked._height - mcMask._height) <= positionY) positionY = mcMasked._height - mcMask._height; // find the lowest possible position
+		
+		mcMasked._y = -(positionY);
+		positionSlider(mcMask, mcMasked, mcSlider, mcTrack, easing, easingSpeed);
 	}	
 	
 	/*
