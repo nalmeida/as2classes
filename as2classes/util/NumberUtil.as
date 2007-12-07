@@ -17,5 +17,10 @@ class as2classes.util.NumberUtil{
 		return Math.round(num * p) / p;
 	}
 	
+	public static function isBetween(iniNumber:Number, endNumber:Number, number:Number):Boolean{
+		if(number <= endNumber && number >= iniNumber) return true;
+		return false;
+	}
+	
 	public function NumberUtil(){} // Avoid instance creation
 }
