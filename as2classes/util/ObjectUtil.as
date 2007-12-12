@@ -18,21 +18,19 @@ class as2classes.util.ObjectUtil{
         }
 	}
 	
-	
-	private static var objText:String;
-	private static var tabs:String = "\t";
-	
 	/**
 	 * Trace the details of an object.
 	 * @param	o:Object Object to be listed
-	 * @return	nothing.
+	 * @return	object length
 	 */
-	public static function list(o:Object):Void{
-		objText = "";
-		trace("\n--------ObjectUtil.listObject");
+	public static function list(o:Object):Number{
+		var length:Number = 0;
+		trace("\n-------- ObjectUtil.listObject");
 		for (var i:String in o)
 			trace("\t"+i+": "+o[i]+" -- "+typeof(o[i]));
+			length ++;
 		trace("-------------------------\n");
+		return length;
 	}
 	
 }
