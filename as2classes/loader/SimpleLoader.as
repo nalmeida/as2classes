@@ -16,6 +16,7 @@
 */
 
 import as2classes.util.Delegate;
+import as2classes.util.TimeUtil;
 
 /**
 	SimpleLoader. An easy way to load an external SWF file and monitor the loading process.
@@ -47,6 +48,7 @@ class as2classes.loader.SimpleLoader{
 	public var fileToLoad:String;
 	public var target:MovieClip;
 	public var timeout:Number;
+	public var loaded:Boolean;
 	
 	private var loadListener:Object;
 	private var mcLoader:MovieClipLoader;
@@ -64,7 +66,7 @@ class as2classes.loader.SimpleLoader{
 	// Functions
 	function SimpleLoader($avoidTrace:Boolean){
 		avoidTrace = $avoidTrace;
-		timeout = 10000; // 10s
+		timeout = 10 * 1000; // 10s
 		loadListener = {};
 		mcLoader = new MovieClipLoader();
 		
@@ -94,7 +96,7 @@ class as2classes.loader.SimpleLoader{
 		loadListener.onLoadError = Delegate.create(this, doError);
 		
 		mcLoader.addListener(loadListener);
-		mcLoader.loadClip(fileToLoad, target);		
+		mcLoader.loadClip(fileToLoad, target);
 	}
 	
 	/**
@@ -132,7 +134,7 @@ class as2classes.loader.SimpleLoader{
 	***********************************************/
 	
 	private function doCancel():Void{
-		tmpInt = setInterval(clearTimeout, 150);
+		tmpInt = setInterval(Delegate.create(this, clearTimeout), 150);
 		mcLoader.unloadClip(target);
 		target.unloadMovie();
 	}	
@@ -142,6 +144,7 @@ class as2classes.loader.SimpleLoader{
 			trace("-------------------------------------------------------");
 			trace(" ** New loader STARTED: " + target);
 		}
+		loaded= false;
 		onInit(target);
 	}
 	
@@ -150,6 +153,12 @@ class as2classes.loader.SimpleLoader{
 		clearTimeout();
 		
 		var p:Number = Math.round((bytesLoaded/ bytesTotal) *100);
+		
+		if(isNaN(p)) { // Recursive loader when percet is undefined. Good for simultaneous connections.
+			trace(" !! Loader ERROR: Restarting loading process: " + fileToLoad + " -- Target: " + target + " -- percent: " + p);
+			load(fileToLoad, target, avoidTrace);
+		}
+		
 		if(!avoidTrace) trace(" %% Loader PROGRESS: " + target + " -- Percent loaded: " + p);
 		onProgress(target,p);
 	}
@@ -161,6 +170,7 @@ class as2classes.loader.SimpleLoader{
 			trace(" >> Loader COMPLETE: " + target);
 			trace("-------------------------------------------------------");
 		}
+		loaded = true;
 		onFinish(target);
 	}
 	
@@ -172,7 +182,7 @@ class as2classes.loader.SimpleLoader{
 		
 		clearInterval(tmpInt);
 		clearInterval(timeoutListener);
-		
+		loaded = false;
 		cancel();
 		onError(target_mc, errorCode, httpStatus);
 	}
@@ -180,6 +190,7 @@ class as2classes.loader.SimpleLoader{
 	private function doTimeout(){
 		trace(" !! Loader TIMEOUT: " + target);
 		trace("-------------------------------------------------------");
+		loaded = false;
 		clearTimeout();
 		onTimeout(target);
 	}
