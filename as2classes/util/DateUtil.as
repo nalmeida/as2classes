@@ -1,4 +1,4 @@
-class DateUtil {
+class as2classes.util.DateUtil {
 	private static var months:Array = [];
 	public static function getMonthDays($month:Number, $year:Number):Number {
 		months = [0, 31, isBissext($year) ? 29 : 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
