@@ -49,6 +49,8 @@ class as2classes.xml.XmlSender{
 	
 	public static function send(o:Object){
 		
+		System.useCodepage = true; 
+		
 		xmlToSend = new XML(o.xml);
 		xmlLoader = new XML();
 		xmlLoader.ignoreWhite = true;
