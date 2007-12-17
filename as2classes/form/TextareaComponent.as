@@ -39,7 +39,7 @@ import org.casaframework.mouse.EventMouse;
 			});
 
 			mcTestBig.init({
-				type:"dynamic", 
+				type:"dynamic",
 				textColor:0xFF0000,
 				title: "Big Textarea"
 			});
@@ -97,7 +97,7 @@ class as2classes.form.TextareaComponent extends MovieClip{
 		@param $mc:MovieClip - Movieclip to be used as the component.
 		@return Return none.
 	*/
-		function TextareaComponent($mc:MovieClip, objectSetup:Object){
+	function TextareaComponent($mc:MovieClip, objectSetup:Object){
 		this._type = "textarea";
 		
 		mc = $mc || this;
@@ -214,11 +214,11 @@ class as2classes.form.TextareaComponent extends MovieClip{
 		// Events
 		
 		mcArrowUp.onPress = Delegate.create(this, scrollUp, this);
-		mcArrowUp.onRelease = 
+		mcArrowUp.onRelease =
 		mcArrowUp.onReleaseOutside = Delegate.create(this, releaseArrow, mcArrowUp);
 		
 		mcArrowDown.onPress = Delegate.create(this, scrollDown, this);
-		mcArrowDown.onRelease = 
+		mcArrowDown.onRelease =
 		mcArrowDown.onReleaseOutside = Delegate.create(this, releaseArrow, mcArrowDown);
 		
 		mcSlider.onPress = Delegate.create(this, slideScroll, this);
@@ -264,12 +264,12 @@ class as2classes.form.TextareaComponent extends MovieClip{
 	public function ajustSize():Void{
 		mc._xscale = mc._yscale = 100;
 		
-		mcBg._width = 
-		textField.textWidth = 
+		mcBg._width =
+		textField.textWidth =
 		textField._width = initSize.w - mcScrollBar._width + 1;
 		
-		mcBg._height = 
-		textField.textHeight = 
+		mcBg._height =
+		textField.textHeight =
 		textField._height = initSize.h;
 		
 		mcScrollBar._x = textField._width + 1;
@@ -443,7 +443,7 @@ class as2classes.form.TextareaComponent extends MovieClip{
 			mcScrollBar[i].enabled = true;
 		}
 		mcSlider._visible = true;
-		mcScrollBar._alpha = 100;		
+		mcScrollBar._alpha = 100;
 	}
 	
 	/**
@@ -520,7 +520,7 @@ class as2classes.form.TextareaComponent extends MovieClip{
 			
 		}
 		// editando área do começo do texto
-		else 
+		else
 			mcSlider._y = mcArrowUp._height;
 	}
 	
@@ -551,7 +551,7 @@ class as2classes.form.TextareaComponent extends MovieClip{
 		
 		if(theClass.mc._ymouse <= theClass.sliderBottomLimit)
 			theClass.mcSlider._y = theClass.mc._ymouse;
-		else 
+		else
 			theClass.mcSlider._y = theClass.sliderBottomLimit;
 			
 		theClass.doScollSlider(theClass);
