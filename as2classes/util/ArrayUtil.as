@@ -40,5 +40,18 @@ class as2classes.util.ArrayUtil{
 		
 	}
 	
+	public static function randomize(arr:Array):Array{
+		var i = arr.length;
+		if (i == 0) return arr;
+		while (--i) {
+			var j:Number = Math.floor(Math.random()*(i+1));
+			var tmp1 = arr[i];
+			var tmp2 = arr[j];
+			arr[i] = tmp2;
+			arr[j] = tmp1;
+		}
+		return arr;
+	}
+	
 	private function ArrayUtil() {} // Prevents instance creation
 }
