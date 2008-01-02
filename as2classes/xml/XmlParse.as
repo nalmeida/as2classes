@@ -18,7 +18,7 @@
 /**
 	XML Parsre. Convert an XML data to an Object.
 	
-	@author Jack Doyle, jack@greensock.com
+	@author Jack Doyle, jack@greensock.com // http://blog.greensock.com/xmlparseras2/
 	@version 
 	@since Flash Player 8
 	@example
@@ -31,8 +31,8 @@
 				str+= "</Novel>"
 				str+= "</Resources>"
 			
-			trace(XMLParser.parse(str).Book[0].name);
-			trace(XMLParser.parse(str).Novel[0].Description[0].value);
+			trace(XmlParse.parse(str).Book[0].name);
+			trace(XmlParse.parse(str).Novel[0].Description[0].value);
 		</code>
 */
 
@@ -93,5 +93,69 @@ class as2classes.xml.XmlParse {
 			}
 		}
 		return results_obj;
+	}
+	
+	
+	/**
+		objectToXML function 
+		Allows us to translate an object (typically with arrays attached to it) back into an XML object. This is useful when we need to send it back to the server or save it somewhere.
+		
+		@param o:Object - Object to be converted to XML.
+		@param rootNodeName_str:String - Root node name. Default "XML".
+		@return Return XML.
+	*/
+	public static function objectToXML(o:Object, rootNodeName_str:String):XML {
+		if (rootNodeName_str == undefined) {
+			rootNodeName_str = "XML";
+		}
+		var xml:XML = new XML();
+		var n:XMLNode = xml.createElement(rootNodeName_str);
+		var props:Array = [];
+		var prop, p, tn:XMLNode;
+		for (p in o) {
+			props.push(p);
+		}
+		for (p = props.length - 1; p >= 0; p--) { //By default, attributes are looped through in reverse, so we go the opposite way to accommodate for this.
+			prop = props[p];
+			if (typeof(o[prop]) == "object" && o[prop].length > 0) { //Means it's an array!
+				arrayToNodes(o[prop], n, xml, prop);
+			} else if (prop == "value") {
+				tn = xml.createTextNode(o.value);
+				n.appendChild(tn);
+			} else {
+				n.attributes[prop] = o[prop];
+			}
+		}
+		xml.appendChild(n);
+		return xml;
+	}
+	
+	//Recursive function that walks through any sub-arrays as well...
+	private static function arrayToNodes(ar:Array, parentNode:XMLNode, xml:XML, nodeName_str:String):Void {
+		var chldrn:Array = [];
+		var props:Array, prop, n:XMLNode, o:Object, i:Number, p;
+		for (i = ar.length - 1; i >= 0; i--) {
+			n = xml.createElement(nodeName_str);
+			o = ar[i];
+			props = [];
+			for (p in o) {
+				props.push(p);
+			}
+			for (p = props.length - 1; p >= 0; p--) { //By default, attributes are looped through in reverse, so we go the opposite way to accommodate for this.
+				prop = props[p];
+				if (typeof(o[prop]) == "object" && o[prop].length > 0) { //Means it's an array!
+					arrayToNodes(o[prop], n, xml, prop);
+				} else if (prop != "value") {
+					n.attributes[prop] = o[prop];
+				} else {
+					var tn:XMLNode = xml.createTextNode(o.value);
+					n.appendChild(tn);
+				}
+			}
+			chldrn.push(n);
+		}
+		for (i = chldrn.length - 1; i >= 0; i--) {
+			parentNode.appendChild(chldrn[i]);
+		}
 	}
 }
