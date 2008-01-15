@@ -25,6 +25,8 @@ class as2classes.sound.SimpleSound {
 	public var soundObj:Sound;
 	
 	public var isPaused:Boolean;
+	public var onProgress:Function;
+	public var interval:Number;
 	
 	private var repeat:Boolean;
 	private var fadeTime:Number;
@@ -45,6 +47,8 @@ class as2classes.sound.SimpleSound {
 		volMin = 0;
 		repeat = true;
 		
+		_startInterval();
+		
 		/*
 		* DEBUG
 		* 
@@ -53,6 +57,21 @@ class as2classes.sound.SimpleSound {
 			trace("-> " + as2classes.util.Global.getVar("soundObj").position);
 		}, 100);
 		*/
+	}
+	
+	private function _onProgress():Void{
+		if(onProgress) {
+			var calc:Number = (soundObj.getPosition() * 100) / soundObj.getDuration();
+			onProgress(soundObj.getPosition(), soundObj.getDuration(), calc)
+		}
+	}
+	
+	private function _startInterval():Void{
+		interval = setInterval(Delegate.create(this, _onProgress), 10);
+	}
+	
+	private function _stopInterval():Void{
+		clearInterval(interval);
 	}
 	
 	public function attachSound($soundId:String):Void{
@@ -136,6 +155,7 @@ class as2classes.sound.SimpleSound {
 	public function stop():Void{
 		trace("Sound \"" + soundId + "\" stoped.");
 		soundObj.stop();
+		isPaused = true;
 		soundPosition = 0;
 	}
 	
