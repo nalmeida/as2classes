@@ -28,7 +28,7 @@ import as2classes.util.TimeUtil;
 		<code>
 			var mySound:Sound = new Sound();
 		
-			var soundLoader:soundLoader = new MP3Loader();
+			var soundLoader:MP3Loader = new MP3Loader();
 				soundLoader.load("your_mp3_file.mp3", true, mySound);
 				
 				soundLoader.onProgress = function(sndObj:Sound, percentLoaded:Number, url:String){
