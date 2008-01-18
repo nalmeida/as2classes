@@ -22,5 +22,16 @@ class as2classes.util.NumberUtil{
 		return false;
 	}
 	
+	/**
+		Creates a random integer within the defined range.
+		
+		@param min: The minimum number the random integer can be.
+		@param min: The maximum number the random integer can be.
+		@return Returns a random integer within the range.
+	*/
+	public static function randomInteger(min:Number, max:Number):Number {
+		return min + Math.floor(Math.random() * (max + 1 - min));
+	}
+	
 	public function NumberUtil(){} // Avoid instance creation
 }
