@@ -381,8 +381,14 @@ class as2classes.form.TextareaComponent extends MovieClip{
 		@return Return none.
 	*/
 	public function getText():String{
-		if(htmlText) value = textField.htmlText;
-		else value = textField.text;
+		if (value === "" || value === initText) value = "";
+		else {
+			if (htmlText) {
+				value = textField.htmlText;
+			} else {
+				value = textField.text;
+			}
+		}
 		return value;
 	}
 	
