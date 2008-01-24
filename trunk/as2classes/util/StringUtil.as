@@ -33,6 +33,21 @@ class as2classes.util.StringUtil{
 		return source.split(remove).join(replace);
 	}
 	
+	/**
+		Replaces all special characters.
+		
+		@param source: String to replace characters from.
+		@return String with characters replaced.
+	*/
+	public static function replaceSpecialChars(source:String):String {
+		var strSpecial:String 	= "áàãâäéèêëíìîïóòõôöúùûüçÁÀÃÂÄÉÈÊËÍÌÎÏÓÒÕÔÖÚÙÛÜÇ";
+		var strClear:String	 	= "aaaaaeeeeiiiiooooouuuucAAAAAEEEEEEEEOOOOOUUUUC";
+		for (var i:Number = 0; i < strSpecial.split("").length; i++) {
+			source = StringUtil.replace(source, strSpecial.split("")[i], strClear.split("")[i]);
+		}
+		return source;
+	}
+	
 	// Original from: http://www.actionscript.org/forums/showthread.php3?t=111952
 	public static function replaceSpecialHTMLChars(str:String):String {
 		if(!str) return "";
