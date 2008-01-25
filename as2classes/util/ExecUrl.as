@@ -13,8 +13,7 @@ class as2classes.util.ExecUrl{
 	private static var interval:Number;
 	private static var hasInit:Boolean;
 	
-	private static var local:Boolean = (_root._url.indexOf("file") == 0) ? true : false;
-
+	private static var local:Boolean = (System.capabilities.playerType == 'External' || System.capabilities.playerType == 'StandAlone') ? true : false;
 	
 	public static function sequence(url:String,targ:String):Void{
 		arrSeq.push({url:url, targ:targ});
