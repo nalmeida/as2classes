@@ -66,6 +66,7 @@ class as2classes.xml.XmlParse {
 			//We ran into an issue where Flash was creating an extra subnode anytime we had content in a node like <NODE>My Content</NODE>. The tip off is when the nodeName is null and the nodeType is 3 (text).
 			if (c.nodeName == null && c.nodeType == 3) {
 				c.parentNode.obj.value = c.nodeValue;
+				c.parentNode.obj.nativeXML = c;
 			} else {
 				var o = {};
 				for (var att in c.attributes) {
@@ -76,6 +77,7 @@ class as2classes.xml.XmlParse {
 					pn[c.nodeName] = [];
 				}
 				c.obj = o;
+				o.nativeXML = c;
 				pn[c.nodeName].push(o);
 			}
 			
