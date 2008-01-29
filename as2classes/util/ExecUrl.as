@@ -6,6 +6,7 @@ USAGE:
 
 import flash.external.ExternalInterface;
 import as2classes.util.TimeUtil;
+import as2classes.util.LocalUtil;
 
 class as2classes.util.ExecUrl{
 	
@@ -13,7 +14,7 @@ class as2classes.util.ExecUrl{
 	private static var interval:Number;
 	private static var hasInit:Boolean;
 	
-	private static var local:Boolean = (System.capabilities.playerType == 'External' || System.capabilities.playerType == 'StandAlone') ? true : false;
+	private static var local:Boolean;
 	
 	public static function sequence(url:String,targ:String):Void{
 		arrSeq.push({url:url, targ:targ});
@@ -22,6 +23,9 @@ class as2classes.util.ExecUrl{
 	
 	public static function run(url:String,targ:String):Void{
 		targ = targ || "_self";
+		
+		local = !LocalUtil.isWeb();
+		
 		if(local){
 			trace(" > ExecUrl: " + url + " | target: " + targ);
 		} else{
@@ -31,6 +35,9 @@ class as2classes.util.ExecUrl{
 	}
 	
 	public static function setAnchor(anchor:String, pageTitle:String):Void{
+		
+		local = !LocalUtil.isWeb();
+		
 		if(local){
 			trace(" > ExecUrl.setAnchor: " + anchor + " pageTitle: \"" + pageTitle + "\"");
 		} else{
