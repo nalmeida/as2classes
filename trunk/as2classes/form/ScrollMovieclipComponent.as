@@ -101,6 +101,7 @@ class as2classes.form.ScrollMovieclipComponent extends MovieClip{
 			   obj.skin.arrowDown:String
 			   obj.skin.arrowTrack:String
 			   obj.skin.arrowSlider:String
+		@param obj.cacheAsBitmap:Boolean
 		@param obj.easing:Boolean - If you want to use an easing effect for scroll. Default false;
 		@param obj.easingSpeed:Number - If you want to change the easing speed. Default .8;
 		@return Return none.
@@ -115,8 +116,12 @@ class as2classes.form.ScrollMovieclipComponent extends MovieClip{
 		if(!mcMask) trace("ERROR on ScrollComponent: " + mc + " parameter \"mcMask\" not defined.");
 		if(!mcMasked) trace("ERROR on ScrollComponent: " + mc + " parameter \"mcMasked\" not defined.");
 		
-		mcMask.cacheAsBitmap = 
-		mcMasked.cacheAsBitmap = true;
+		obj.cacheAsBitmap = obj.cacheAsBitmap === false ? false : true;
+		
+		if(obj.cacheAsBitmap){
+			mcMask.cacheAsBitmap = 
+			mcMasked.cacheAsBitmap = true;
+		}
 		
 		mcMasked.setMask(mcMask);
 		
