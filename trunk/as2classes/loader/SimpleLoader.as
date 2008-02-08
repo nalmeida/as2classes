@@ -81,6 +81,16 @@ class as2classes.loader.SimpleLoader{
 		@return Return none.
 	*/
 	public function load($fileToLoad:String, $target:MovieClip):Void{
+		
+		if(!$fileToLoad){
+			trace("ERROR on SimpleLoader: $fileToLoad not defined");
+			break;
+		}
+		
+		if(!$fileToLoad){
+			trace("ERROR on SimpleLoader: $target not defined");
+			break;
+		}
 
 		doCancel();		
 

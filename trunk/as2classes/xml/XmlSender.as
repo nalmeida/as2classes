@@ -47,6 +47,10 @@ class as2classes.xml.XmlSender{
 		}
 	}
 	
+	public static function cancel():Void{
+		XmlSender.arrQueue[0].onComplete = function(){};
+	}
+	
 	public static function send(o:Object){
 		
 		System.useCodepage = true; 
