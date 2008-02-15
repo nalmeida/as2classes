@@ -26,7 +26,7 @@ import as2classes.util.TimeUtil;
 	@since Flash Player 8
 	@example
 		<code>
-			loaderManager:SimpleLoader = new SimpleLoader();
+			loaderManager = new SimpleLoader();
 			loaderManager.onInit = function(target){
 				trace("onInit called. Target: " + target);
 			}
@@ -84,12 +84,14 @@ class as2classes.loader.SimpleLoader{
 		
 		if(!$fileToLoad){
 			trace("ERROR on SimpleLoader: $fileToLoad not defined");
-			break;
+			onError($target, "404", "File not found.");
+			return;
 		}
 		
 		if(!$fileToLoad){
 			trace("ERROR on SimpleLoader: $target not defined");
-			break;
+			onError($target, "404", "Target not defined.");
+			return;
 		}
 
 		doCancel();		

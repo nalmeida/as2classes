@@ -40,4 +40,13 @@ class as2classes.util.LocalUtil {
 	public static function isStandAlone():Boolean {
 		return System.capabilities.playerType == 'StandAlone';
 	}
+	
+	/**
+		Determines if the SWF is running in FlashDevelop IDE.
+		
+		@return Returns <code>true</code> if SWF is running in in FlashDevelop IDE; otherwise <code>false</code>.
+	*/
+	public static function isFlashDevelop():Boolean {
+		return (isPlugin() && !isWeb());
+	}
 }
