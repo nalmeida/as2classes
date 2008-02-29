@@ -45,6 +45,21 @@ class as2classes.util.MovieclipUtil{
 		mc.onEnterFrame = null;
 	}
 	
+	/**
+		distanceFrom - return the distance between the movieclip center and a X,Y cordinated.
+		@param mc:MovieClip - Movieclip .
+		@param x:Number - X value;
+		@param y:Number - Y value;
+		@return Number - Distance.
+	*/
+	public static function distanceFrom(mc:MovieClip, x:Number, y:Number):Number{
+		var a, b, c:Number = 0;
+		b = Math.round(x - mc._x);
+		c = Math.round(y - mc._y);
+		a = Math.sqrt((b*b) + (c*c));
+		return Math.round(a);
+	}
+	
 	// Private functions
 	private static function _reverse(obj):Void{
 		var prev:Number = obj.mc._currentframe - obj.speed;
