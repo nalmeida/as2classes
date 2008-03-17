@@ -336,6 +336,24 @@ class as2classes.video.VideoPlayerComponent extends MovieClip{
 		return state;
 	}
 	
+	public function getTotalTime():Number{
+		try{
+			return loaderManager.getDuration();
+		}catch(e){
+			trace("Error getting total time: "+e);
+			return null;
+		}
+	}
+	
+	public function getActualTime():Number{
+		try{
+			return loaderManager.getTime();
+		}catch(e){
+			trace("Error getting actual time: "+e);
+			return null;
+		}
+	}
+	
 	public function setVolume(volume:Number):Void{
 		soundObj.setVolume(volume);
 		if(volume <= 5){
