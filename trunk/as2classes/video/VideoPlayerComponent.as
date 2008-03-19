@@ -146,7 +146,8 @@ class as2classes.video.VideoPlayerComponent extends MovieClip{
 			onProgress(mcVideoPlayer);
 			enableAll();
 			
-			play();
+			if(autoPlay)
+				play();
 		}
 	}
 	
