@@ -1,4 +1,4 @@
-/**
+﻿/**
 * ...
 * @author Default
 * @version 0.1
@@ -48,6 +48,7 @@ class as2classes.video.VideoPlayerComponent extends MovieClip{
 	public var onInit:Function;
 	public var onFinish:Function;
 	public var onProgress:Function;
+	public var onPlayProgress:Function;
 	
 	public function VideoPlayerComponent($mc:MovieClip, $fileToLoad:String, obj:Object) {
 		
@@ -81,6 +82,7 @@ class as2classes.video.VideoPlayerComponent extends MovieClip{
 		autoLoad = (obj.autoLoad != undefined) ? obj.autoLoad : true;
 		autoPlay = (obj.autoPlay != undefined) ? obj.autoPlay : true;
 		startAfter = (obj.startAfter != undefined) ? obj.startAfter : 100;
+		onPlayProgress = (typeof(obj.onPlayProgress) == "function") ? obj.onPlayProgress : null;
 		//
 		
 		if(autoLoad) {
@@ -195,6 +197,11 @@ class as2classes.video.VideoPlayerComponent extends MovieClip{
 	private function checkProgress():Void{
 		var calc:Number = mcMask._x + ((mcMask._width * loaderManager.getTime()) / loaderManager.getDuration());
 		if(!sliderPressed) mcSlider._x = calc;
+		
+	
+		if(onPlayProgress){
+			onPlayProgress(getActualTime(), getTotalTime(), loaderManager, mcVideoPlayer)
+		}
 		
 		if(checkEnd() && state != "paused" && loaderManager.getTime() > 1) {
 			stopInterval();
