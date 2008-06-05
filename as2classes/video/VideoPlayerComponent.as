@@ -8,6 +8,7 @@ import as2classes.loader.FlvLoader;
 import as2classes.util.Delegate;
 import as2classes.util.MovieclipUtil;
 import as2classes.util.SO;
+import as2classes.util.NumberUtil;
 
 class as2classes.video.VideoPlayerComponent extends MovieClip{
 
@@ -33,6 +34,7 @@ class as2classes.video.VideoPlayerComponent extends MovieClip{
 		private var mcVolumeStatus:MovieClip;
 	
 	private var autoLoad:Boolean;
+	private var loop:Boolean;
 	private var autoPlay:Boolean;
 	private var startAfter:Number;
 	
@@ -51,7 +53,6 @@ class as2classes.video.VideoPlayerComponent extends MovieClip{
 	public var onPlayProgress:Function;
 	
 	public function VideoPlayerComponent($mc:MovieClip, $fileToLoad:String, obj:Object) {
-		
 		fileToLoad = $fileToLoad;
 		
 		mcVideoPlayer = $mc;
@@ -79,6 +80,7 @@ class as2classes.video.VideoPlayerComponent extends MovieClip{
 		soundObj = new Sound(this.createEmptyMovieClip("soundHolder_mc", 2));
 		
 		/* Options */
+		loop = (obj.loop != undefined) ? obj.loop : false;
 		autoLoad = (obj.autoLoad != undefined) ? obj.autoLoad : true;
 		autoPlay = (obj.autoPlay != undefined) ? obj.autoPlay : true;
 		startAfter = (obj.startAfter != undefined) ? obj.startAfter : 100;
@@ -204,17 +206,22 @@ class as2classes.video.VideoPlayerComponent extends MovieClip{
 		}
 		
 		if(checkEnd() && state != "paused" && loaderManager.getTime() > 1) {
-			stopInterval();
-			pause();
+			if (loop) {
+				goTo(0);
+				play();
+			} else {
+				stopInterval();
+				pause();
+			}
 		}
 	}
 	
 	public function checkEnd():Boolean{
-		var pos = (loaderManager.getTime());
+		var pos = NumberUtil.roundDecimal(loaderManager.getTime(), 1);
 		var tot = Math.round(loaderManager.getDuration());
 		if(!pos || !tot) return false;
-			
-		if(pos >= tot){
+		
+		if(pos >= tot || (tot - pos < .2)){
 			goTo(loaderManager.getDuration());
 			return true;
 		}
