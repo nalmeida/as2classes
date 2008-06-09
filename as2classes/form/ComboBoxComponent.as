@@ -365,7 +365,7 @@ class as2classes.form.ComboBoxComponent extends MovieClip{
 		
 		ajustSize();
 		
-		scroll.init({mcMask:mcMask, mcMasked:mcComboItensHolder});
+		scroll.init({mcMask:mcMask, mcMasked:mcComboItensHolder,cacheAsBitmap:false});
 		scroll.setHeight(mcMask._height);
 		
 	}
